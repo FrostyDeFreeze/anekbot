@@ -1,0 +1,4 @@
+config.json
+node_modules
+pnpm-lock.yaml
+src/data/coins.json

@@ -3,7 +3,7 @@ module.exports = {
 	access: [`Mod`],
 	active: true,
 	aliases: [],
-	cooldown: 3,
+	cooldown: 0,
 	requires: [],
 	async execute(client, ctx, utils) {
 		const color = ctx.args[0]
@@ -12,23 +12,23 @@ module.exports = {
 			const user = await bb.services.gql.getUser(bb.config.Bot.Login)
 
 			return {
-				text: `мой текущий цвет: ${user.data.user.chatColor}`,
+				text: `Мой текущий цвет: ${user.data.user.chatColor}`,
 				reply: true
 			}
 		}
 
 		if (/^#([a-f0-9]{6}|[a-f0-9]{3})$/i.test(ctx.args[0]) === false) {
 			return {
-				text: `это не похоже на HEX код aga`,
+				text: `Это не похоже на HEX код aga`,
 				reply: true
 			}
 		}
 
-		bb.services.gql.updateColor(ctx.args[0])
+		bb.services.gql.updateColor(color)
 		await bb.utils.sleep(1500)
 
 		return {
-			text: `сделано, босс \u{1F607}`,
+			text: `Сделано, босс \u{1F60E}`,
 			reply: true
 		}
 	}

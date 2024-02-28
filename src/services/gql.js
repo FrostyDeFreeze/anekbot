@@ -96,7 +96,7 @@ module.exports = {
 			variables: {
 				input: {
 					displayName: name,
-					description: `бреду среди зимних пейзажей провинции города, на дорогах уже никого, фонари зажигаются сами и поздно, мы не встретимся даже в одной, да из тысяч вселенных, что нами же созданы`,
+					description: `by d\u{E0000}ankfreeze, a\u{E0000}licee_n, i_o\u{E0000}lya`,
 					userID: bb.config.Bot.ID
 				}
 			},

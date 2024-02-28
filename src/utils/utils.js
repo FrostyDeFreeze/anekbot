@@ -1,3 +1,4 @@
+const got = require(`got`)
 const humanize = require(`humanize-duration`)
 
 const shortHumanizer = humanize.humanizer({

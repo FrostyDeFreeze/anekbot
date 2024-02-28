@@ -1,8 +1,4 @@
 const got = require(`got`)
-const fs = require(`fs`)
-const path = require(`path`)
-
-const coinsPath = path.join(__dirname, `../data/coins.json`)
 
 module.exports = {
 	name: `profile`,
@@ -12,20 +8,6 @@ module.exports = {
 	cooldown: 3,
 	requires: [],
 	async execute(client, ctx, utils) {
-		const ranks = {
-			0: `Зародыш`,
-			1: `Новичок`,
-			2: `Обычный юзер`,
-			3: `Болтун`,
-			4: `Любитель-балбес`,
-			5: `Человек без личной жизни`,
-			6: `Сплетник чата`,
-			7: `Топчик`,
-			8: `Гуру чата`,
-			9: `Легенда чата`,
-			10: `Главный ебантяй`
-		}
-
 		let roles = ``
 		let subage = ``
 		let se = ``
@@ -38,15 +20,13 @@ module.exports = {
 			if (ctx.user.perms.mod) {
 				const mod = check.data.user.mods.edges.filter(i => i.node !== null).find(i => i.node.id === ctx.user.id)
 				const granted = bb.utils.humanizer(new Date().getTime() - Date.parse(mod.grantedAt), { largest: 2 })
-				const date = new Date(mod.grantedAt).toLocaleDateString(`ru-RU`)
-				roles = `Модератор на этом канале уже ${granted} (${date})`
+				roles = `Модератор (${granted})`
 			}
 
 			if (ctx.user.perms.vip) {
 				const vip = check.data.user.vips.edges.filter(i => i.node !== null).find(i => i.node.id === ctx.user.id)
 				const granted = bb.utils.humanizer(new Date().getTime() - Date.parse(vip.grantedAt), { largest: 2 })
-				const date = new Date(vip.grantedAt).toLocaleDateString(`ru-RU`)
-				roles = `VIP на этом канале уже ${granted} (${date})`
+				roles = `VIP (${granted})`
 			}
 		}
 
@@ -70,20 +50,20 @@ module.exports = {
 				const cumulative = sa.cumulative
 
 				if (meta.endsAt === null) {
-					subage = `Подписан(а) на этот канал перманентной подпиской в течение ${cumulative.months} месяцев`
+					subage = `Подписан(а) перманентной подпиской (${cumulative.months} месяцев)`
 				}
 
 				if (meta.type === `paid`) {
-					subage = `Подписан(а) на этот канал платной подпиской ${meta.tier} уровня в течение ${cumulative.months} месяцев`
+					subage = `Подписан(а) платной подпиской ${meta.tier} уровня (${cumulative.months} месяцев)`
 				}
 
 				if (meta.type === `prime`) {
-					subage = `Подписан(а) на этот канал Prime подпиской в течение ${cumulative.months} месяцев`
+					subage = `Подписан(а) Prime подпиской (${cumulative.months} месяцев)`
 				}
 
 				if (meta.type === `gift`) {
 					const gifter = meta.giftMeta.gifter === null ? `Анонима` : bb.utils.unping(meta.giftMeta.gifter.login)
-					subage = `Подписан(а) на этот канал подарочной подпиской ${meta.tier} уровня, полученной от ${gifter}, в течение ${cumulative.months} месяцев`
+					subage = `Подписан(а) подарочной подпиской ${meta.tier} уровня, полученной от ${gifter} (${cumulative.months} месяцев)`
 				}
 			}
 		}
@@ -104,10 +84,10 @@ module.exports = {
 		}
 
 		const name = ctx.user.login === ctx.user.name.toLowerCase() ? ctx.user.name : ctx.user.login
-		const data = getUserData(ctx.user.id, ctx.channel.id)
+		const userData = bb.utils.coins.getUserData(ctx.user.id, ctx.channel.id)
 
-		coins = `Монеты: ${data.coins.toFixed(1)}`
-		rank = `Ранг: ${data.rank} [${ranks[data.rank]}]`
+		coins = `Монеты: ${userData.coins.toFixed(1)}`
+		rank = `Ранг: ${userData.rank} [${bb.utils.coins.ranks[userData.rank].name}]`
 
 		const result = [name, roles, subage, se, coins, rank]
 			.reduce((acc, curr) => {
@@ -123,23 +103,4 @@ module.exports = {
 			reply: true
 		}
 	}
-}
-
-function loadCoinsData() {
-	if (fs.existsSync(coinsPath)) {
-		const coinsData = fs.readFileSync(coinsPath, `utf8`)
-		return JSON.parse(coinsData)
-	}
-
-	return {}
-}
-
-function getUserData(userID, channelID) {
-	const coinsData = loadCoinsData()
-
-	if (coinsData[userID] && coinsData[userID].channels[channelID]) {
-		return coinsData[userID].channels[channelID]
-	}
-
-	return 0
 }

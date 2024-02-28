@@ -1,7 +1,8 @@
 const { client } = require(`./src/misc/connection.js`)
+const { paste, upload } = require(`./src/utils/utils.js`)
+
 const fs = require(`fs`)
 const path = require(`path`)
-
 const coinsPath = path.join(__dirname, `./src/data/coins.json`)
 
 global.bb = {}
@@ -13,6 +14,8 @@ bb.config = require(`./config.json`)
 bb.services = require(`./src/services/index.js`)
 bb.utils = require(`./src/utils/index.js`)
 bb.logger = require(`./src/utils/logger.js`)
+bb.paste = paste
+bb.upload = upload
 
 bb.misc.connectedAt = new Date().toString()
 bb.misc.issuedCommands = 1
@@ -69,11 +72,18 @@ client.on(`PRIVMSG`, async msg => {
 		prefix: bb.config.Bot.Prefix,
 		timestamp: msg.serverTimestampRaw,
 		send: async function (message, reply, channel) {
-			message = bb.utils.fit(message, 497)
-			reply = reply ? `@${this.user.login}, ` : ``
+			let id = this.msg.id ? this.msg.id : ``
+			if (this.msg.raw.includes(`reply-parent-msg-id=`)) {
+				const match = /reply-parent-msg-id=([^;]+)/i.exec(this.msg.raw)
+				if (match) {
+					id = match[1]
+				}
+			}
+			message = bb.utils.fit(message, 470)
+			reply = reply ? `;reply-parent-msg-id=${id}` : ``
 			channel = channel ? channel : this.channel.login
 
-			client.sendRaw(`@sent-ts=${ts} PRIVMSG #${channel} :${reply}${message}`)
+			client.sendRaw(`@sent-ts=${ts}${reply} PRIVMSG #${channel} :${message}`)
 		}
 	}
 
@@ -90,8 +100,7 @@ client.on(`PRIVMSG`, async msg => {
 		fs.writeFileSync(coinsPath, `{}`)
 	}
 
-	let coinsData = fs.readFileSync(coinsPath, `utf8`)
-	coinsData = JSON.parse(coinsData)
+	const coinsData = bb.utils.coins.loadData()
 
 	if (!coinsData[ctx.user.id]) {
 		coinsData[ctx.user.id] = {
@@ -103,13 +112,16 @@ client.on(`PRIVMSG`, async msg => {
 		coinsData[ctx.user.id].channels[ctx.channel.id] = {
 			coins: 0.2,
 			rank: 0,
+			messages: 0,
+			firstSeen: new Date(),
 			lastGuess: 0
 		}
 	} else {
 		coinsData[ctx.user.id].channels[ctx.channel.id].coins += 0.2
+		coinsData[ctx.user.id].channels[ctx.channel.id].messages += 1
 	}
 
-	fs.writeFileSync(coinsPath, JSON.stringify(coinsData, null, 4))
+	bb.utils.coins.saveData(coinsData)
 
 	ctx.args = ctx.msg.text.slice(bb.config.Bot.Prefix.length).trim().split(/ +/)
 	ctx.command = ctx.args.shift().toLowerCase()
@@ -129,6 +141,7 @@ client.on(`PRIVMSG`, async msg => {
 
 		if (access && ctx.user.id !== bb.config.Dev.ID) {
 			if (access.includes(`Dev`)) return
+			if (access.includes(`Mod`) && !ctx.user.perms.mod) return
 		}
 
 		if (!active && ctx.user.id !== bb.config.Dev.ID) return

@@ -1,8 +1,3 @@
-const fs = require(`fs`)
-const path = require(`path`)
-
-const coinsPath = path.join(__dirname, `../data/coins.json`)
-
 module.exports = {
 	name: `guess`,
 	access: [],
@@ -11,14 +6,15 @@ module.exports = {
 	cooldown: 3,
 	requires: [],
 	async execute(client, ctx, utils) {
+		const userData = bb.utils.coins.getUserData(ctx.user.id, ctx.channel.id)
+		const lastUsage = userData.lastGuess
 		const currTime = new Date().getTime()
-		const lastUsage = getLastGuess(ctx.user.id, ctx.channel.id)
 
-		if (lastUsage && currTime - new Date(lastUsage).getTime() < 86_400_000) {
-			const time = new Date(lastUsage).getTime() - currTime + 86_400_000
+		if (lastUsage && currTime - new Date(lastUsage).getTime() < 28_800_000) {
+			const time = new Date(lastUsage).getTime() - currTime + 28_800_000
 
 			return {
-				text: `использовать команду можно раз в 24 часа. Приходи через ${bb.utils.humanizer(time)}`,
+				text: `Использовать команду можно раз в 8 часов \u{2027} Возвращайся через ${bb.utils.humanizer(time)}`,
 				reply: true
 			}
 		}
@@ -26,98 +22,29 @@ module.exports = {
 		const randNum = bb.utils.randArr([1, 2])
 		const userNum = Number(ctx.args[0])
 
-		if (!userNum) {
+		if (!userNum || isNaN(userNum) || ![1, 2].includes(userNum)) {
 			return {
-				text: `необходимо указать число: 1 или 2`,
+				text: `Необходимо указать число: 1 или 2`,
 				reply: true
 			}
 		}
 
-		if (!isNaN(userNum) && (userNum === 1 || userNum === 2)) {
-			if (userNum === randNum) {
-				updateUserCoins(ctx.user.id, ctx.channel.id, 50)
-				const result = `поздравляю, ты угадал, вот тебе 50 монет. Твой текущий баланс: ${getUserCoins(ctx.user.id, ctx.channel.id)}`
-				updateLastGuess(ctx.user.id, ctx.channel.id, currTime)
+		if (userNum === randNum) {
+			bb.utils.coins.addCoins(ctx.user.id, ctx.channel.id, 50)
+			bb.utils.coins.setLastGuess(ctx.user.id, ctx.channel.id, currTime)
 
-				return {
-					text: result,
-					reply: true
-				}
-			} else {
-				updateLastGuess(ctx.user.id, ctx.channel.id, currTime)
-				return {
-					text: `в этот раз не повезло, приходи через 24 часа`,
-					reply: true
-				}
+			return {
+				text: `Поздравляю, ты угадал(а), за правильный ответ начислил тебе 50 монет \u{2027} Твой текущий баланс: ${(
+					userData.coins + 50
+				).toFixed(1)} \u{2027} Следующая попытка через 8 часов`,
+				reply: true
 			}
 		} else {
+			bb.utils.coins.setLastGuess(ctx.user.id, ctx.channel.id, currTime)
 			return {
-				text: `число быть должно равно 1 или 2`,
+				text: `В этот раз не повезло, приходи через 8 часов!`,
 				reply: true
 			}
 		}
 	}
-}
-
-function loadCoinsData() {
-	if (fs.existsSync(coinsPath)) {
-		const coinsData = fs.readFileSync(coinsPath, `utf8`)
-		return JSON.parse(coinsData)
-	}
-
-	return {}
-}
-
-function saveCoinsData(data) {
-	fs.writeFileSync(coinsPath, JSON.stringify(data))
-}
-
-function getLastGuess(userID, channelID) {
-	const coinsData = loadCoinsData()
-
-	if (coinsData[userID] && coinsData[userID].channels[channelID]) {
-		return coinsData[userID].channels[channelID].lastGuess || 0
-	}
-
-	return 0
-}
-
-function getUserCoins(userID, channelID) {
-	const coinsData = loadCoinsData()
-
-	if (coinsData[userID] && coinsData[userID].channels[channelID]) {
-		return coinsData[userID].channels[channelID].coins || 0
-	}
-
-	return 0
-}
-
-function updateLastGuess(userID, channelID, time) {
-	const coinsData = loadCoinsData()
-
-	if (!coinsData[userID]) {
-		coinsData[userID] = { channels: {} }
-	}
-
-	if (!coinsData[userID].channels[channelID]) {
-		coinsData[userID].channels[channelID] = { coins: 0, rank: 0 }
-	}
-
-	coinsData[userID].channels[channelID].lastGuess = time
-	saveCoinsData(coinsData)
-}
-
-function updateUserCoins(userID, channelID, coins) {
-	const coinsData = loadCoinsData()
-
-	if (!coinsData[userID]) {
-		coinsData[userID] = { channels: {} }
-	}
-
-	if (!coinsData[userID].channels[channelID]) {
-		coinsData[userID].channels[channelID] = { coins: 0, rank: 0 }
-	}
-
-	coinsData[userID].channels[channelID].coins += coins
-	saveCoinsData(coinsData)
 }

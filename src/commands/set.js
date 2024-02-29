@@ -3,7 +3,7 @@ module.exports = {
 	access: [`Admin`],
 	active: true,
 	aliases: [],
-	cooldown: 3,
+	cooldown: 0,
 	requires: [],
 	async execute(client, ctx, utils) {
 		const promo = ctx.args[0]

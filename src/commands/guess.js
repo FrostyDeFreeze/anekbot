@@ -41,6 +41,11 @@ module.exports = {
 			}
 		} else {
 			bb.utils.coins.setLastGuess(ctx.user.id, ctx.channel.id, currTime)
+
+			if (!ctx.user.perms.mod || ctx.user.id === bb.config.Dev.ID) {
+				ctx.send(`.timeout ${ctx.user.login} 300`)
+			}
+
 			return {
 				text: `В этот раз не повезло, приходи через 8 часов!`,
 				reply: true

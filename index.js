@@ -4,6 +4,7 @@ const { paste, upload } = require(`./src/utils/utils.js`)
 const fs = require(`fs`)
 const path = require(`path`)
 const coinsPath = path.join(__dirname, `./src/data/coins.json`)
+const promoPath = path.join(__dirname, `./src/data/promocodes.json`)
 
 global.bb = {}
 bb.misc = {}
@@ -19,7 +20,8 @@ bb.upload = upload
 
 bb.misc.connectedAt = new Date().toString()
 bb.misc.issuedCommands = 1
-bb.misc.channels = [`239373609`, `931338266`, `739044027`, `509583526`, `799145942`]
+bb.misc.channels = [`239373609`, `931338266`, `739044027`, `509583526`, `799145942`, `753723636`]
+bb.misc.admins = [`799145942`, `739044027`, `509583526`, `753723636`]
 
 client.on(`ready`, async () => {
 	bb.logger.info(`Successfully connected to TMI!`)
@@ -100,6 +102,10 @@ client.on(`PRIVMSG`, async msg => {
 		fs.writeFileSync(coinsPath, `{}`)
 	}
 
+	if (!fs.existsSync(promoPath)) {
+		fs.writeFileSync(promoPath, `{}`)
+	}
+
 	// coinsData
 	const coinsData = bb.utils.coins.loadData()
 
@@ -159,6 +165,7 @@ client.on(`PRIVMSG`, async msg => {
 		if (access && ctx.user.id !== bb.config.Dev.ID) {
 			if (access.includes(`Dev`)) return
 			if (access.includes(`Mod`) && !ctx.user.perms.mod) return
+			if (access.includes(`Admin`) && !bb.misc.admins.includes(ctx.user.id)) return
 		}
 
 		if (!active && ctx.user.id !== bb.config.Dev.ID) return
@@ -170,7 +177,7 @@ client.on(`PRIVMSG`, async msg => {
 		}
 
 		try {
-			if (command.cooldown && ctx.user.id !== bb.config.Dev.ID && !ctx.user.perms.mod) {
+			if (command.cooldown && ctx.user.id !== bb.config.Dev.ID && !bb.misc.admins.includes(ctx.user.id)) {
 				bb.utils.cooldown.set(key, command.cooldown * 1000)
 			}
 

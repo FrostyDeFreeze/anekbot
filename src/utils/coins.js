@@ -1,6 +1,7 @@
 const fs = require(`fs`)
 const path = require(`path`)
 const coinsPath = path.join(__dirname, `../data/coins.json`)
+const promoPath = path.join(__dirname, `../data/promocodes.json`)
 
 module.exports = {
 	ranks: {
@@ -20,8 +21,15 @@ module.exports = {
 		const data = fs.existsSync(coinsPath) ? JSON.parse(fs.readFileSync(coinsPath, `utf8`)) : {}
 		return data
 	},
+	loadPromoData: function () {
+		const data = fs.existsSync(promoPath) ? JSON.parse(fs.readFileSync(promoPath, `utf8`)) : {}
+		return data
+	},
 	saveData: function (data) {
 		fs.writeFileSync(coinsPath, JSON.stringify(data))
+	},
+	savePromoData: function (data) {
+		fs.writeFileSync(promoPath, JSON.stringify(data))
 	},
 	getUser: function (userID, channelID) {
 		const data = this.loadData()
@@ -56,6 +64,13 @@ module.exports = {
 		data[channelID].users[userID].coins += coins
 		this.saveData(data)
 	},
+	addPromoActivation: function (userID) {
+		const data = this.loadPromoData()
+		if (!data.activatedUsers.includes(userID)) {
+			data.activatedUsers.push(userID)
+			this.savePromoData(data)
+		}
+	},
 	removeCoins: function (userID, channelID, coins) {
 		const data = this.loadData()
 		data[channelID].users[userID].coins -= coins
@@ -70,6 +85,13 @@ module.exports = {
 		const data = this.loadData()
 		data[channelID].users[userID].rank = rank
 		this.saveData(data)
+	},
+	setPromocode: function (code, activations) {
+		const data = this.loadPromoData()
+		data.code = code
+		data.activations = activations
+		data.activatedUsers = []
+		this.savePromoData(data)
 	},
 	setLastGuess: function (userID, channelID, time) {
 		const data = this.loadData()

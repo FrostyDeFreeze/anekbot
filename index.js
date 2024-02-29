@@ -19,7 +19,7 @@ bb.upload = upload
 
 bb.misc.connectedAt = new Date().toString()
 bb.misc.issuedCommands = 1
-bb.misc.channels = [`239373609`, `931338266`, `739044027`, `509583526`]
+bb.misc.channels = [`239373609`, `931338266`, `739044027`, `509583526`, `799145942`]
 
 client.on(`ready`, async () => {
 	bb.logger.info(`Successfully connected to TMI!`)
@@ -153,7 +153,7 @@ client.on(`PRIVMSG`, async msg => {
 		}
 
 		try {
-			if (command.cooldown && ctx.user.id !== bb.config.Dev.ID && ctx.user.perms.mod === false) {
+			if (command.cooldown && ctx.user.id !== bb.config.Dev.ID && !ctx.user.perms.mod) {
 				bb.utils.cooldown.set(key, command.cooldown * 1000)
 			}
 

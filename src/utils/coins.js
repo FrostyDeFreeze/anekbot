@@ -43,6 +43,34 @@ module.exports = {
 
 		return count
 	},
+	getTopUsersInChannel: function (channelID) {
+		const data = this.loadData()
+
+		const channelUsers = Object.keys(data).filter(userID => {
+			const channels = data[userID].channels
+			return channels && channels[channelID]
+		})
+
+		channelUsers.sort((a, b) => {
+			const userA = data[a].channels[channelID]
+			const userB = data[b].channels[channelID]
+
+			if (userA.rank !== userB.rank) {
+				return this.ranks[userB.rank].cost - this.ranks[userA.rank].cost
+			}
+
+			return userB.coins - userA.coins
+		})
+
+		return channelUsers.map(userID => {
+			const userData = data[userID].channels[channelID]
+			return {
+				userID,
+				coins: userData.coins,
+				rank: userData.rank
+			}
+		})
+	},
 	addCoins: function (userID, channelID, coins) {
 		const data = this.loadData()
 		data[userID].channels[channelID].coins += coins

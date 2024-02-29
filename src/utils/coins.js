@@ -17,43 +17,28 @@ module.exports = {
 		10: { name: `Главный ебантяй`, cost: 100000 }
 	},
 	loadData: function () {
-		const data = fs.readFileSync(coinsPath, `utf8`)
-		return JSON.parse(data)
+		const data = fs.existsSync(coinsPath) ? JSON.parse(fs.readFileSync(coinsPath, `utf8`)) : {}
+		return data
 	},
 	saveData: function (data) {
 		fs.writeFileSync(coinsPath, JSON.stringify(data))
 	},
-	getUserData: function (userID, channelID) {
+	getUser: function (userID, channelID) {
 		const data = this.loadData()
-		if (data[userID] && data[userID].channels[channelID]) {
-			return data[userID].channels[channelID]
+
+		if (data[channelID] && data[channelID].users[userID]) {
+			return data[channelID].users[userID]
 		}
+
 		return null
 	},
-	getUsersCountInChannel: function (channelID) {
+	getUsers: function (channelID) {
 		const data = this.loadData()
-		let count = 0
-
-		Object.keys(data).forEach(userID => {
-			const channels = data[userID].channels
-			if (channels && channels[channelID]) {
-				count++
-			}
-		})
-
-		return count
-	},
-	getTopUsersInChannel: function (channelID) {
-		const data = this.loadData()
-
-		const channelUsers = Object.keys(data).filter(userID => {
-			const channels = data[userID].channels
-			return channels && channels[channelID]
-		})
+		const channelUsers = Object.keys(data[channelID]?.users || {})
 
 		channelUsers.sort((a, b) => {
-			const userA = data[a].channels[channelID]
-			const userB = data[b].channels[channelID]
+			const userA = data[channelID].users[a]
+			const userB = data[channelID].users[b]
 
 			if (userA.rank !== userB.rank) {
 				return this.ranks[userB.rank].cost - this.ranks[userA.rank].cost
@@ -63,37 +48,37 @@ module.exports = {
 		})
 
 		return channelUsers.map(userID => {
-			const userData = data[userID].channels[channelID]
-			return {
-				userID,
-				coins: userData.coins,
-				rank: userData.rank
-			}
+			return data[channelID].users[userID]
 		})
 	},
 	addCoins: function (userID, channelID, coins) {
 		const data = this.loadData()
-		data[userID].channels[channelID].coins += coins
+		data[channelID].users[userID].coins += coins
 		this.saveData(data)
 	},
 	removeCoins: function (userID, channelID, coins) {
 		const data = this.loadData()
-		data[userID].channels[channelID].coins -= coins
+		data[channelID].users[userID].coins -= coins
 		this.saveData(data)
 	},
 	setCoins: function (userID, channelID, coins) {
 		const data = this.loadData()
-		data[userID].channels[channelID].coins = coins
+		data[channelID].users[userID].coins = coins
 		this.saveData(data)
 	},
 	setRank: function (userID, channelID, rank) {
 		const data = this.loadData()
-		data[userID].channels[channelID].rank = rank
+		data[channelID].users[userID].rank = rank
 		this.saveData(data)
 	},
 	setLastGuess: function (userID, channelID, time) {
 		const data = this.loadData()
-		data[userID].channels[channelID].lastGuess = time
+		data[channelID].users[userID].lastGuess = time
+		this.saveData(data)
+	},
+	setLastPromocode: function (userID, channelID, time) {
+		const data = this.loadData()
+		data[channelID].users[userID].lastPromocode = time
 		this.saveData(data)
 	}
 }

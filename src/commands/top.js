@@ -12,7 +12,7 @@ module.exports = {
 			ctx.args.splice(ctx.args.indexOf(channelCheck[0]), 1)
 		}
 
-		const top = bb.utils.coins.getTopUsersInChannel(channelTarget)
+		const top = bb.utils.coins.getUsers(channelTarget)
 
 		if (top.length === 0) {
 			return {
@@ -22,11 +22,9 @@ module.exports = {
 		}
 
 		const sliced = top.slice(0, 10)
-		const mapped = sliced.map(i => i.userID)
-		const logins = await bb.services.helix.getUsersByID(mapped)
 
-		const formatted = sliced.map((user, idx) => {
-			const login = bb.utils.unping(logins[idx])
+		const formatted = sliced.map(user => {
+			const login = bb.utils.unping(user.login)
 			const coins = user.coins.toFixed(1)
 			const rank = user.rank
 			return `${login} - ${coins} [${rank}]`

@@ -6,7 +6,7 @@ module.exports = {
 	cooldown: 3,
 	requires: [],
 	async execute(client, ctx, utils) {
-		const userData = bb.utils.coins.getUserData(ctx.user.id, ctx.channel.id)
+		const userData = bb.utils.coins.getUser(ctx.user.id, ctx.channel.id)
 		const lastUsage = userData.lastGuess
 		const currTime = new Date().getTime()
 

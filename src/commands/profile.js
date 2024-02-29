@@ -13,6 +13,7 @@ module.exports = {
 		let se = ``
 		let coins = ``
 		let rank = ``
+		let position = ``
 
 		if (ctx.user.perms.mod || ctx.user.perms.vip) {
 			const check = await bb.services.gql.getRoles(ctx.channel.id)
@@ -84,12 +85,18 @@ module.exports = {
 		}
 
 		const name = ctx.user.login === ctx.user.name.toLowerCase() ? ctx.user.name : ctx.user.login
-		const userData = bb.utils.coins.getUserData(ctx.user.id, ctx.channel.id)
+		const userData = bb.utils.coins.getUser(ctx.user.id, ctx.channel.id)
 
 		coins = `Монеты: ${userData.coins.toFixed(1)}`
 		rank = `Ранг: ${userData.rank} [${bb.utils.coins.ranks[userData.rank].name}]`
 
-		const result = [name, roles, subage, se, coins, rank]
+		const top = bb.utils.coins.getUsers(ctx.channel.id)
+		const userPos = top.findIndex(i => i.id === ctx.user.id) + 1
+		const total = top.length
+
+		position = `Позиция в топе: ${userPos}/${total}`
+
+		const result = [name, roles, subage, se, coins, rank, position]
 			.reduce((acc, curr) => {
 				if (curr) {
 					acc.push(curr)

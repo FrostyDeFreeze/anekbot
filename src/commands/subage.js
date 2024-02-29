@@ -13,14 +13,14 @@ module.exports = {
 
 		if (!user) {
 			return {
-				text: `пользователь выдуман`,
+				text: `Пользователь выдуман`,
 				reply: true
 			}
 		}
 
 		if (!channel) {
 			return {
-				text: `канал выдуман`,
+				text: `Канал выдуман`,
 				reply: true
 			}
 		}
@@ -65,7 +65,7 @@ module.exports = {
 
 			if (response.statusHidden === null || response.statusHidden === true) {
 				return {
-					text: `статус подписки скрыт`,
+					text: `Статус подписки скрыт`,
 					reply: true
 				}
 			}

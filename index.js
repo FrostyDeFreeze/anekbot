@@ -100,27 +100,44 @@ client.on(`PRIVMSG`, async msg => {
 		fs.writeFileSync(coinsPath, `{}`)
 	}
 
+	// coinsData
 	const coinsData = bb.utils.coins.loadData()
 
-	if (!coinsData[ctx.user.id]) {
-		coinsData[ctx.user.id] = {
-			channels: {}
-		}
-	}
-
-	if (!coinsData[ctx.user.id].channels[ctx.channel.id]) {
-		coinsData[ctx.user.id].channels[ctx.channel.id] = {
-			coins: 0.2,
-			rank: 0,
-			messages: 0,
-			firstSeen: new Date(),
-			lastGuess: 0
+	// channelData
+	if (!coinsData[ctx.channel.id]) {
+		coinsData[ctx.channel.id] = {
+			login: ctx.channel.login,
+			promocode: null,
+			users: {}
 		}
 	} else {
-		coinsData[ctx.user.id].channels[ctx.channel.id].coins += 0.2
-		coinsData[ctx.user.id].channels[ctx.channel.id].messages += 1
+		if (coinsData[ctx.channel.id].login !== ctx.channel.login) {
+			coinsData[ctx.channel.id].login = ctx.channel.login
+		}
 	}
 
+	// userData
+	if (!coinsData[ctx.channel.id].users[ctx.user.id]) {
+		coinsData[ctx.channel.id].users[ctx.user.id] = {
+			id: ctx.user.id,
+			login: ctx.user.login,
+			coins: 0.2,
+			rank: 0,
+			messages: 1,
+			firstSeen: new Date(),
+			lastGuess: 0,
+			lastPromocode: 0
+		}
+	} else {
+		if (coinsData[ctx.channel.id].users[ctx.user.id].login !== ctx.user.login) {
+			coinsData[ctx.channel.id].users[ctx.user.id].login = ctx.user.login
+		}
+
+		coinsData[ctx.channel.id].users[ctx.user.id].coins += 0.2
+		coinsData[ctx.channel.id].users[ctx.user.id].messages += 1
+	}
+
+	// saveData
 	bb.utils.coins.saveData(coinsData)
 
 	ctx.args = ctx.msg.text.slice(bb.config.Bot.Prefix.length).trim().split(/ +/)

@@ -6,7 +6,7 @@ module.exports = {
 	cooldown: 3,
 	requires: [],
 	async execute(client, ctx, utils) {
-		const userData = bb.utils.coins.getUserData(ctx.user.id, ctx.channel.id)
+		const userData = bb.utils.coins.getUser(ctx.user.id, ctx.channel.id)
 		const ranks = bb.utils.coins.ranks
 		const balance = userData.coins
 		const currRank = userData.rank

@@ -16,7 +16,7 @@ module.exports = {
 
 		if (!text) {
 			return {
-				text: `\u{1F534} Текст не указан`,
+				text: `Текст не указан`,
 				reply: true
 			}
 		}

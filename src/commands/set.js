@@ -7,7 +7,7 @@ module.exports = {
 	requires: [],
 	async execute(client, ctx, utils) {
 		const promo = ctx.args[0]
-		const activations = Number(ctx.args[1]) ?? null
+		const activations = ctx.args[1] ? Number(ctx.args[1]) : null
 
 		if (!promo) {
 			return {

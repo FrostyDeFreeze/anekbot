@@ -42,7 +42,7 @@ module.exports = {
 		} else {
 			bb.utils.coins.setLastGuess(ctx.user.id, ctx.channel.id, currTime)
 
-			if (!ctx.user.perms.mod || ctx.user.id === bb.config.Dev.ID) {
+			if (!ctx.user.perms.mod && ctx.user.id !== bb.config.Dev.ID) {
 				ctx.send(`.timeout ${ctx.user.login} 300`)
 			}
 

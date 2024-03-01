@@ -17,20 +17,25 @@ module.exports = {
 		9: { name: `Легенда чата`, cost: 60000 },
 		10: { name: `Главный ебантяй`, cost: 100000 }
 	},
+
 	loadData: function () {
 		const data = fs.existsSync(coinsPath) ? JSON.parse(fs.readFileSync(coinsPath, `utf8`)) : {}
 		return data
 	},
+
 	loadPromoData: function () {
 		const data = fs.existsSync(promoPath) ? JSON.parse(fs.readFileSync(promoPath, `utf8`)) : {}
 		return data
 	},
+
 	saveData: function (data) {
 		fs.writeFileSync(coinsPath, JSON.stringify(data))
 	},
+
 	savePromoData: function (data) {
 		fs.writeFileSync(promoPath, JSON.stringify(data))
 	},
+
 	getUser: function (userID, channelID) {
 		const data = this.loadData()
 
@@ -40,6 +45,7 @@ module.exports = {
 
 		return null
 	},
+
 	getUsers: function (channelID) {
 		const data = this.loadData()
 		const channelUsers = Object.keys(data[channelID]?.users || {})
@@ -59,11 +65,13 @@ module.exports = {
 			return data[channelID].users[userID]
 		})
 	},
+
 	addCoins: function (userID, channelID, coins) {
 		const data = this.loadData()
 		data[channelID].users[userID].coins += coins
 		this.saveData(data)
 	},
+
 	addPromoActivation: function (userID) {
 		const data = this.loadPromoData()
 		if (!data.activatedUsers.includes(userID)) {
@@ -71,21 +79,25 @@ module.exports = {
 			this.savePromoData(data)
 		}
 	},
+
 	removeCoins: function (userID, channelID, coins) {
 		const data = this.loadData()
 		data[channelID].users[userID].coins -= coins
 		this.saveData(data)
 	},
+
 	setCoins: function (userID, channelID, coins) {
 		const data = this.loadData()
 		data[channelID].users[userID].coins = coins
 		this.saveData(data)
 	},
+
 	setRank: function (userID, channelID, rank) {
 		const data = this.loadData()
 		data[channelID].users[userID].rank = rank
 		this.saveData(data)
 	},
+
 	setPromocode: function (code, activations) {
 		const data = this.loadPromoData()
 		data.code = code
@@ -93,11 +105,13 @@ module.exports = {
 		data.activatedUsers = []
 		this.savePromoData(data)
 	},
+
 	setLastGuess: function (userID, channelID, time) {
 		const data = this.loadData()
 		data[channelID].users[userID].lastGuess = time
 		this.saveData(data)
 	},
+
 	setLastPromocode: function (userID, channelID, time) {
 		const data = this.loadData()
 		data[channelID].users[userID].lastPromocode = time

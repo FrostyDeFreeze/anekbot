@@ -65,7 +65,7 @@ module.exports = {
 
 			if (response.statusHidden === null || response.statusHidden === true) {
 				return {
-					text: `Статус подписки скрыт`,
+					text: `\u{274C} Статус сабочки скрыт`,
 					reply: true
 				}
 			}
@@ -78,7 +78,7 @@ module.exports = {
 
 				if (old === null || !old.months || old.months === 0) {
 					return {
-						text: `\u{274C} ${uPronouns} не удалось поймать ни одной подарочной сабочки на ${cPronouns}. ${bb.utils.randArr(
+						text: `\u{274C} ${uPronouns} никогда не ловил(а) подарочную сабочку на ${cPronouns} \u{2027} ${bb.utils.randArr(
 							neverSubbed
 						)}`,
 						reply: true
@@ -87,9 +87,8 @@ module.exports = {
 					const end = bb.utils.humanizer(new Date().getTime() - Date.parse(old.end))
 
 					return {
-						text: `\u{274C} ${uPronouns} был(а) сабом ${cPronouns} в течение ${
-							old.months
-						} месяцев \u{2027} Сабочка закончилась ${end} назад! ${bb.utils.randArr(expiredSub)}`,
+						text: `\u{274C} ${uPronouns} был(а) подписан(а) на ${cPronouns} в течение ${old.months} месяцев \u{2027} 
+						Сабочка кончилась ${end} назад \u{2027} ${bb.utils.randArr(expiredSub)}`,
 						reply: true
 					}
 				}
@@ -102,7 +101,7 @@ module.exports = {
 
 				if (meta.tier === `Custom`) {
 					return {
-						text: `\u{2705} ${uPronouns} подписан(а) на ${cPronouns} кастомной подпиской в течение ${cumulative.months} 
+						text: `\u{2705} ${uPronouns} подписан(а) на ${cPronouns} кастомной сабочкой в течение ${cumulative.months} 
 						месяцев`,
 						reply: true
 					}
@@ -110,26 +109,26 @@ module.exports = {
 
 				if (meta.endsAt === null) {
 					return {
-						text: `\u{2705} ${uPronouns} подписан(а) на ${cPronouns} перманентной подпиской в течение ${cumulative.months} 
-						месяцев \u{2027} Юбилей подписки наступит через ${anniversary}`,
+						text: `\u{2705} ${uPronouns} подписан(а) на ${cPronouns} перманентной сабочкой в течение ${cumulative.months} 
+						месяцев \u{2027} Юбилей сабочки наступит через ${anniversary}`,
 						reply: true
 					}
 				}
 
 				if (meta.type === `paid`) {
 					return {
-						text: `\u{2705} ${uPronouns} подписан(а) на ${cPronouns} платной сабкой ${meta.tier} уровня в течение ${
+						text: `\u{2705} ${uPronouns} подписан(а) на ${cPronouns} платной сабочкой ${meta.tier} уровня в течение ${
 							cumulative.months
 						} месяцев \u{2027} 
-						Юбилей подписки наступит через ${anniversary} \u{2027} Подписка кончится/возобновится через ${end}. ${bb.utils.randArr(paidSub)}`,
+						Юбилей сабочки наступит через ${anniversary} \u{2027} Сабочка кончится/возобновится через ${end} \u{2027} ${bb.utils.randArr(paidSub)}`,
 						reply: true
 					}
 				}
 
 				if (meta.type === `prime`) {
 					return {
-						text: `\u{2705} ${uPronouns} подписан(а) на ${cPronouns} Prime подпиской в течение ${cumulative.months} месяцев \u{2027} Юбилей подписки наступит через ${anniversary} \u{2027} 
-						Подписка кончится/возобновится через ${end}`,
+						text: `\u{2705} ${uPronouns} подписан(а) на ${cPronouns} Prime сабочкой в течение ${cumulative.months} месяцев \u{2027} Юбилей сабочки наступит через ${anniversary} \u{2027} 
+						Сабочка кончится/возобновится через ${end}`,
 						reply: true
 					}
 				}
@@ -138,9 +137,9 @@ module.exports = {
 					const gifter = meta.giftMeta.gifter === null ? `Анонима` : bb.utils.unping(meta.giftMeta.gifter.login)
 
 					return {
-						text: `\u{2705} ${uPronouns} получил(а) подарочную подписку ${meta.tier} уровня от ${gifter} и теперь подписан(а) в течение ${
+						text: `\u{2705} ${uPronouns} получил(а) подарочную сабочку ${meta.tier} уровня от ${gifter} и теперь подписан(а) в течение ${
 							cumulative.months
-						} месяцев \u{2027} Юбилей подписки наступит через ${anniversary} \u{2027} Подписка кончится/возобновится через ${end}. ${bb.utils.randArr(
+						} месяцев \u{2027} Юбилей сабочки наступит через ${anniversary} \u{2027} Сабочка кончится/возобновится через ${end} \u{2027} ${bb.utils.randArr(
 							giftedSub
 						)}`,
 						reply: true
@@ -151,7 +150,7 @@ module.exports = {
 			bb.logger.error(`[${this.name.toUpperCase()}] ${e.message}`)
 			if (e.response.statusCode === 404) {
 				return {
-					text: `\u{1F534} Пользователь или канал находится в бане`,
+					text: `\u{274C} Пользователь или канал находится в бане`,
 					reply: true
 				}
 			}

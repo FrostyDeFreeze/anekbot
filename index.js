@@ -20,8 +20,8 @@ bb.upload = upload
 
 bb.misc.connectedAt = new Date().toString()
 bb.misc.issuedCommands = 1
-bb.misc.channels = [`239373609`, `931338266`, `739044027`, `509583526`, `799145942`, `753723636`]
-bb.misc.admins = [`799145942`, `739044027`, `509583526`, `753723636`, `239373609`]
+bb.misc.channels = [`799145942`, `239373609`, `739044027`, `509583526`, `753723636`, `931338266`]
+bb.misc.admins = [`799145942`, `239373609`, `739044027`, `509583526`, `753723636`, `452164565`]
 
 client.on(`ready`, async () => {
 	bb.logger.info(`Successfully connected to TMI!`)

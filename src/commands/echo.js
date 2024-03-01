@@ -1,6 +1,6 @@
 module.exports = {
 	name: `echo`,
-	access: [`Dev`],
+	access: [`Admin`],
 	active: true,
 	aliases: [`e`],
 	cooldown: 0,

@@ -66,6 +66,40 @@ module.exports = {
 		})
 	},
 
+	getChannelsForUser: function (userID) {
+		const data = this.loadData()
+		const result = []
+
+		for (const channelID in data) {
+			const user = data[channelID]?.users[userID]
+
+			if (user) {
+				const guessDiff = new Date().getTime() - new Date(user.lastGuess).getTime()
+				const promoDiff = new Date().getTime() - new Date(user.lastPromocode).getTime()
+
+				if (guessDiff > 28_800_000) {
+					result.push({
+						channelID: channelID,
+						channelLogin: data[channelID].login,
+						lastGuess: user.lastGuess,
+						type: `guess`
+					})
+				}
+
+				if (promoDiff > 86_400_000) {
+					result.push({
+						channelID: channelID,
+						channelLogin: data[channelID].login,
+						lastPromocode: user.lastPromocode,
+						type: `promocode`
+					})
+				}
+			}
+		}
+
+		return result
+	},
+
 	addCoins: function (userID, channelID, coins) {
 		const data = this.loadData()
 		data[channelID].users[userID].coins += coins

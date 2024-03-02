@@ -23,11 +23,11 @@ module.exports = {
 		}, {})
 
 		const result = Object.entries(grouped)
-			.map(([type, channels]) => `У тебя остались доступные способы заработка \u{2027} ${type} на каналах: ${channels.sort().join(`, `)}`)
+			.map(([type, channels]) => `${type} на каналах: ${channels.sort().join(`, `)}`)
 			.join(` \u{2027} `)
 
 		return {
-			text: result,
+			text: `У тебя остались доступные способы заработка \u{2027} ${result}`,
 			reply: true
 		}
 	}

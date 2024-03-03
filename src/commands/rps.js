@@ -3,7 +3,7 @@ module.exports = {
 	access: [],
 	active: true,
 	aliases: [`cnb`],
-	cooldown: 10,
+	cooldown: 60,
 	async execute(client, ctx, utils) {
 		const userData = bb.utils.coins.getUser(ctx.user.id, ctx.channel.id)
 		const decision = ctx.args[0]
@@ -14,7 +14,7 @@ module.exports = {
 
 		const available = [`камень`, `ножницы`, `бумага`]
 		const pick = bb.utils.randArr(available)
-		const cash = randNum(5, 20)
+		const cash = randNum(5, 10)
 
 		if (!decision) {
 			return {
@@ -40,8 +40,11 @@ module.exports = {
 		switch (decision.toLowerCase()) {
 			case `камень`: {
 				if (pick === `бумага`) {
+					bb.utils.coins.removeCoins(ctx.user.id, ctx.channel.id, cash)
 					return {
-						text: `Ты проиграл(а) \u{2027} я поставил \u{1F4DC} \u{1F61C}`,
+						text: `Ты проиграл(а) \u{2027} я поставил \u{1F4DC} \u{2027} За проигрыш отнял у тебя ${cash} монет \u{2027} Твой текущий баланс: ${(
+							userData.coins - cash
+						).toFixed(1)}`,
 						reply: true
 					}
 				} else {
@@ -57,8 +60,11 @@ module.exports = {
 
 			case `ножницы`: {
 				if (pick === `камень`) {
+					bb.utils.coins.removeCoins(ctx.user.id, ctx.channel.id, cash)
 					return {
-						text: `Ты проиграл(а) \u{2027} Я поставил \u{1FAA8} \u{1F61C}`,
+						text: `Ты проиграл(а) \u{2027} Я поставил \u{1FAA8} \u{2027} За проигрыш отнял у тебя ${cash} монет \u{2027} Твой текущий баланс: ${(
+							userData.coins - cash
+						).toFixed(1)}`,
 						reply: true
 					}
 				} else {
@@ -74,8 +80,11 @@ module.exports = {
 
 			case `бумага`: {
 				if (pick === `ножницы`) {
+					bb.utils.coins.removeCoins(ctx.user.id, ctx.channel.id, cash)
 					return {
-						text: `Ты проиграл(а) \u{2027} Я поставил \u{2702} \u{1F61C}`,
+						text: `Ты проиграл(а) \u{2027} Я поставил \u{2702} \u{2027} За проигрыш отнял у тебя ${cash} монет \u{2027} Твой текущий баланс: ${(
+							userData.coins - cash
+						).toFixed(1)}`,
 						reply: true
 					}
 				} else {

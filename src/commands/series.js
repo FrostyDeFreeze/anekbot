@@ -9,7 +9,7 @@ module.exports = {
 	requires: [],
 	async execute(client, ctx, utils) {
 		const genres = [
-			{ id: 10759, name: `приключения` },
+			{ id: 10759, name: `боевик` },
 			{ id: 37, name: `вестерн` },
 			{ id: 35, name: `комедия` },
 			{ id: 80, name: `криминал` },
@@ -20,6 +20,7 @@ module.exports = {
 			{ id: 10765, name: `фэнтези` },
 			{ id: 10763, name: `новости` },
 			{ id: 16, name: `мультфильм` },
+			{ id: 10759, name: `приключения` },
 			{ id: 10764, name: `реалити-шоу` },
 			{ id: 10767, name: `ток-шоу` },
 			{ id: 10751, name: `семейный` }
@@ -41,7 +42,7 @@ module.exports = {
 
 		if (genreIds.some(id => id === null)) {
 			return {
-				text: `Некоторые из введённых жанров не найдены. Доступные жанры: ${genres.map(i => i.name).join(`, `)}`,
+				text: `Некоторые из введённых жанров не найдены \u{2027} Доступные жанры: ${genres.map(i => i.name).join(`, `)}`,
 				reply: true
 			}
 		}
@@ -79,6 +80,8 @@ module.exports = {
 				}
 			}).json()
 
+			console.log(details)
+
 			const title = `\u{1F37F} ${details.name} (${details.first_air_date.split(`-`)[0]}-${details.last_air_date.split(`-`)[0]})`
 			const description = bb.utils.fit(details.overview, 290)
 			const genres = `Жанры: ${details.genres
@@ -87,7 +90,21 @@ module.exports = {
 				.join(`, `)}`
 			const seasons = `Сезоны: ${details.number_of_seasons}`
 			const episodes = `Эпизоды: ${details.number_of_episodes}`
-			const status = `Статус: ${details.status}`
+			let status
+			switch (details.status) {
+				case `Canceled`:
+					status = `Статус: отменён`
+					break
+				case `Ended`:
+					status = `Статус: окончен`
+					break
+				case `Returning Series`:
+					status = `Статус: продолжается`
+					break
+				default:
+					status = `Статус: ${details.status}`
+					break
+			}
 			const rating = `Оценка: ${details.vote_average.toFixed(1)}`
 
 			const result = [title, description, genres, seasons, episodes, status, rating]

@@ -10,8 +10,11 @@ module.exports = {
 		const activations = ctx.args[1] ? Number(ctx.args[1]) : null
 
 		if (!promo) {
+			const promoData = bb.utils.coins.loadPromoData()
+			const currCode = promoData.code
+			const currAct = promoData.activations
 			return {
-				text: `Укажи промокод aga`,
+				text: `Текущий код: ${currCode} \u{2027} Количество активаций: ${currAct !== null ? currAct : `неограниченно`}`,
 				reply: true
 			}
 		}

@@ -44,7 +44,7 @@ module.exports = {
 
 		if (genreIds.some(id => id === null)) {
 			return {
-				text: `Некоторые из введённых жанров не найдены. Доступные жанры: ${genres.map(i => i.name).join(`, `)}`,
+				text: `Некоторые из введённых жанров не найдены \u{2027} Доступные жанры: ${genres.map(i => i.name).join(`, `)}`,
 				reply: true
 			}
 		}

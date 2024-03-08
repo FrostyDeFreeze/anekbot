@@ -80,8 +80,6 @@ module.exports = {
 				}
 			}).json()
 
-			console.log(details)
-
 			const title = `\u{1F37F} ${details.name} (${details.first_air_date.split(`-`)[0]}-${details.last_air_date.split(`-`)[0]})`
 			const description = bb.utils.fit(details.overview, 290)
 			const genres = `Жанры: ${details.genres

@@ -1,4 +1,5 @@
 const got = require(`got`)
+const { translate } = require(`bing-translate-api`)
 const humanize = require(`humanize-duration`)
 
 const shortHumanizer = humanize.humanizer({
@@ -58,6 +59,13 @@ exports.randArr = array => {
 
 exports.sleep = ms => {
 	return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+exports.translate = async (text, from, to) => {
+	if (!from) from = null
+	if (!to) to = `ru`
+	const translation = await translate(text, from, to)
+	return translation
 }
 
 exports.unping = user => `${user[0]}\u{E0000}${user.slice(1)}`

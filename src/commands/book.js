@@ -66,7 +66,7 @@ module.exports = {
 			desc = desc !== null ? bb.utils.fit(desc, 300) : null
 
 			const pages = info.bookEdition
-			const author = `Авторы: ${info.author.map(i => i.name).join(`, `)}`
+			const author = `Автор: ${info.author[0].name}`
 			const rating = `Оценка: ${info.rating}`
 			const ratingCount = `Голосов: ${info.ratingCount.trim()}`
 

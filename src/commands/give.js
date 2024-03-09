@@ -6,7 +6,7 @@ module.exports = {
 	cooldown: 3600,
 	requires: [],
 	async execute(client, ctx, utils) {
-		if (ctx.channel.id !== 739044027) return
+		if (ctx.channel.id !== `739044027`) return
 
 		return {
 			text: `!addpoints ${ctx.sender.login} 10000`,

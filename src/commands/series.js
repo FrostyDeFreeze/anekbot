@@ -4,7 +4,7 @@ module.exports = {
 	name: `series`,
 	access: [],
 	active: true,
-	aliases: [`tv`],
+	aliases: [`сериал`, `tv`],
 	cooldown: 5,
 	requires: [],
 	async execute(client, ctx, utils) {

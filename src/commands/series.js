@@ -23,7 +23,8 @@ module.exports = {
 			{ id: 10759, name: `приключения` },
 			{ id: 10764, name: `реалити-шоу` },
 			{ id: 10767, name: `ток-шоу` },
-			{ id: 10751, name: `семейный` }
+			{ id: 10751, name: `семейный` },
+			{ id: 0, name: `рандом` }
 		]
 
 		const input = ctx.args.join(` `)?.toLowerCase()
@@ -35,7 +36,7 @@ module.exports = {
 			}
 		}
 
-		const genreIds = input.split(` `).map(genre => {
+		let genreIds = input.split(` `).map(genre => {
 			const foundGenre = genres.find(i => i.name.toLowerCase() === genre)
 			return foundGenre ? foundGenre.id : null
 		})
@@ -45,6 +46,11 @@ module.exports = {
 				text: `Некоторые из введённых жанров не найдены \u{2027} Доступные жанры: ${genres.map(i => i.name).join(`, `)}`,
 				reply: true
 			}
+		}
+
+		if (genreIds.some(id => id === 0)) {
+			genreIds = genres.filter(i => i.id !== 0).map(i => i.id)
+			genreIds = bb.utils.randArr(genreIds)
 		}
 
 		const page = ~~(Math.random() * 5) + 1

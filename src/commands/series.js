@@ -51,6 +51,7 @@ module.exports = {
 		if (genreIds.some(id => id === 0)) {
 			genreIds = genres.filter(i => i.id !== 0).map(i => i.id)
 			genreIds = bb.utils.randArr(genreIds)
+			genreIds = [genreIds]
 		}
 
 		const page = ~~(Math.random() * 5) + 1

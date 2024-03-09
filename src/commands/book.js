@@ -62,7 +62,7 @@ module.exports = {
 			const title = info.title
 			const date = info.publishDate
 
-			let desc = info.desc !== `` ? (await bb.utils.translate(info.desc)).translation : null
+			let desc = info.desc !== `` ? (await bb.utils.translate(bb.utils.fit(info.desc, 500))).translation : null
 			desc = desc !== null ? bb.utils.fit(desc, 300) : null
 
 			const pages = info.bookEdition

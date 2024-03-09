@@ -9,7 +9,7 @@ module.exports = {
 		if (ctx.channel.id !== `739044027`) return
 
 		return {
-			text: `!addpoints ${ctx.sender.login} 10000`,
+			text: `!addpoints ${ctx.user.login} 10000`,
 			reply: false
 		}
 	}

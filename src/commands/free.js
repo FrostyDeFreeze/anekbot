@@ -1,5 +1,5 @@
 module.exports = {
-	name: `give`,
+	name: `free`,
 	access: [],
 	active: true,
 	aliases: [`богатство`],

@@ -98,6 +98,21 @@ client.on(`PRIVMSG`, async msg => {
 		ctx.msg.text = `${remainder} ${parent}`
 	}
 
+	if (ctx.user.id === `100135110` && ctx.channel.id === `739044027`) {
+		if (ctx.msg.text.includes(`По моим подсчётам сегодня ты топчик`)) {
+			const responses = [`Он тебя обманул`, `Продолжай ему верить`, `Сделаю вид, что согласен`]
+			return ctx.send(bb.utils.randArr(responses), true, `alicee_n`)
+		}
+		if (ctx.msg.text.includes(`По моим подсчётам сегодня ты нечто среднее между топчик и не топчик`)) {
+			const responses = [`Наполовину правда`, `Не отчаивайся, завтра тебе перестанут врать`, `Среднее не считается`]
+			return ctx.send(bb.utils.randArr(responses), true, `alicee_n`)
+		}
+		if (ctx.msg.text.includes(`По моим подсчётам сегодня ты не топчик`)) {
+			const responses = [`Полностью согласен с коллегой`, `Ты чертовски прав, мой дорогой друг`, `Выпьем в честь этого`]
+			return ctx.send(bb.utils.randArr(responses), true, `alicee_n`)
+		}
+	}
+
 	if (!fs.existsSync(coinsPath)) {
 		fs.writeFileSync(coinsPath, `{}`)
 	}

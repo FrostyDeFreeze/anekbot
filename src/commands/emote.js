@@ -20,7 +20,7 @@ module.exports = {
 		const randEmote = bb.utils.randArr(emotes)
 
 		return {
-			text: `Эмоут, описывающий тебя сегодня – ${randEmote.name}`,
+			text: `Эмоут, описывающий тебя сегодня — ${randEmote.name}`,
 			reply: true
 		}
 	}

@@ -3,6 +3,7 @@ const { paste, upload } = require(`./src/utils/utils.js`)
 
 const fs = require(`fs`)
 const path = require(`path`)
+const cron = require(`node-cron`)
 const coinsPath = path.join(__dirname, `./src/data/coins.json`)
 const promoPath = path.join(__dirname, `./src/data/promocodes.json`)
 
@@ -46,6 +47,53 @@ client.on(`JOIN`, async ({ channelName }) => {
 client.on(`PART`, ({ channelName }) => {
 	client.joinedChannels.delete(channelName)
 	bb.logger.info(`[PART] Parted ${channelName} | Channels: ${client.joinedChannels.size - 1}`)
+})
+
+cron.schedule(`0 */2 * * *`, async () => {
+	const pronouns = [
+		`Баклан`,
+		`Баламошка`,
+		`Баран`,
+		`Бзыря`,
+		`Выхухоль`,
+		`Глуподырый`,
+		`Дуболом`,
+		`Дура`,
+		`Дурак`,
+		`Захухря`,
+		`Идиот`,
+		`Клоун`,
+		`Коза`,
+		`Лох`,
+		`Мимозыря`,
+		`Негораздок`,
+		`Оболтус`,
+		`Овца`,
+		`Остолоп`,
+		`Охламон`,
+		`Пентюх`,
+		`Придурок`,
+		`Пустослов`,
+		`Пыня`,
+		`Тартыга`,
+		`Тетеря`,
+		`Тефтеля`,
+		`Фрик`,
+		`Фуфлыга`,
+		`Хрящ`,
+		`Чушпан`,
+		`Чёрт`
+	]
+
+	const channel = bb.utils.randArr(Array.from(bb.client.joinedChannels).filter(i => i !== bb.config.Bot.Login))
+	const chatters = await bb.services.gql.getChatters(channel)
+	const data = chatters.data.user.channel.chatters
+	const all = Object.values(data)
+		.flat()
+		.map(i => i.login)
+	const chatter = bb.utils.randArr(all)
+
+	return bb.client.privmsg(channel, `${bb.utils.randArr(pronouns)} на следующие 2 часа — ${chatter} :tf:`)
 })
 
 client.on(`PRIVMSG`, async msg => {

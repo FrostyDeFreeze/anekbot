@@ -32,7 +32,7 @@ module.exports = {
 
 		if (!promocode) {
 			return {
-				text: `Укажи промокод для активации aga`,
+				text: `Укажи промокод для активации aga \u{2027} Подсказка: ${bb.utils.shuffleWord(currCode)}`,
 				reply: true
 			}
 		}
@@ -60,7 +60,7 @@ module.exports = {
 			}
 		} else {
 			return {
-				text: `Я не знаю такого промокода`,
+				text: `Я не знаю такого промокода \u{2027} Подсказка: ${bb.utils.shuffleWord(currCode)}`,
 				reply: true
 			}
 		}

@@ -57,6 +57,10 @@ exports.randArr = array => {
 	return array[~~(Math.random() * array.length)]
 }
 
+exports.shuffleWord = word => {
+	return word.split(``).sort(function () { return 0.5 - Math.random() }).join(``)
+}
+
 exports.sleep = ms => {
 	return new Promise(resolve => setTimeout(resolve, ms))
 }

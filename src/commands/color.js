@@ -1,3 +1,5 @@
+const got = require(`got`)
+
 module.exports = {
 	name: `color`,
 	access: [],
@@ -10,9 +12,11 @@ module.exports = {
 
 		if (!color) {
 			const user = await bb.services.gql.getUser(ctx.user.login)
+			const userColor = user.data.user.chatColor
+			const url = `singlecolorimage.com/get/${userColor.toLowerCase().replace(`#`, ``)}/1x1.png`
 
 			return {
-				text: `Твой текущий цвет: ${user.data.user.chatColor}`,
+				text: `Твой текущий цвет: ${userColor} \u{2027} ${url}`,
 				reply: true
 			}
 		}
@@ -27,8 +31,11 @@ module.exports = {
 				}
 			}
 
+			const userColor = user.data.user.chatColor
+			const url = `singlecolorimage.com/get/${userColor.toLowerCase().replace(`#`, ``)}/1x1.png`
+
 			return {
-				text: `Текущий цвет ${bb.utils.unping(user.data.user.login)}: ${user.data.user.chatColor}`,
+				text: `Текущий цвет ${bb.utils.unping(user.data.user.login)}: ${userColor} \u{2027} ${url}`,
 				reply: true
 			}
 		}

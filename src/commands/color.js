@@ -9,10 +9,26 @@ module.exports = {
 		const color = ctx.args[0]
 
 		if (!color) {
-			const user = await bb.services.gql.getUser(bb.config.Bot.Login)
+			const user = await bb.services.gql.getUser(ctx.user.login)
 
 			return {
-				text: `Мой текущий цвет: ${user.data.user.chatColor}`,
+				text: `Твой текущий цвет: ${user.data.user.chatColor}`,
+				reply: true
+			}
+		}
+
+		if (/^[A-Z_\d]{3,25}$/i.test(color) === true) {
+			const user = await bb.services.gql.getUser(color)
+
+			if (user.data.user === null) {
+				return {
+					text: `Пользователь не существует`,
+					reply: true
+				}
+			}
+
+			return {
+				text: `Текущий цвет ${bb.utils.unping(user.data.user.login)}: ${user.data.user.chatColor}`,
 				reply: true
 			}
 		}
@@ -25,7 +41,15 @@ module.exports = {
 		}
 
 		if (bb.misc.admins.includes(ctx.user.id) || ctx.user.id === bb.config.Dev.ID) {
-			bb.services.gql.updateColor(color)
+			const update = await bb.services.gql.updateColor(color)
+
+			if (update.errors && update.data.updateChatColor === null) {
+				return {
+					text: `У меня нет Прайма aga`,
+					reply: true
+				}
+			}
+
 			await bb.utils.sleep(1500)
 
 			return {
@@ -38,8 +62,16 @@ module.exports = {
 			const price = 35
 
 			if (balance >= price) {
+				const update = await bb.services.gql.updateColor(color)
+
+				if (update.errors && update.data.updateChatColor === null) {
+					return {
+						text: `У меня нет Прайма aga`,
+						reply: true
+					}
+				}
+
 				bb.utils.coins.removeCoins(ctx.user.id, ctx.channel.id, price)
-				bb.services.gql.updateColor(color)
 				await bb.utils.sleep(1500)
 
 				return {

@@ -140,8 +140,9 @@ module.exports = {
 
 				if (meta.type === `paid`) {
 					return {
-						text: `\u{2705} ${uPronouns} подписан(а) на ${cPronouns} платной сабочкой ${meta.tier} уровня в течение ${cumulative.months
-							} месяцев \u{2027} 
+						text: `\u{2705} ${uPronouns} подписан(а) на ${cPronouns} платной сабочкой ${meta.tier} уровня в течение ${
+							cumulative.months
+						} месяцев \u{2027} 
 						Юбилей сабочки наступит через ${anniversary} \u{2027} Сабочка кончится/возобновится через ${end} \u{2027} ${bb.utils.randArr(paidSub)}`,
 						reply: true
 					}
@@ -149,8 +150,9 @@ module.exports = {
 
 				if (meta.type === `prime`) {
 					return {
-						text: `\u{2705} ${uPronouns} подписан(а) на ${cPronouns} Prime сабочкой в течение ${cumulative.months
-							} месяцев \u{2027} Юбилей сабочки наступит через ${anniversary} \u{2027} 
+						text: `\u{2705} ${uPronouns} подписан(а) на ${cPronouns} Prime сабочкой в течение ${
+							cumulative.months
+						} месяцев \u{2027} Юбилей сабочки наступит через ${anniversary} \u{2027} 
 						Сабочка кончится/возобновится через ${end} \u{2027} ${bb.utils.randArr(primeSub)}`,
 						reply: true
 					}
@@ -160,10 +162,11 @@ module.exports = {
 					const gifter = meta.giftMeta.gifter === null ? `Анонима` : bb.utils.unping(meta.giftMeta.gifter.login)
 
 					return {
-						text: `\u{2705} ${uPronouns} получил(а) подарочную сабочку ${meta.tier} уровня от ${gifter} и теперь подписан(а) в течение ${cumulative.months
-							} месяцев \u{2027} Юбилей сабочки наступит через ${anniversary} \u{2027} Сабочка кончится/возобновится через ${end} \u{2027} ${bb.utils.randArr(
-								giftedSub
-							)}`,
+						text: `\u{2705} ${uPronouns} получил(а) подарочную сабочку ${meta.tier} уровня от ${gifter} и теперь подписан(а) в течение ${
+							cumulative.months
+						} месяцев \u{2027} Юбилей сабочки наступит через ${anniversary} \u{2027} Сабочка кончится/возобновится через ${end} \u{2027} ${bb.utils.randArr(
+							giftedSub
+						)}`,
 						reply: true
 					}
 				}

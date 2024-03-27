@@ -58,7 +58,12 @@ exports.randArr = array => {
 }
 
 exports.shuffleWord = word => {
-	return word.split(``).sort(function () { return 0.5 - Math.random() }).join(``)
+	return word
+		.split(``)
+		.sort(function () {
+			return 0.5 - Math.random()
+		})
+		.join(``)
 }
 
 exports.sleep = ms => {

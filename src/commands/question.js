@@ -3,7 +3,7 @@ module.exports = {
 	access: [],
 	active: true,
 	aliases: [`qs`, `?`],
-	cooldown: 60,
+	cooldown: 120,
 	requires: [],
 	async execute(client, ctx, utils) {
 		const questions = [

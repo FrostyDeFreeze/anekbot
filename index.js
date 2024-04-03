@@ -242,7 +242,7 @@ client.on(`PRIVMSG`, async msg => {
 		}
 
 		try {
-			if (command.cooldown && ctx.user.id !== bb.config.Dev.ID && !bb.misc.admins.includes(ctx.user.id)) {
+			if (command.cooldown && ctx.user.id !== bb.config.Dev.ID) {
 				bb.utils.cooldown.set(key, command.cooldown * 1000)
 			}
 

@@ -39,8 +39,8 @@ exports.joiner = async () => {
 }
 
 exports.paste = async (text, raw) => {
-	const paste = await got.post(`https://p.dankfreeze.xyz/documents`, { body: text }).json()
-	return raw ? `https://p.dankfreeze.xyz/raw/${paste.key}` : `https://p.dankfreeze.xyz/${paste.key}`
+	const paste = await got.post(`https://p.dankfreeze.space/documents`, { body: text }).json()
+	return raw ? `https://p.dankfreeze.space/raw/${paste.key}` : `https://p.dankfreeze.space/${paste.key}`
 }
 
 exports.ping = async () => {
@@ -80,7 +80,7 @@ exports.translate = async (text, from, to) => {
 exports.unping = user => `${user[0]}\u{E0000}${user.slice(1)}`
 
 exports.upload = async (text, type) => {
-	const url = `https://i.dankfreeze.xyz/paste`
+	const url = `https://i.dankfreeze.space/paste`
 	let content = text
 
 	if (type) {

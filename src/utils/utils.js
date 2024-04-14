@@ -107,8 +107,10 @@ exports.findFMData = twitchLogin => {
 	const fmData = this.loadFMData()
 
 	for (const userID in fmData) {
-		if (fmData[userID].twitchLogin === twitchLogin) {
-			return fmData[userID]
+		if (fmData.hasOwnProperty(userID)) {
+			if (fmData[userID].twitchLogin === twitchLogin) {
+				return fmData[userID]
+			}
 		}
 	}
 

@@ -1,6 +1,10 @@
 const got = require(`got`)
-const { translate } = require(`bing-translate-api`)
+const fs = require(`fs`)
+const path = require(`path`)
 const humanize = require(`humanize-duration`)
+const { translate } = require(`bing-translate-api`)
+
+const fmPath = path.join(__dirname, `../data/fm.json`)
 
 const shortHumanizer = humanize.humanizer({
 	language: `shortRu`,
@@ -89,4 +93,24 @@ exports.upload = async (text, type) => {
 
 	const paste = await got.post(url, { json: { text: content.toString() } })
 	return paste.body
+}
+
+exports.saveFMData = data => {
+	fs.writeFileSync(fmPath, JSON.stringify(data))
+}
+
+exports.loadFMData = () => {
+	return fs.existsSync(fmPath) ? JSON.parse(fs.readFileSync(fmPath, `utf8`)) : {}
+}
+
+exports.findFMData = twitchLogin => {
+	const fmData = this.loadFMData()
+
+	for (const userID in fmData) {
+		if (fmData[userID].twitchLogin === twitchLogin) {
+			return fmData[userID]
+		}
+	}
+
+	return null
 }

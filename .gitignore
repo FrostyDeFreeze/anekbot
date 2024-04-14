@@ -2,5 +2,6 @@ config.json
 node_modules
 pnpm-lock.yaml
 src/data/coins.json
+src/data/fm.json
 src/data/promocodes.json
 src/data/rps.json

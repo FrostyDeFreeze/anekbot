@@ -97,7 +97,7 @@ module.exports = {
 			variables: {
 				input: {
 					displayName: name,
-					description: `by d\u{E0000}ankfreeze, a\u{E0000}licee_n, i_o\u{E0000}lya`,
+					description: `by f\u{E0000}woxty, a\u{E0000}licee_n, i_o\u{E0000}lya`,
 					userID: bb.config.Bot.ID
 				}
 			},

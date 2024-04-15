@@ -20,13 +20,13 @@ module.exports = {
 			const check = await bb.services.gql.getRoles(ctx.channel.id)
 
 			if (ctx.user.perms.mod) {
-				const mod = check.data.user.mods.edges.filter(i => i.node !== null).find(i => i.node.id === ctx.user.id)
+				const mod = check.mods.filter(i => i.node !== null).find(i => i.node.id === ctx.user.id)
 				const granted = bb.utils.humanizer(new Date().getTime() - Date.parse(mod?.grantedAt), { largest: 2 })
 				roles = `Модератор (${granted})`
 			}
 
 			if (ctx.user.perms.vip) {
-				const vip = check.data.user.vips.edges.filter(i => i.node !== null).find(i => i.node.id === ctx.user.id)
+				const vip = check.vips.filter(i => i.node !== null).find(i => i.node.id === ctx.user.id)
 				const granted = bb.utils.humanizer(new Date().getTime() - Date.parse(vip?.grantedAt), { largest: 2 })
 				roles = `VIP (${granted})`
 			}

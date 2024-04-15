@@ -223,24 +223,57 @@ module.exports = {
 		return founders
 	},
 	getRoles: async function (channelID) {
-		const operation = {
-			operationName: `UserRolesCacheQuery`,
-			variables: {
-				channelID: channelID,
-				includeEditors: true,
-				includeMods: true,
-				includeVIPs: true,
-				includeArtists: true
-			},
-			extensions: {
-				persistedQuery: {
-					version: 1,
-					sha256Hash: rolesHash
+		let hasNextPageMods = true
+		let hasNextPageVIPs = true
+		let artistsData = []
+		let modsData = []
+		let vipsData = []
+
+		while (hasNextPageMods || hasNextPageVIPs) {
+			const operation = {
+				operationName: `UserRolesCacheQuery`,
+				variables: {
+					channelID: channelID,
+					includeEditors: false,
+					includeMods: true,
+					includeVIPs: true,
+					includeArtists: true,
+					modsCursor: hasNextPageMods ? modsData[modsData.length - 1]?.cursor : null,
+					vipsCursor: hasNextPageVIPs ? vipsData[vipsData.length - 1]?.cursor : null
+				},
+				extensions: {
+					persistedQuery: {
+						version: 1,
+						sha256Hash: rolesHash
+					}
 				}
 			}
+
+			const response = await this.request(operation)
+
+			const artistsResponse = response.data.artists
+			artistsData = artistsResponse.edges
+
+			const modsResponse = response.data.user.mods
+			if (modsResponse.pageInfo.hasNextPage) {
+				hasNextPageMods = true
+				modsData = modsData.concat(modsResponse.edges)
+			} else {
+				hasNextPageMods = false
+				modsData = modsData.concat(modsResponse.edges)
+			}
+
+			const vipsResponse = response.data.user.vips
+			if (vipsResponse.pageInfo.hasNextPage) {
+				hasNextPageVIPs = true
+				vipsData = vipsData.concat(vipsResponse.edges)
+			} else {
+				hasNextPageVIPs = false
+				vipsData = vipsData.concat(vipsResponse.edges)
+			}
 		}
-		const roles = await this.request(operation)
-		return roles
+
+		return { artists: artistsData, mods: modsData, vips: vipsData }
 	},
 	getRename: async function () {
 		const operation = {
@@ -446,5 +479,37 @@ module.exports = {
 		}
 		const user = this.request(operation)
 		return user
+	},
+	moderatedChannels: async function () {
+		let hasNextPage = true
+		let channelsData = []
+
+		while (hasNextPage) {
+			const operation = {
+				operationName: `ModeratedChannels`,
+				variables: {
+					cursor: hasNextPage ? channelsData[channelsData.length - 1]?.cursor : null
+				},
+				extensions: {
+					persistedQuery: {
+						version: 1,
+						sha256Hash: modHash
+					}
+				}
+			}
+
+			const response = await this.request(operation)
+
+			const channelsResponse = response.data.moderatedChannels
+			if (channelsResponse.pageInfo.hasNextPage) {
+				hasNextPage = true
+				channelsData = channelsData.concat(channelsResponse.edges)
+			} else {
+				hasNextPage = false
+				channelsData = channelsData.concat(channelsResponse.edges)
+			}
+		}
+
+		return channelsData
 	}
 }

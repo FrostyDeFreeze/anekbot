@@ -21,6 +21,7 @@ const chattersHash = `2e71a3399875770c1e5d81a9774d9803129c44cf8f6bad64973aa0d239
 const badgesHash = `a0300a9d8c43ec7a6bf653d46478948cc943d4ad9b2b28654241916b621dbfe5`
 const changeHash = `c611ec7794e2c8a0f368fa8bb2bce9ff84fbd66f768d0e5dfc86440eeb18f2aa`
 const pointsHash = `1530a003a7d374b0380b79db0be0534f30ff46e61cffa2bc0e2468a909fbc024`
+const modHash = `5898414f627d2fbc85c3e774bfa8a91699ec299a41c4d58e9cc4a0dbd10101f1`
 
 const resubToken = `MTk3Mjk4MjA4OjExNjczODExMjoxNzpjdW11bGF0aXZl`
 

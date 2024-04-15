@@ -14,7 +14,7 @@ module.exports = {
 		let coins = ``
 		let rank = ``
 		let position = ``
-		let firstSeen = ``
+		// let firstSeen = ``
 
 		if (ctx.user.perms.mod || ctx.user.perms.vip) {
 			const check = await bb.services.gql.getRoles(ctx.channel.id)
@@ -96,9 +96,9 @@ module.exports = {
 		const total = top.length
 
 		position = `Позиция в топе: ${userPos}/${total}`
-		firstSeen = `Впервые обнаружен ${bb.utils.humanizer(new Date() - new Date(userData.firstSeen), { largest: 2 })}`
+		// firstSeen = `Впервые обнаружен ${bb.utils.humanizer(new Date() - new Date(userData.firstSeen), { largest: 2 })}`
 
-		const result = [name, roles, subage, se, coins, rank, position, firstSeen]
+		const result = [name, roles, subage, se, coins, rank, position]
 			.reduce((acc, curr) => {
 				if (curr) {
 					acc.push(curr)

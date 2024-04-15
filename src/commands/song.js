@@ -1,7 +1,7 @@
 const got = require(`got`)
 
-function decreaseHours(date, hours) {
-	return date.setTime(date.getTime() - hours * 60 * 60 * 1000)
+function increaseHours(date, hours) {
+	return date.setTime(date.getTime() + hours * 60 * 60 * 1000)
 }
 
 module.exports = {
@@ -55,9 +55,9 @@ module.exports = {
 			const isNowPlaying = data[0][`@attr`]?.nowplaying
 			const status = isNowPlaying
 				? `${bb.utils.randArr(statuses)} \u{25B6}`
-				: `Последний сыгранный у ${user} (${bb.utils.humanizer(new Date() - new Date(data[0].date[`#text`]), {
-						largest: 2
-				  })} назад) \u{23EF}`
+				: `Последний сыгранный у ${user} (${bb.utils.humanizer(increaseHours(new Date(), 3) - new Date(data[0].date[`#text`]), {
+					largest: 2
+				})} назад) \u{23EF}`
 
 			return {
 				text: `${status} ${data[0].artist.name} - ${data[0].name}`,

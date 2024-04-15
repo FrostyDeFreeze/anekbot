@@ -55,7 +55,7 @@ module.exports = {
 			const isNowPlaying = data[0][`@attr`]?.nowplaying
 			const status = isNowPlaying
 				? `${bb.utils.randArr(statuses)} \u{25B6}`
-				: `Последний сыгранный у ${user} (${bb.utils.humanizer(increaseHours(new Date(), 3) - new Date(data[0].date[`uts`] * 1000), {
+				: `Последний сыгранный у ${user} (${bb.utils.humanizer(new Date() - new Date(data[0].date[`uts`] * 1000), {
 					largest: 2
 				})} назад) \u{23EF}`
 

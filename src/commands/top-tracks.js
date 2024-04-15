@@ -1,17 +1,23 @@
 const got = require(`got`)
 
-function decreaseHours(date, hours) {
-	return date.setTime(date.getTime() - hours * 60 * 60 * 1000)
-}
-
 module.exports = {
-	name: `song`,
+	name: `top-tracks`,
 	access: [],
 	active: true,
-	aliases: [],
+	aliases: [`toptracks`, `tt`],
 	cooldown: 3,
 	requires: [],
 	async execute(client, ctx, utils) {
+		const limitCheck = ctx.args.join(` `).match(/(count|c)(:|=)(\d+)/i)
+		let limit = limitCheck ? limitCheck[3] : 5
+		if (limitCheck) {
+			ctx.args.splice(ctx.args.indexOf(limitCheck[0]), 1)
+		}
+
+		if (limit === `0`) {
+			limit = 1
+		}
+
 		const data = bb.utils.loadFMData()
 		let user
 
@@ -32,17 +38,19 @@ module.exports = {
 
 		if (!user) {
 			return {
-				text: `Пользователь не привязал(а) свой аккаунт last.fm \u{2027} Для привязки используйте ${bb.config.Bot.Prefix}link fm никнейм`,
+				text: `Пользователь не привязал свой аккаунт last.fm \u{2027} Для привязки используйте ${bb.config.Bot.Prefix}link fm никнейм`,
 				reply: true
 			}
 		}
 
+		const period = `&period=overall`
+
 		try {
 			const response = await got(
-				`http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${user}&api_key=${bb.config.API.LastFM}&format=json&limit=1&extended=1`
+				`http://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=${user}&api_key=${bb.config.API.LastFM}&format=json&limit=${limit}${period}`
 			).json()
 
-			const data = response.recenttracks.track
+			const data = response.toptracks.track
 
 			if (data.length === 0) {
 				return {
@@ -51,16 +59,19 @@ module.exports = {
 				}
 			}
 
-			const statuses = [`${user} засыпает под`, `${user} наслаждается этим`, `${user} чиллит под`, `${user} отдыхает вместе с этим`]
-			const isNowPlaying = data[0][`@attr`]?.nowplaying
-			const status = isNowPlaying
-				? `${bb.utils.randArr(statuses)} \u{25B6}`
-				: `Последний сыгранный у ${user} (${bb.utils.humanizer(decreaseHours(new Date(), 3) - new Date(data[0].date[`#text`]), {
-						largest: 2
-				  })} назад) \u{23EF}`
+			const mapped = data.map(i => `${i.artist.name} - ${i.name} (${i.playcount})`)
+			const all = mapped.join(` \u{2027} `)
+
+			if (all.length > 500) {
+				const post = await bb.paste(mapped.join(`\n`), true)
+				return {
+					text: `Ответ слишком длинный: ${post}`,
+					reply: true
+				}
+			}
 
 			return {
-				text: `${status} ${data[0].artist.name} - ${data[0].name}`,
+				text: `Топ треков у ${user}: ${all}`,
 				reply: true
 			}
 		} catch (e) {

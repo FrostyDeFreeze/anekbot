@@ -16,7 +16,9 @@ module.exports = {
 
 			if (user === null) {
 				return {
-					text: `Пользователь ${bb.utils.parseUser(ctx.args[0])} не привязал свой LastFM аккаунт`,
+					text: `Пользователь ${bb.utils.parseUser(
+						ctx.args[0]
+					)} не привязал свой LastFM аккаунт \u{2027} Гайд: https://i.dankfreeze.space/fm-guide.txt`,
 					reply: true
 				}
 			}
@@ -28,7 +30,7 @@ module.exports = {
 
 		if (!user) {
 			return {
-				text: `Пользователь не привязал(а) свой аккаунт last.fm \u{2027} Для привязки используйте ${bb.config.Bot.Prefix}link fm никнейм`,
+				text: `Пользователь не привязал(а) свой аккаунт last.fm \u{2027} Гайд: https://i.dankfreeze.space/fm-guide.txt`,
 				reply: true
 			}
 		}

@@ -10,9 +10,11 @@ module.exports = {
 	async execute(client, ctx, utils) {
 		const data = bb.utils.loadFMData()
 		let user
+		let text = ctx.args.join(` `)
 
 		if (ctx.args[0]?.startsWith(`@`)) {
 			user = bb.utils.findFMData(bb.utils.parseUser(ctx.args[0]))
+			text = ctx.args.slice(1).join(` `)
 
 			if (user === null) {
 				return {
@@ -25,7 +27,7 @@ module.exports = {
 
 			user = user.fmLogin
 		} else {
-			user = ctx.args[0] ?? data[ctx.user.id]?.fmLogin
+			user = data[ctx.user.id]?.fmLogin
 		}
 
 		if (!user) {
@@ -58,7 +60,7 @@ module.exports = {
 				  })} назад) \u{23EF}`
 
 			return {
-				text: `${status} ${data[0].artist.name} - ${data[0].name}`,
+				text: `${status} ${data[0].artist.name} - ${data[0].name}${text ? ` | ${text}` : ``}`,
 				reply: true
 			}
 		} catch (e) {

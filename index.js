@@ -135,19 +135,23 @@ client.on(`PRIVMSG`, async msg => {
 		tags: msg.ircTags,
 		prefix: bb.config.Bot.Prefix,
 		timestamp: msg.serverTimestampRaw,
-		send: async function (message, reply, channel) {
+		send: async function (message, reply, emoji, channel) {
 			let id = this.msg.id ? this.msg.id : ``
+			let find = emoji ? bb.utils.coins.getUser(this.user.id, this.channel.id)?.emoji : false
+
 			if (this.msg.raw.includes(`reply-parent-msg-id=`)) {
 				const match = /reply-parent-msg-id=([^;]+)/i.exec(this.msg.raw)
 				if (match) {
 					id = match[1]
 				}
 			}
+
 			message = bb.utils.fit(message, 470)
 			reply = reply ? `;reply-parent-msg-id=${id}` : ``
+			emoji = find ? `${find} ` : ``
 			channel = channel ? channel : this.channel.login
 
-			client.sendRaw(`@sent-ts=${ts}${reply} PRIVMSG #${channel} :${message}`)
+			client.sendRaw(`@sent-ts=${ts}${reply} PRIVMSG #${channel} :${emoji}${message}`)
 		}
 	}
 
@@ -261,7 +265,7 @@ client.on(`PRIVMSG`, async msg => {
 			const result = await command.execute(bb.client, ctx, bb.utils)
 
 			if (result) {
-				await ctx.send(result.text.replace(/\n|\r/g, ` `), result.reply, result.channel)
+				await ctx.send(result.text.replace(/\n|\r/g, ` `), result.reply, result.emoji, result.channel)
 			}
 
 			bb.misc.issuedCommands++

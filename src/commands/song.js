@@ -21,7 +21,8 @@ module.exports = {
 					text: `Пользователь ${bb.utils.parseUser(
 						ctx.args[0]
 					)} не привязал свой LastFM аккаунт \u{2027} Гайд: https://i.dankfreeze.space/fm-guide.txt`,
-					reply: true
+					reply: true,
+					emoji: true
 				}
 			}
 
@@ -33,7 +34,8 @@ module.exports = {
 		if (!user) {
 			return {
 				text: `Пользователь не привязал(а) свой аккаунт last.fm \u{2027} Гайд: https://i.dankfreeze.space/fm-guide.txt`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 
@@ -47,7 +49,8 @@ module.exports = {
 			if (data.length === 0) {
 				return {
 					text: `У ${user} нет недавних треков`,
-					reply: true
+					reply: true,
+					emoji: true
 				}
 			}
 
@@ -61,14 +64,16 @@ module.exports = {
 
 			return {
 				text: `${status} ${data[0].artist.name} - ${data[0].name}${text ? ` | ${text}` : ``}`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		} catch (e) {
 			bb.logger.error(`[${this.name.toUpperCase()}] ${e.message}`)
 			if (e.response.statusCode === 404) {
 				return {
 					text: `LastFm пользователь не найден`,
-					reply: true
+					reply: true,
+					emoji: true
 				}
 			}
 			return {

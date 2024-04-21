@@ -28,7 +28,8 @@ module.exports = {
 
 		return {
 			text: `У тебя остались доступные способы заработка \u{2027} ${result}`,
-			reply: true
+			reply: true,
+			emoji: true
 		}
 	}
 }

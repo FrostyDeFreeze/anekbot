@@ -24,7 +24,8 @@ module.exports = {
 
 		return {
 			text: `${response} aga \u{1F3D3} ${ping}мс \u{2027} Не сплю уже ${uptime} \u{2027} Использую ${usage}% ваших нервов \u{2027} Каналы: ${channels} \u{2027} Приказов выполнил: ${issued} \u{2027} Пользователей обнаружил: ${users}`,
-			reply: true
+			reply: true,
+			emoji: true
 		}
 	}
 }

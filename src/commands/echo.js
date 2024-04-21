@@ -22,7 +22,7 @@ module.exports = {
 		}
 
 		try {
-			ctx.send(text, false, channelTarget)
+			ctx.send(text, false, false, channelTarget)
 		} catch (e) {
 			bb.logger.error(`[${this.name.toUpperCase()}] ${e.message}`)
 			return {

@@ -14,14 +14,16 @@ module.exports = {
 		if (!user) {
 			return {
 				text: `Пользователь выдуман`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 
 		if (!channel) {
 			return {
 				text: `Канал выдуман`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 
@@ -88,8 +90,9 @@ module.exports = {
 
 			if (response.statusHidden === null || response.statusHidden === true) {
 				return {
-					text: `\u{274C} Статус сабочки скрыт`,
-					reply: true
+					text: `Статус сабочки скрыт`,
+					reply: true,
+					emoji: true
 				}
 			}
 
@@ -101,18 +104,18 @@ module.exports = {
 
 				if (old === null || !old.months || old.months === 0) {
 					return {
-						text: `\u{274C} ${uPronouns} никогда не ловил(а) подарочную сабочку на ${cPronouns} \u{2027} ${bb.utils.randArr(
-							neverSubbed
-						)}`,
-						reply: true
+						text: `${uPronouns} никогда не ловил(а) подарочную сабочку на ${cPronouns} \u{2027} ${bb.utils.randArr(neverSubbed)}`,
+						reply: true,
+						emoji: true
 					}
 				} else {
 					const end = bb.utils.humanizer(new Date().getTime() - Date.parse(old.end))
 
 					return {
-						text: `\u{274C} ${uPronouns} был(а) подписан(а) на ${cPronouns} в течение ${old.months} месяцев \u{2027} 
+						text: `${uPronouns} был(а) подписан(а) на ${cPronouns} в течение ${old.months} месяцев \u{2027} 
 						Сабочка кончилась ${end} назад \u{2027} ${bb.utils.randArr(expiredSub)}`,
-						reply: true
+						reply: true,
+						emoji: true
 					}
 				}
 			} else {
@@ -124,37 +127,41 @@ module.exports = {
 
 				if (meta.tier === `Custom`) {
 					return {
-						text: `\u{2705} ${uPronouns} подписан(а) на ${cPronouns} кастомной сабочкой в течение ${cumulative.months} 
+						text: `${uPronouns} подписан(а) на ${cPronouns} кастомной сабочкой в течение ${cumulative.months} 
 						месяцев`,
-						reply: true
+						reply: true,
+						emoji: true
 					}
 				}
 
 				if (meta.endsAt === null) {
 					return {
-						text: `\u{2705} ${uPronouns} подписан(а) на ${cPronouns} перманентной сабочкой в течение ${cumulative.months} 
+						text: `${uPronouns} подписан(а) на ${cPronouns} перманентной сабочкой в течение ${cumulative.months} 
 						месяцев \u{2027} Юбилей сабочки наступит через ${anniversary}`,
-						reply: true
+						reply: true,
+						emoji: true
 					}
 				}
 
 				if (meta.type === `paid`) {
 					return {
-						text: `\u{2705} ${uPronouns} подписан(а) на ${cPronouns} платной сабочкой ${meta.tier} уровня в течение ${
+						text: `${uPronouns} подписан(а) на ${cPronouns} платной сабочкой ${meta.tier} уровня в течение ${
 							cumulative.months
 						} месяцев \u{2027} 
 						Юбилей сабочки наступит через ${anniversary} \u{2027} Сабочка кончится/возобновится через ${end} \u{2027} ${bb.utils.randArr(paidSub)}`,
-						reply: true
+						reply: true,
+						emoji: true
 					}
 				}
 
 				if (meta.type === `prime`) {
 					return {
-						text: `\u{2705} ${uPronouns} подписан(а) на ${cPronouns} Prime сабочкой в течение ${
+						text: `${uPronouns} подписан(а) на ${cPronouns} Prime сабочкой в течение ${
 							cumulative.months
 						} месяцев \u{2027} Юбилей сабочки наступит через ${anniversary} \u{2027} 
 						Сабочка кончится/возобновится через ${end} \u{2027} ${bb.utils.randArr(primeSub)}`,
-						reply: true
+						reply: true,
+						emoji: true
 					}
 				}
 
@@ -162,12 +169,13 @@ module.exports = {
 					const gifter = meta.giftMeta.gifter === null ? `Анонима` : bb.utils.unping(meta.giftMeta.gifter.login)
 
 					return {
-						text: `\u{2705} ${uPronouns} получил(а) подарочную сабочку ${meta.tier} уровня от ${gifter} и теперь подписан(а) в течение ${
+						text: `${uPronouns} получил(а) подарочную сабочку ${meta.tier} уровня от ${gifter} и теперь подписан(а) в течение ${
 							cumulative.months
 						} месяцев \u{2027} Юбилей сабочки наступит через ${anniversary} \u{2027} Сабочка кончится/возобновится через ${end} \u{2027} ${bb.utils.randArr(
 							giftedSub
 						)}`,
-						reply: true
+						reply: true,
+						emoji: true
 					}
 				}
 			}

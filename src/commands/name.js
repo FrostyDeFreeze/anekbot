@@ -11,14 +11,16 @@ module.exports = {
 		if (!name) {
 			return {
 				text: `Укажи новое отображаемое имя aga`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 
 		if (name.toLowerCase() !== bb.config.Bot.Login) {
 			return {
 				text: `В моём имени можно изменить только регистр aga`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 
@@ -28,7 +30,8 @@ module.exports = {
 
 			return {
 				text: `Сделано, босс \u{1F60E}`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		} else {
 			const userData = bb.utils.coins.getUser(ctx.user.id, ctx.channel.id)
@@ -44,7 +47,8 @@ module.exports = {
 					text: `Отображаемое имя успешно изменено \u{2027} Я списал с твоего баланса ${price} монет \u{2027} Твой текущий баланс: ${(
 						balance - price
 					).toFixed(1)}`,
-					reply: true
+					reply: true,
+					emoji: true
 				}
 			} else {
 				const diff = (price - balance).toFixed(1)
@@ -53,7 +57,8 @@ module.exports = {
 					text: `Недостаточно монет для изменения моего отображаемого имени \u{2027} Необходимо: ${price} \u{2027} У тебя: ${balance.toFixed(
 						1
 					)} \u{2027} Осталось накопить: ${diff}`,
-					reply: true
+					reply: true,
+					emoji: true
 				}
 			}
 		}

@@ -126,6 +126,12 @@ module.exports = {
 		this.saveData(data)
 	},
 
+	setEmoji: function (userID, channelID, emoji) {
+		const data = this.loadData()
+		data[channelID].users[userID].emoji = emoji
+		this.saveData(data)
+	},
+
 	setRank: function (userID, channelID, rank) {
 		const data = this.loadData()
 		data[channelID].users[userID].rank = rank

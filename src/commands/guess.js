@@ -15,7 +15,8 @@ module.exports = {
 
 			return {
 				text: `Использовать команду можно раз в 8 часов \u{2027} Возвращайся через ${bb.utils.humanizer(time)}`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 
@@ -25,7 +26,8 @@ module.exports = {
 		if (!userNum || isNaN(userNum) || ![1, 2].includes(userNum)) {
 			return {
 				text: `Необходимо указать число: 1 или 2`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 
@@ -37,7 +39,8 @@ module.exports = {
 				text: `Поздравляю, ты угадал(а), за правильный ответ начислил тебе 50 монет \u{2027} Твой текущий баланс: ${(
 					userData.coins + 50
 				).toFixed(1)} \u{2027} Следующая попытка через 8 часов`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		} else {
 			bb.utils.coins.setLastGuess(ctx.user.id, ctx.channel.id, currTime)
@@ -48,7 +51,8 @@ module.exports = {
 
 			return {
 				text: `В этот раз не повезло, приходи через 8 часов!`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 	}

@@ -30,7 +30,8 @@ module.exports = {
 		if (!decision || !(decision in choices)) {
 			return {
 				text: `Укажи один из вариантов: ${Object.keys(choices).join(`, `)}`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 
@@ -40,7 +41,8 @@ module.exports = {
 		if (decision === pick) {
 			return {
 				text: `Ничья! \u{2694}\u{FE0F}`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 
@@ -50,7 +52,8 @@ module.exports = {
 				text: `Ты выиграл(а)! \u{1F612} \u{2027} За победу начислил тебе ${cash} монет \u{2027} Твой текущий баланс: ${(
 					userData.coins + cash
 				).toFixed(1)}`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		} else {
 			bb.utils.coins.removeCoins(ctx.user.id, ctx.channel.id, cash)
@@ -58,7 +61,8 @@ module.exports = {
 				text: `Ты проиграл(а) \u{1F61D} \u{2027} За проигрыш отнял у тебя ${cash} монет \u{2027} Твой текущий баланс: ${(
 					userData.coins - cash
 				).toFixed(1)}`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 	}

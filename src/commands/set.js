@@ -15,7 +15,8 @@ module.exports = {
 			const currAct = promoData.activations
 			return {
 				text: `Текущий код: ${currCode} \u{2027} Количество активаций: ${currAct !== null ? currAct : `неограниченно`}`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 
@@ -23,7 +24,8 @@ module.exports = {
 
 		return {
 			text: `Промокод ${promo} успешно установлен \u{2027} Количество активаций: ${activations !== null ? activations : `неограниченно`}`,
-			reply: true
+			reply: true,
+			emoji: true
 		}
 	}
 }

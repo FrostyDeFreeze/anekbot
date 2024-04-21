@@ -13,7 +13,8 @@ module.exports = {
 		if (!input) {
 			return {
 				text: `Необходимо указать название книги для получения информации`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 
@@ -29,14 +30,16 @@ module.exports = {
 			if (search.status !== `Received`) {
 				return {
 					text: `Ошибка при поиске: ${search.status}`,
-					reply: true
+					reply: true,
+					emoji: true
 				}
 			}
 
 			if (!search.result.length) {
 				return {
 					text: `Ничего не нашлось`,
-					reply: true
+					reply: true,
+					emoji: true
 				}
 			}
 
@@ -55,7 +58,8 @@ module.exports = {
 			if (info.statusCode !== 200) {
 				return {
 					text: `Ошибка при получении книги: ${info.status}`,
-					reply: true
+					reply: true,
+					emoji: true
 				}
 			}
 
@@ -81,7 +85,8 @@ module.exports = {
 
 			return {
 				text: result,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		} catch (e) {
 			bb.logger.error(`[${this.name.toUpperCase()}] ${e.message}`)

@@ -8,7 +8,8 @@ module.exports = {
 	async execute(client, ctx, utils) {
 		return {
 			text: `Список моих команд и другая полезная информация: https://i.dankfreeze.space/boomboty.txt anek02Knife`,
-			reply: true
+			reply: true,
+			emoji: true
 		}
 	}
 }

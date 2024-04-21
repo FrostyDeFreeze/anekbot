@@ -20,7 +20,8 @@ module.exports = {
 				if (currRank === 10 || !nextRankCost) {
 					return {
 						text: `Ты достиг последнего ${currRank} ранга. Лечись, бро`,
-						reply: true
+						reply: true,
+						emoji: true
 					}
 				}
 
@@ -31,7 +32,8 @@ module.exports = {
 						)} \u{2027} Необходимо: ${nextRankCost} \u{2027} У тебя: ${balance.toFixed(1)} \u{2027} Осталось накопить: ${(
 							nextRankCost - balance
 						).toFixed(1)}`,
-						reply: true
+						reply: true,
+						emoji: true
 					}
 				}
 
@@ -42,7 +44,8 @@ module.exports = {
 					text: `Ты успешно повысил(а) свой ранг до ${getRankInfo(nextRank)} \u{2027} Баланс: ${(userData.coins - nextRankCost).toFixed(
 						1
 					)}`,
-					reply: true
+					reply: true,
+					emoji: true
 				}
 			}
 
@@ -71,7 +74,8 @@ module.exports = {
 
 				return {
 					text: result,
-					reply: true
+					reply: true,
+					emoji: true
 				}
 			}
 		}

@@ -42,7 +42,8 @@ module.exports = {
 				if (!input) {
 					return {
 						text: `Укажи фильм для поиска`,
-						reply: true
+						reply: true,
+						emoji: true
 					}
 				}
 
@@ -63,7 +64,8 @@ module.exports = {
 					if (!results.length) {
 						return {
 							text: `Ничего не нашлось`,
-							reply: true
+							reply: true,
+							emoji: true
 						}
 					}
 
@@ -98,7 +100,8 @@ module.exports = {
 
 					return {
 						text: result,
-						reply: true
+						reply: true,
+						emoji: true
 					}
 				} catch (e) {
 					bb.logger.error(`[${this.name.toUpperCase()}] ${e.message}`)
@@ -115,7 +118,8 @@ module.exports = {
 				if (!input) {
 					return {
 						text: `Необходимо указать жанры через пробел \u{2027} Доступные жанры: ${genres.map(i => i.name).join(`, `)}`,
-						reply: true
+						reply: true,
+						emoji: true
 					}
 				}
 
@@ -127,7 +131,8 @@ module.exports = {
 				if (genreIds.some(id => id === null)) {
 					return {
 						text: `Некоторые из введённых жанров не найдены \u{2027} Доступные жанры: ${genres.map(i => i.name).join(`, `)}`,
-						reply: true
+						reply: true,
+						emoji: true
 					}
 				}
 
@@ -155,7 +160,8 @@ module.exports = {
 					if (!movies.length) {
 						return {
 							text: `Ничего не нашлось`,
-							reply: true
+							reply: true,
+							emoji: true
 						}
 					}
 
@@ -191,7 +197,8 @@ module.exports = {
 
 					return {
 						text: result,
-						reply: true
+						reply: true,
+						emoji: true
 					}
 				} catch (e) {
 					bb.logger.error(`[${this.name.toUpperCase()}] ${e.message}`)

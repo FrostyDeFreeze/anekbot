@@ -11,7 +11,8 @@ module.exports = {
 		if (stvChannel.errors) {
 			return {
 				text: `Ошибка получения ${ctx.channel.login}: ${stvChannel.errors[0].message}`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 
@@ -21,7 +22,8 @@ module.exports = {
 
 		return {
 			text: `Эмоут, описывающий тебя сегодня — ${randEmote.name}`,
-			reply: true
+			reply: true,
+			emoji: true
 		}
 	}
 }

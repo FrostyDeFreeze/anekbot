@@ -17,14 +17,16 @@ module.exports = {
 
 			return {
 				text: `Активировать промокод можно раз в 24 часа \u{2027} Возвращайся через ${bb.utils.humanizer(time)}`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 
 		if (!currCode) {
 			return {
 				text: `В данный момент нет активного промокода`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 
@@ -33,7 +35,8 @@ module.exports = {
 		if (!promocode) {
 			return {
 				text: `Укажи промокод для активации aga \u{2027} Подсказка: ${bb.utils.shuffleWord(currCode)}`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 
@@ -44,7 +47,8 @@ module.exports = {
 			if (activations === activatedUsers.length) {
 				return {
 					text: `Увы, лимит активаций для этого промокода был достигнут`,
-					reply: true
+					reply: true,
+					emoji: true
 				}
 			}
 
@@ -56,12 +60,14 @@ module.exports = {
 				text: `Промокод успешно активирован, начислил тебе 50 монет \u{2027} Твой текущий баланс: ${(userData.coins + 50).toFixed(
 					1
 				)} \u{2027} Следующая активация будет доступна через 24 часа`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		} else {
 			return {
 				text: `Я не знаю такого промокода \u{2027} Подсказка: ${bb.utils.shuffleWord(currCode)}`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 	}

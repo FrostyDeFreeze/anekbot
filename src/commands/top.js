@@ -17,7 +17,8 @@ module.exports = {
 		if (top.length === 0) {
 			return {
 				text: `На канале нет пользователей в топе`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 
@@ -32,7 +33,8 @@ module.exports = {
 
 		return {
 			text: formatted.join(` \u{2027} `),
-			reply: true
+			reply: true,
+			emoji: true
 		}
 	}
 }

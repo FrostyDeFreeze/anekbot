@@ -17,7 +17,8 @@ module.exports = {
 
 			return {
 				text: `Твой текущий цвет: ${userColor} \u{2027} ${url}`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 
@@ -27,7 +28,8 @@ module.exports = {
 			if (user.data.user === null) {
 				return {
 					text: `Пользователь не существует`,
-					reply: true
+					reply: true,
+					emoji: true
 				}
 			}
 
@@ -36,14 +38,16 @@ module.exports = {
 
 			return {
 				text: `Текущий цвет ${bb.utils.unping(user.data.user.login)}: ${userColor} \u{2027} ${url}`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 
 		if (/^#([a-f0-9]{6}|[a-f0-9]{3})$/i.test(ctx.args[0]) === false) {
 			return {
 				text: `Это не похоже на HEX код aga`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		}
 
@@ -53,7 +57,8 @@ module.exports = {
 			if (update.errors && update.data.updateChatColor === null) {
 				return {
 					text: `У меня нет Прайма aga`,
-					reply: true
+					reply: true,
+					emoji: true
 				}
 			}
 
@@ -61,7 +66,8 @@ module.exports = {
 
 			return {
 				text: `Сделано, босс \u{1F60E}`,
-				reply: true
+				reply: true,
+				emoji: true
 			}
 		} else {
 			const userData = bb.utils.coins.getUser(ctx.user.id, ctx.channel.id)
@@ -74,7 +80,8 @@ module.exports = {
 				if (update.errors && update.data.updateChatColor === null) {
 					return {
 						text: `У меня нет Прайма aga`,
-						reply: true
+						reply: true,
+						emoji: true
 					}
 				}
 
@@ -85,7 +92,8 @@ module.exports = {
 					text: `Цвет успешно изменён на ${color.toUpperCase()} \u{2027} Я списал с твоего баланса ${price} монет \u{2027} Твой текущий баланс: ${(
 						balance - price
 					).toFixed(1)}`,
-					reply: true
+					reply: true,
+					emoji: true
 				}
 			} else {
 				const diff = (price - balance).toFixed(1)
@@ -94,7 +102,8 @@ module.exports = {
 					text: `Недостаточно монет для изменения моего цвета \u{2027} Необходимо: ${price} \u{2027} У тебя: ${balance.toFixed(
 						1
 					)} \u{2027} Осталось накопить: ${diff}`,
-					reply: true
+					reply: true,
+					emoji: true
 				}
 			}
 		}

@@ -32,6 +32,13 @@ module.exports = {
 			}
 		}
 
+		if (bb.utils.ucLen(emoji) > 1) {
+			return {
+				text: `Составные эмодзи не поддерживаются`,
+				reply: true
+			}
+		}
+
 		const emojiRegex = /\p{Emoji}/u
 		const firstEmoji = emoji.match(emojiRegex)[0]
 

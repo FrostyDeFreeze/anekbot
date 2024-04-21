@@ -81,6 +81,21 @@ exports.translate = async (text, from, to) => {
 	return translation
 }
 
+exports.ucLen = str => {
+	let len = 0
+	for (let index of str) {
+		let point = str.codePointAt(index)
+		let width = 0
+		while (point) {
+			width += 1
+			point >>= 8
+		}
+		index += Math.round(width * 0.5)
+		len += 1
+	}
+	return len
+}
+
 exports.unping = user => `${user[0]}\u{E0000}${user.slice(1)}`
 
 exports.upload = async (text, type) => {

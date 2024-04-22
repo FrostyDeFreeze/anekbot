@@ -36,7 +36,6 @@ module.exports = {
 		}
 
 		const pick = bb.utils.randArr(Object.keys(choices))
-		const cash = randNum(5, 10)
 
 		if (decision === pick) {
 			return {
@@ -47,19 +46,21 @@ module.exports = {
 		}
 
 		if (choices[decision].beats === pick) {
-			bb.utils.coins.addCoins(ctx.user.id, ctx.channel.id, cash)
+			const winCash = randNum(5, 50)
+			bb.utils.coins.addCoins(ctx.user.id, ctx.channel.id, winCash)
 			return {
-				text: `Ты выиграл(а)! \u{1F612} \u{2027} За победу начислил тебе ${cash} монет \u{2027} Твой текущий баланс: ${(
-					userData.coins + cash
+				text: `Ты выиграл(а)! \u{1F612} \u{2027} За победу начислил тебе ${winCash} монет \u{2027} Твой текущий баланс: ${(
+					userData.coins + winCash
 				).toFixed(1)}`,
 				reply: true,
 				emoji: true
 			}
 		} else {
-			bb.utils.coins.removeCoins(ctx.user.id, ctx.channel.id, cash)
+			const loseCash = randNum(5, 10)
+			bb.utils.coins.removeCoins(ctx.user.id, ctx.channel.id, loseCash)
 			return {
-				text: `Ты проиграл(а) \u{1F61D} \u{2027} За проигрыш отнял у тебя ${cash} монет \u{2027} Твой текущий баланс: ${(
-					userData.coins - cash
+				text: `Ты проиграл(а) \u{1F61D} \u{2027} За проигрыш отнял у тебя ${loseCash} монет \u{2027} Твой текущий баланс: ${(
+					userData.coins - loseCash
 				).toFixed(1)}`,
 				reply: true,
 				emoji: true

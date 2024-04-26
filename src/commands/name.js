@@ -12,7 +12,8 @@ module.exports = {
 			return {
 				text: `Укажи новое отображаемое имя aga`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 
@@ -20,7 +21,8 @@ module.exports = {
 			return {
 				text: `В моём имени можно изменить только регистр aga`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 
@@ -31,7 +33,8 @@ module.exports = {
 			return {
 				text: `Сделано, босс \u{1F60E}`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		} else {
 			const userData = bb.utils.coins.getUser(ctx.user.id, ctx.channel.id)
@@ -48,7 +51,8 @@ module.exports = {
 						balance - price
 					).toFixed(1)}`,
 					reply: true,
-					emoji: true
+					emoji: true,
+					action: true
 				}
 			} else {
 				const diff = (price - balance).toFixed(1)
@@ -58,7 +62,8 @@ module.exports = {
 						1
 					)} \u{2027} Осталось накопить: ${diff}`,
 					reply: true,
-					emoji: true
+					emoji: true,
+					action: true
 				}
 			}
 		}

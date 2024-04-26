@@ -15,7 +15,8 @@ module.exports = {
 			return {
 				text: `Пользователь выдуман`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 
@@ -23,7 +24,8 @@ module.exports = {
 			return {
 				text: `Канал выдуман`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 
@@ -92,7 +94,8 @@ module.exports = {
 				return {
 					text: `Статус сабочки скрыт`,
 					reply: true,
-					emoji: true
+					emoji: true,
+					action: true
 				}
 			}
 
@@ -106,7 +109,8 @@ module.exports = {
 					return {
 						text: `${uPronouns} никогда не ловил(а) подарочную сабочку на ${cPronouns} \u{2027} ${bb.utils.randArr(neverSubbed)}`,
 						reply: true,
-						emoji: true
+						emoji: true,
+						action: true
 					}
 				} else {
 					const end = bb.utils.humanizer(new Date().getTime() - Date.parse(old.end))
@@ -115,7 +119,8 @@ module.exports = {
 						text: `${uPronouns} был(а) подписан(а) на ${cPronouns} в течение ${old.months} месяцев \u{2027} 
 						Сабочка кончилась ${end} назад \u{2027} ${bb.utils.randArr(expiredSub)}`,
 						reply: true,
-						emoji: true
+						emoji: true,
+						action: true
 					}
 				}
 			} else {
@@ -130,7 +135,8 @@ module.exports = {
 						text: `${uPronouns} подписан(а) на ${cPronouns} кастомной сабочкой в течение ${cumulative.months} 
 						месяцев`,
 						reply: true,
-						emoji: true
+						emoji: true,
+						action: true
 					}
 				}
 
@@ -139,7 +145,8 @@ module.exports = {
 						text: `${uPronouns} подписан(а) на ${cPronouns} перманентной сабочкой в течение ${cumulative.months} 
 						месяцев \u{2027} Юбилей сабочки наступит через ${anniversary}`,
 						reply: true,
-						emoji: true
+						emoji: true,
+						action: true
 					}
 				}
 
@@ -150,7 +157,8 @@ module.exports = {
 						} месяцев \u{2027} 
 						Юбилей сабочки наступит через ${anniversary} \u{2027} Сабочка кончится/возобновится через ${end} \u{2027} ${bb.utils.randArr(paidSub)}`,
 						reply: true,
-						emoji: true
+						emoji: true,
+						action: true
 					}
 				}
 
@@ -161,7 +169,8 @@ module.exports = {
 						} месяцев \u{2027} Юбилей сабочки наступит через ${anniversary} \u{2027} 
 						Сабочка кончится/возобновится через ${end} \u{2027} ${bb.utils.randArr(primeSub)}`,
 						reply: true,
-						emoji: true
+						emoji: true,
+						action: true
 					}
 				}
 
@@ -175,7 +184,8 @@ module.exports = {
 							giftedSub
 						)}`,
 						reply: true,
-						emoji: true
+						emoji: true,
+						action: true
 					}
 				}
 			}

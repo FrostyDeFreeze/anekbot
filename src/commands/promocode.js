@@ -18,7 +18,8 @@ module.exports = {
 			return {
 				text: `Активировать промокод можно раз в 24 часа \u{2027} Возвращайся через ${bb.utils.humanizer(time)}`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 
@@ -26,7 +27,8 @@ module.exports = {
 			return {
 				text: `В данный момент нет активного промокода`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 
@@ -36,7 +38,8 @@ module.exports = {
 			return {
 				text: `Укажи промокод для активации aga \u{2027} Подсказка: ${bb.utils.shuffleWord(currCode)}`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 
@@ -48,7 +51,8 @@ module.exports = {
 				return {
 					text: `Увы, лимит активаций для этого промокода был достигнут`,
 					reply: true,
-					emoji: true
+					emoji: true,
+					action: true
 				}
 			}
 
@@ -61,13 +65,15 @@ module.exports = {
 					1
 				)} \u{2027} Следующая активация будет доступна через 24 часа`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		} else {
 			return {
 				text: `Я не знаю такого промокода \u{2027} Подсказка: ${bb.utils.shuffleWord(currCode)}`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 	}

@@ -30,7 +30,8 @@ module.exports = {
 						ctx.args[0]
 					)} не привязал свой LastFM аккаунт \u{2027} Гайд: https://i.dankfreeze.space/fm-guide.txt`,
 					reply: true,
-					emoji: true
+					emoji: true,
+					action: true
 				}
 			}
 
@@ -43,7 +44,8 @@ module.exports = {
 			return {
 				text: `Пользователь не привязал свой аккаунт last.fm \u{2027} Гайд: https://i.dankfreeze.space/fm-guide.txt`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 
@@ -60,7 +62,8 @@ module.exports = {
 				return {
 					text: `У ${user} нет недавних треков`,
 					reply: true,
-					emoji: true
+					emoji: true,
+					action: true
 				}
 			}
 
@@ -72,14 +75,16 @@ module.exports = {
 				return {
 					text: `Ответ слишком длинный: ${post}`,
 					reply: true,
-					emoji: true
+					emoji: true,
+					action: true
 				}
 			}
 
 			return {
 				text: `Топ треков у ${user}: ${all}`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		} catch (e) {
 			bb.logger.error(`[${this.name.toUpperCase()}] ${e.message}`)
@@ -87,7 +92,8 @@ module.exports = {
 				return {
 					text: `LastFm пользователь не найден`,
 					reply: true,
-					emoji: true
+					emoji: true,
+					action: true
 				}
 			}
 			return {

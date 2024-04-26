@@ -110,7 +110,8 @@ module.exports = {
 		return {
 			text: result,
 			reply: true,
-			emoji: true
+			emoji: true,
+			action: true
 		}
 	}
 }

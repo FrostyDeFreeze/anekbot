@@ -16,7 +16,8 @@ module.exports = {
 			return {
 				text: `Текущий код: ${currCode} \u{2027} Количество активаций: ${currAct !== null ? currAct : `неограниченно`}`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 
@@ -25,7 +26,8 @@ module.exports = {
 		return {
 			text: `Промокод ${promo} успешно установлен \u{2027} Количество активаций: ${activations !== null ? activations : `неограниченно`}`,
 			reply: true,
-			emoji: true
+			emoji: true,
+			action: true
 		}
 	}
 }

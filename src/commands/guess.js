@@ -16,7 +16,8 @@ module.exports = {
 			return {
 				text: `Использовать команду можно раз в 8 часов \u{2027} Возвращайся через ${bb.utils.humanizer(time)}`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 
@@ -27,7 +28,8 @@ module.exports = {
 			return {
 				text: `Необходимо указать число: 1 или 2`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 
@@ -40,7 +42,8 @@ module.exports = {
 					userData.coins + 50
 				).toFixed(1)} \u{2027} Следующая попытка через 8 часов`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		} else {
 			bb.utils.coins.setLastGuess(ctx.user.id, ctx.channel.id, currTime)
@@ -52,7 +55,8 @@ module.exports = {
 			return {
 				text: `В этот раз не повезло, приходи через 8 часов!`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 	}

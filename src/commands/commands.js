@@ -9,7 +9,8 @@ module.exports = {
 		return {
 			text: `Список моих команд и другая полезная информация: https://i.dankfreeze.space/boomboty.txt anek02Knife`,
 			reply: true,
-			emoji: true
+			emoji: true,
+			action: true
 		}
 	}
 }

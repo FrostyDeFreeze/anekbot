@@ -14,7 +14,8 @@ module.exports = {
 			return {
 				text: `Необходимо указать название книги для получения информации`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 
@@ -31,7 +32,8 @@ module.exports = {
 				return {
 					text: `Ошибка при поиске: ${search.status}`,
 					reply: true,
-					emoji: true
+					emoji: true,
+					action: true
 				}
 			}
 
@@ -39,7 +41,8 @@ module.exports = {
 				return {
 					text: `Ничего не нашлось`,
 					reply: true,
-					emoji: true
+					emoji: true,
+					action: true
 				}
 			}
 
@@ -59,7 +62,8 @@ module.exports = {
 				return {
 					text: `Ошибка при получении книги: ${info.status}`,
 					reply: true,
-					emoji: true
+					emoji: true,
+					action: true
 				}
 			}
 
@@ -86,7 +90,8 @@ module.exports = {
 			return {
 				text: result,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		} catch (e) {
 			bb.logger.error(`[${this.name.toUpperCase()}] ${e.message}`)

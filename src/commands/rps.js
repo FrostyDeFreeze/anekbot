@@ -31,7 +31,8 @@ module.exports = {
 			return {
 				text: `Укажи один из вариантов: ${Object.keys(choices).join(`, `)}`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 
@@ -41,29 +42,33 @@ module.exports = {
 			return {
 				text: `Ничья! \u{2694}\u{FE0F}`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 
+		const winCash = randNum(5, 50)
+		const loseCash = randNum(5, 10)
+
 		if (choices[decision].beats === pick) {
-			const winCash = randNum(5, 50)
 			bb.utils.coins.addCoins(ctx.user.id, ctx.channel.id, winCash)
 			return {
 				text: `Ты выиграл(а)! \u{1F612} \u{2027} За победу начислил тебе ${winCash} монет \u{2027} Твой текущий баланс: ${(
 					userData.coins + winCash
 				).toFixed(1)}`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		} else {
-			const loseCash = randNum(5, 10)
 			bb.utils.coins.removeCoins(ctx.user.id, ctx.channel.id, loseCash)
 			return {
 				text: `Ты проиграл(а) \u{1F61D} \u{2027} За проигрыш отнял у тебя ${loseCash} монет \u{2027} Твой текущий баланс: ${(
 					userData.coins - loseCash
 				).toFixed(1)}`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 	}

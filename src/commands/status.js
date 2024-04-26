@@ -11,7 +11,9 @@ module.exports = {
 		if (!available.length) {
 			return {
 				text: `Каналов с доступными догадкой или промокодом нет`,
-				reply: true
+				reply: true,
+				emoji: true,
+				action: true
 			}
 		}
 
@@ -29,7 +31,8 @@ module.exports = {
 		return {
 			text: `У тебя остались доступные способы заработка \u{2027} ${result}`,
 			reply: true,
-			emoji: true
+			emoji: true,
+			action: true
 		}
 	}
 }

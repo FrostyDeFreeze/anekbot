@@ -1,4 +1,32 @@
-const got = require(`got`)
+const data = require(`../data/colors.json`)
+
+function hexToRGB(hex) {
+	let r = parseInt(hex.slice(1, 3), 16)
+	let g = parseInt(hex.slice(3, 5), 16)
+	let b = parseInt(hex.slice(5, 7), 16)
+	return [r, g, b]
+}
+
+function calculateDist(rgb1, rgb2) {
+	return Math.sqrt(Math.pow(rgb1[0] - rgb2[0], 2) + Math.pow(rgb1[1] - rgb2[1], 2) + Math.pow(rgb1[2] - rgb2[2], 2))
+}
+
+function closestColor(hex) {
+	let rgb = hexToRGB(hex)
+	let closest = null
+	let minDist = Infinity
+
+	data.forEach(color => {
+		let colorRgb = [color.r, color.g, color.b]
+		let distance = calculateDist(rgb, colorRgb)
+		if (distance < minDist) {
+			minDist = distance
+			closest = color.name
+		}
+	})
+
+	return closest
+}
 
 module.exports = {
 	name: `color`,
@@ -12,13 +40,15 @@ module.exports = {
 
 		if (!color) {
 			const user = await bb.services.gql.getUser(ctx.user.login)
-			const userColor = user.data.user.chatColor
-			const url = `singlecolorimage.com/get/${userColor.toLowerCase().replace(`#`, ``)}/1x1.png`
+			const userColor = user.data.user.chatColor ?? `#000000`
+			const colorName = closestColor(userColor)
+			const url = `singlecolorimage.com/get/${userColor.toLowerCase().replace(`#`, ``)}/100x100.png`
 
 			return {
-				text: `Твой текущий цвет: ${userColor} \u{2027} ${url}`,
+				text: `Твой текущий цвет: ${userColor} (${colorName}) \u{2027} ${url}`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 
@@ -29,17 +59,20 @@ module.exports = {
 				return {
 					text: `Пользователь не существует`,
 					reply: true,
-					emoji: true
+					emoji: true,
+					action: true
 				}
 			}
 
-			const userColor = user.data.user.chatColor
-			const url = `singlecolorimage.com/get/${userColor.toLowerCase().replace(`#`, ``)}/1x1.png`
+			const userColor = user.data.user.chatColor ?? `#000000`
+			const colorName = closestColor(userColor)
+			const url = `singlecolorimage.com/get/${userColor.toLowerCase().replace(`#`, ``)}/100x100.png`
 
 			return {
-				text: `Текущий цвет ${bb.utils.unping(user.data.user.login)}: ${userColor} \u{2027} ${url}`,
+				text: `Текущий цвет ${bb.utils.unping(user.data.user.login)}: ${userColor} (${colorName}) \u{2027} ${url}`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 
@@ -47,7 +80,8 @@ module.exports = {
 			return {
 				text: `Это не похоже на HEX код aga`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 
@@ -58,7 +92,8 @@ module.exports = {
 				return {
 					text: `У меня нет Прайма aga`,
 					reply: true,
-					emoji: true
+					emoji: true,
+					action: true
 				}
 			}
 
@@ -67,7 +102,8 @@ module.exports = {
 			return {
 				text: `Сделано, босс \u{1F60E}`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		} else {
 			const userData = bb.utils.coins.getUser(ctx.user.id, ctx.channel.id)
@@ -76,12 +112,14 @@ module.exports = {
 
 			if (balance >= price) {
 				const update = await bb.services.gql.updateColor(color)
+				const colorName = closestColor(color)
 
 				if (update.errors && update.data.updateChatColor === null) {
 					return {
 						text: `У меня нет Прайма aga`,
 						reply: true,
-						emoji: true
+						emoji: true,
+						action: true
 					}
 				}
 
@@ -89,11 +127,12 @@ module.exports = {
 				await bb.utils.sleep(1500)
 
 				return {
-					text: `Цвет успешно изменён на ${color.toUpperCase()} \u{2027} Я списал с твоего баланса ${price} монет \u{2027} Твой текущий баланс: ${(
+					text: `Цвет успешно изменён на ${color.toUpperCase()} (${colorName}) \u{2027} Я списал с твоего баланса ${price} монет \u{2027} Твой текущий баланс: ${(
 						balance - price
 					).toFixed(1)}`,
 					reply: true,
-					emoji: true
+					emoji: true,
+					action: true
 				}
 			} else {
 				const diff = (price - balance).toFixed(1)
@@ -103,7 +142,8 @@ module.exports = {
 						1
 					)} \u{2027} Осталось накопить: ${diff}`,
 					reply: true,
-					emoji: true
+					emoji: true,
+					action: true
 				}
 			}
 		}

@@ -15,7 +15,8 @@ module.exports = {
 			return {
 				text: `Укажи опцию \u{2027} Доступные: ${options.join(`, `)}`,
 				reply: true,
-				emoji: true
+				emoji: true,
+				action: true
 			}
 		}
 
@@ -27,7 +28,8 @@ module.exports = {
 					return {
 						text: `Необходимо указать никнейм аккаунта last.fm`,
 						reply: true,
-						emoji: true
+						emoji: true,
+						action: true
 					}
 				}
 
@@ -41,7 +43,8 @@ module.exports = {
 					return {
 						text: `${data.message}`,
 						reply: true,
-						emoji: true
+						emoji: true,
+						action: true
 					}
 				}
 
@@ -61,7 +64,8 @@ module.exports = {
 					return {
 						text: `Профиль успешно привязан`,
 						reply: true,
-						emoji: true
+						emoji: true,
+						action: true
 					}
 				} else {
 					if (fmData[ctx.user.id].twitchLogin !== ctx.user.login) {
@@ -77,7 +81,8 @@ module.exports = {
 					return {
 						text: `Профиль успешно перепривязан`,
 						reply: true,
-						emoji: true
+						emoji: true,
+						action: true
 					}
 				}
 			}
@@ -85,7 +90,8 @@ module.exports = {
 				return {
 					text: `Неизвестная опция \u{2027} Доступные: ${options.join(`, `)}`,
 					reply: true,
-					emoji: true
+					emoji: true,
+					action: true
 				}
 			}
 		}

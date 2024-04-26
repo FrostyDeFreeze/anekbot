@@ -20,22 +20,28 @@ module.exports = {
 
 		if (!emoji) {
 			return {
-				text: `Укажи Emoji для покупки \u{2027} Стоимость: 1000 монет`,
-				reply: true
+				text: `Укажи эмодзи для покупки \u{2027} Стоимость: 1000 монет`,
+				reply: true,
+				emoji: false,
+				action: true
 			}
 		}
 
 		if (!emoji.match(/(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/g)) {
 			return {
-				text: `Это не похоже на Emoji`,
-				reply: true
+				text: `Это не похоже на эмодзи`,
+				reply: true,
+				emoji: false,
+				action: true
 			}
 		}
 
 		if (bb.utils.ucLen(emoji) > 1) {
 			return {
 				text: `Составные эмодзи не поддерживаются`,
-				reply: true
+				reply: true,
+				emoji: false,
+				action: true
 			}
 		}
 
@@ -44,17 +50,21 @@ module.exports = {
 
 		if (userEmoji && userEmoji === firstEmoji) {
 			return {
-				text: `Этот Emoji у тебя уже установлен`,
-				reply: true
+				text: `Этот эмодзи у тебя уже установлен`,
+				reply: true,
+				emoji: false,
+				action: true
 			}
 		}
 
 		if (balance < emojiCost) {
 			return {
-				text: `Недостаточно монет для покупки Emoji \u{2027} Необходимо: ${emojiCost} \u{2027} У тебя: ${balance.toFixed(
+				text: `Недостаточно монет для покупки эмодзи \u{2027} Необходимо: ${emojiCost} \u{2027} У тебя: ${balance.toFixed(
 					1
 				)} \u{2027} Осталось накопить: ${(emojiCost - balance).toFixed(1)}`,
-				reply: true
+				reply: true,
+				emoji: false,
+				action: true
 			}
 		}
 
@@ -62,10 +72,12 @@ module.exports = {
 		bb.utils.coins.removeCoins(ctx.user.id, ctx.channel.id, emojiCost)
 
 		return {
-			text: `Emoji ${firstEmoji} успешно приобретён \u{2027} Я списал с твоего баланса ${emojiCost} монет \u{2027} Твой текущий баланс: ${(
+			text: `Эмодзи ${firstEmoji} успешно приобретён \u{2027} Я списал с твоего баланса ${emojiCost} монет \u{2027} Твой текущий баланс: ${(
 				balance - emojiCost
 			).toFixed(1)}`,
-			reply: true
+			reply: true,
+			emoji: false,
+			action: true
 		}
 	}
 }

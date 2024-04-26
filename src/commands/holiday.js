@@ -39,7 +39,8 @@ module.exports = {
 		return {
 			text: text,
 			reply: true,
-			emoji: true
+			emoji: true,
+			action: true
 		}
 	}
 }

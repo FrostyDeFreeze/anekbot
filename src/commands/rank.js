@@ -21,7 +21,8 @@ module.exports = {
 					return {
 						text: `Ты достиг последнего ${currRank} ранга. Лечись, бро`,
 						reply: true,
-						emoji: true
+						emoji: true,
+						action: true
 					}
 				}
 
@@ -33,7 +34,8 @@ module.exports = {
 							nextRankCost - balance
 						).toFixed(1)}`,
 						reply: true,
-						emoji: true
+						emoji: true,
+						action: true
 					}
 				}
 
@@ -45,7 +47,8 @@ module.exports = {
 						1
 					)}`,
 					reply: true,
-					emoji: true
+					emoji: true,
+					action: true
 				}
 			}
 
@@ -75,7 +78,8 @@ module.exports = {
 				return {
 					text: result,
 					reply: true,
-					emoji: true
+					emoji: true,
+					action: true
 				}
 			}
 		}

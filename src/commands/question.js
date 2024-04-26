@@ -404,7 +404,9 @@ module.exports = {
 
 		return {
 			text: `\u{1F914} ${random}`,
-			reply: true
+			reply: true,
+			emoji: false,
+			action: true
 		}
 	}
 }

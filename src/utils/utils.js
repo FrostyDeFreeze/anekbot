@@ -5,6 +5,7 @@ const humanize = require(`humanize-duration`)
 const { translate } = require(`bing-translate-api`)
 
 const fmPath = path.join(__dirname, `../data/fm.json`)
+const actionsPath = path.join(__dirname, `../data/actions.json`)
 
 const shortHumanizer = humanize.humanizer({
 	language: `shortRu`,
@@ -128,6 +129,26 @@ exports.findFMData = twitchLogin => {
 			}
 		}
 	}
+
+	return null
+}
+
+exports.saveActionsData = data => {
+	fs.writeFileSync(actionsPath, JSON.stringify(data))
+}
+
+exports.loadActionsData = () => {
+	return fs.existsSync(actionsPath) ? JSON.parse(fs.readFileSync(actionsPath, `utf8`)) : {}
+}
+
+exports.findActionsData = userID => {
+	const actionsData = this.loadActionsData()
+
+	if (actionsData.hasOwnProperty(userID)) {
+		return actionsData[userID]
+	}
+
+	console.log(actionsData)
 
 	return null
 }

@@ -42,10 +42,9 @@ module.exports = {
 			const user = await bb.services.gql.getUser(ctx.user.login)
 			const userColor = user.data.user.chatColor ?? `#000000`
 			const colorName = closestColor(userColor)
-			const url = `singlecolorimage.com/get/${userColor.toLowerCase().replace(`#`, ``)}/100x100.png`
 
 			return {
-				text: `Твой текущий цвет: ${userColor} (${colorName}) \u{2027} ${url}`,
+				text: `Твой текущий цвет: ${userColor} \u{2027} ${colorName}`,
 				reply: true,
 				emoji: true,
 				action: true
@@ -66,10 +65,9 @@ module.exports = {
 
 			const userColor = user.data.user.chatColor ?? `#000000`
 			const colorName = closestColor(userColor)
-			const url = `singlecolorimage.com/get/${userColor.toLowerCase().replace(`#`, ``)}/100x100.png`
 
 			return {
-				text: `Текущий цвет ${bb.utils.unping(user.data.user.login)}: ${userColor} (${colorName}) \u{2027} ${url}`,
+				text: `Текущий цвет ${bb.utils.unping(user.data.user.login)}: ${userColor} \u{2027} ${colorName}`,
 				reply: true,
 				emoji: true,
 				action: true

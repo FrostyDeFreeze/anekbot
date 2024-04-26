@@ -148,7 +148,5 @@ exports.findActionsData = userID => {
 		return actionsData[userID]
 	}
 
-	console.log(actionsData)
-
 	return null
 }

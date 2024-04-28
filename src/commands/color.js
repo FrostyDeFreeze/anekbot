@@ -1,3 +1,4 @@
+const got = require(`got`)
 const data = require(`../data/colors.json`)
 
 function hexToRGB(hex) {
@@ -40,34 +41,58 @@ module.exports = {
 
 		if (!color) {
 			const user = await bb.services.gql.getUser(ctx.user.login)
-			const userColor = user.data.user.chatColor ?? `#000000`
-			const colorName = closestColor(userColor)
+			const userColor = user.data.user.chatColor ?? `none`
+			const colorData = await got(`https://api.potat.app/twitch/colors?color=${encodeURIComponent(userColor)}`).json()
+			let colorRes = ``
+
+			if (colorData.status === 404 || colorData?.data[0].user_count === 1) {
+				colorRes = ` \u{2027} Ты единственный пользователь с этим цветом!`
+			} else {
+				const userCount = colorData.data[0].user_count.toLocaleString(`en-EN`)
+				const percentage = colorData.data[0].percentage > 1 ? ` (${colorData.data[0].percentage.toFixed(1)}%) ` : ` `
+				colorRes = ` \u{2027} Ты украл(а) этот цвет у ${userCount}${percentage}пользователей Twitch`
+			}
+
+			const colorName = closestColor(userColor === `none` ? `#000000` : userColor)
 
 			return {
-				text: `Твой текущий цвет: ${userColor} \u{2027} ${colorName}`,
+				text: `Твой текущий цвет: ${userColor === `none` ? `#000000` : userColor} \u{2027} ${colorName}${colorRes}`,
 				reply: true,
 				emoji: true,
 				action: true
 			}
 		}
 
-		if (/^[A-Z_\d]{3,25}$/i.test(color) === true) {
-			const user = await bb.services.gql.getUser(color)
+		if (/^(@?[A-Z_\d]{3,25})$/i.test(color) === true) {
+			const user = await bb.services.gql.getUser(bb.utils.parseUser(color))
 
 			if (user.data.user === null) {
 				return {
-					text: `Пользователь не существует`,
+					text: `Пользователь выдуман`,
 					reply: true,
 					emoji: true,
 					action: true
 				}
 			}
 
-			const userColor = user.data.user.chatColor ?? `#000000`
-			const colorName = closestColor(userColor)
+			const userColor = user.data.user.chatColor ?? `none`
+			const colorData = await got(`https://api.potat.app/twitch/colors?color=${encodeURIComponent(userColor)}`).json()
+			let colorRes = ``
+
+			if (colorData.status === 404 || colorData?.data[0].user_count === 1) {
+				colorRes = ` \u{2027} Единственный пользователь с этим цветом!`
+			} else {
+				const userCount = colorData.data[0].user_count.toLocaleString(`en-EN`)
+				const percentage = colorData.data[0].percentage > 1 ? ` (${colorData.data[0].percentage.toFixed(1)}%) ` : ` `
+				colorRes = ` \u{2027} Украл(а) этот цвет у ${userCount}${percentage}пользователей Twitch`
+			}
+
+			const colorName = closestColor(userColor === `none` ? `#000000` : userColor)
 
 			return {
-				text: `Текущий цвет ${bb.utils.unping(user.data.user.login)}: ${userColor} \u{2027} ${colorName}`,
+				text: `Текущий цвет ${bb.utils.unping(user.data.user.login)}: ${
+					userColor === `none` ? `#000000` : userColor
+				} \u{2027} ${colorName}${colorRes}`,
 				reply: true,
 				emoji: true,
 				action: true

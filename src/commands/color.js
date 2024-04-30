@@ -125,7 +125,7 @@ module.exports = {
 			return {
 				text: `Сделано, босс \u{1F60E}`,
 				reply: true,
-				emoji: true,
+				emoji: false,
 				action: true
 			}
 		} else {

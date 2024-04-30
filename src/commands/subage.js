@@ -92,9 +92,9 @@ module.exports = {
 
 			if (response.statusHidden === null || response.statusHidden === true) {
 				return {
-					text: `Статус сабочки скрыт`,
+					text: `\u{274C} Статус сабочки скрыт`,
 					reply: true,
-					emoji: true,
+					emoji: false,
 					action: true
 				}
 			}
@@ -107,19 +107,21 @@ module.exports = {
 
 				if (old === null || !old.months || old.months === 0) {
 					return {
-						text: `${uPronouns} никогда не ловил(а) подарочную сабочку на ${cPronouns} \u{2027} ${bb.utils.randArr(neverSubbed)}`,
+						text: `\u{274C} ${uPronouns} никогда не ловил(а) подарочную сабочку на ${cPronouns} \u{2027} ${bb.utils.randArr(
+							neverSubbed
+						)}`,
 						reply: true,
-						emoji: true,
+						emoji: false,
 						action: true
 					}
 				} else {
 					const end = bb.utils.humanizer(new Date().getTime() - Date.parse(old.end))
 
 					return {
-						text: `${uPronouns} был(а) подписан(а) на ${cPronouns} в течение ${old.months} месяцев \u{2027} 
+						text: `\u{274C} ${uPronouns} был(а) подписан(а) на ${cPronouns} в течение ${old.months} месяцев \u{2027} 
 						Сабочка кончилась ${end} назад \u{2027} ${bb.utils.randArr(expiredSub)}`,
 						reply: true,
-						emoji: true,
+						emoji: false,
 						action: true
 					}
 				}
@@ -132,44 +134,44 @@ module.exports = {
 
 				if (meta.tier === `Custom`) {
 					return {
-						text: `${uPronouns} подписан(а) на ${cPronouns} кастомной сабочкой в течение ${cumulative.months} 
+						text: `\u{2705} ${uPronouns} подписан(а) на ${cPronouns} кастомной сабочкой в течение ${cumulative.months} 
 						месяцев`,
 						reply: true,
-						emoji: true,
+						emoji: false,
 						action: true
 					}
 				}
 
 				if (meta.endsAt === null) {
 					return {
-						text: `${uPronouns} подписан(а) на ${cPronouns} перманентной сабочкой в течение ${cumulative.months} 
+						text: `\u{2705} ${uPronouns} подписан(а) на ${cPronouns} перманентной сабочкой в течение ${cumulative.months} 
 						месяцев \u{2027} Юбилей сабочки наступит через ${anniversary}`,
 						reply: true,
-						emoji: true,
+						emoji: false,
 						action: true
 					}
 				}
 
 				if (meta.type === `paid`) {
 					return {
-						text: `${uPronouns} подписан(а) на ${cPronouns} платной сабочкой ${meta.tier} уровня в течение ${
+						text: `\u{2705} ${uPronouns} подписан(а) на ${cPronouns} платной сабочкой ${meta.tier} уровня в течение ${
 							cumulative.months
 						} месяцев \u{2027} 
 						Юбилей сабочки наступит через ${anniversary} \u{2027} Сабочка кончится/возобновится через ${end} \u{2027} ${bb.utils.randArr(paidSub)}`,
 						reply: true,
-						emoji: true,
+						emoji: false,
 						action: true
 					}
 				}
 
 				if (meta.type === `prime`) {
 					return {
-						text: `${uPronouns} подписан(а) на ${cPronouns} Prime сабочкой в течение ${
+						text: `\u{2705} ${uPronouns} подписан(а) на ${cPronouns} Prime сабочкой в течение ${
 							cumulative.months
 						} месяцев \u{2027} Юбилей сабочки наступит через ${anniversary} \u{2027} 
 						Сабочка кончится/возобновится через ${end} \u{2027} ${bb.utils.randArr(primeSub)}`,
 						reply: true,
-						emoji: true,
+						emoji: false,
 						action: true
 					}
 				}
@@ -178,13 +180,13 @@ module.exports = {
 					const gifter = meta.giftMeta.gifter === null ? `Анонима` : bb.utils.unping(meta.giftMeta.gifter.login)
 
 					return {
-						text: `${uPronouns} получил(а) подарочную сабочку ${meta.tier} уровня от ${gifter} и теперь подписан(а) в течение ${
+						text: `\u{2705} ${uPronouns} получил(а) подарочную сабочку ${meta.tier} уровня от ${gifter} и теперь подписан(а) в течение ${
 							cumulative.months
 						} месяцев \u{2027} Юбилей сабочки наступит через ${anniversary} \u{2027} Сабочка кончится/возобновится через ${end} \u{2027} ${bb.utils.randArr(
 							giftedSub
 						)}`,
 						reply: true,
-						emoji: true,
+						emoji: false,
 						action: true
 					}
 				}
@@ -194,7 +196,9 @@ module.exports = {
 			if (e.response.statusCode === 404) {
 				return {
 					text: `\u{274C} Пользователь или канал находится в бане`,
-					reply: true
+					reply: true,
+					emoji: false,
+					action: true
 				}
 			}
 			return {

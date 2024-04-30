@@ -116,7 +116,7 @@ module.exports = {
 					return {
 						text: result,
 						reply: true,
-						emoji: true,
+						emoji: false,
 						action: true
 					}
 				} catch (e) {
@@ -232,7 +232,7 @@ module.exports = {
 					return {
 						text: result,
 						reply: true,
-						emoji: true,
+						emoji: false,
 						action: true
 					}
 				} catch (e) {

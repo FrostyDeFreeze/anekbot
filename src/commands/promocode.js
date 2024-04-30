@@ -36,7 +36,9 @@ module.exports = {
 
 		if (!promocode) {
 			return {
-				text: `Укажи промокод для активации aga \u{2027} Подсказка: ${bb.utils.shuffleWord(currCode)}`,
+				text: `Укажи промокод для активации aga \u{2027} Подсказка: ${
+					/\p{Emoji}/u.test(currCode) === true ? currCode : bb.utils.shuffleWord(currCode)
+				}`,
 				reply: true,
 				emoji: true,
 				action: true
@@ -70,7 +72,9 @@ module.exports = {
 			}
 		} else {
 			return {
-				text: `Я не знаю такого промокода \u{2027} Подсказка: ${bb.utils.shuffleWord(currCode)}`,
+				text: `Я не знаю такого промокода \u{2027} Подсказка: ${
+					/\p{Emoji}/u.test(currCode) === true ? currCode : bb.utils.shuffleWord(currCode)
+				}`,
 				reply: true,
 				emoji: true,
 				action: true

@@ -57,7 +57,18 @@ module.exports = {
 				}
 			}
 
-			const statuses = [`${user} засыпает под`, `${user} наслаждается`, `${user} чиллит под`, `${user} отдыхает вместе с`]
+			const statuses = [
+				`${user} балдеет от`,
+				`${user} вайбит вместе с`,
+				`${user} засыпает под`,
+				`${user} кайфует под`,
+				`${user} наслаждается`,
+				`${user} отдыхает вместе с`,
+				`${user} получает наслаждение от`,
+				`${user} слушает`,
+				`${user} танцует под`,
+				`${user} чиллит под`
+			]
 			const isNowPlaying = data[0][`@attr`]?.nowplaying
 			const status = isNowPlaying
 				? `${bb.utils.randArr(statuses)} \u{25B6}`

@@ -235,7 +235,7 @@ client.on(`PRIVMSG`, async msg => {
 	ctx.args = ctx.msg.text.slice(bb.config.Bot.Prefix.length).trim().split(/ +/)
 	ctx.command = ctx.args.shift().toLowerCase()
 
-	if (ctx.command === `!cl` && ctx.channel.id === `405731639` && ctx.user.id === `405731639`) {
+	if (ctx.command === `cl` && ctx.channel.id === `405731639` && ctx.user.id === `405731639`) {
 		for (let i = 0; i < 200; i++) {
 			ctx.send(`.clear`)
 			await bb.utils.sleep(50)

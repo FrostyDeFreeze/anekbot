@@ -73,8 +73,8 @@ module.exports = {
 			const status = isNowPlaying
 				? `${bb.utils.randArr(statuses)} \u{25B6}`
 				: `Последний сыгранный у ${user} (${bb.utils.humanizer(new Date() - new Date(data[0].date[`uts`] * 1000), {
-					largest: 2
-				})} назад) \u{23EF}`
+						largest: 2
+				  })} назад) \u{23EF}`
 
 			return {
 				text: `${status} ${data[0].artist.name} - ${data[0].name}${text ? ` | ${text}` : ``}`,

@@ -22,7 +22,6 @@ bb.upload = upload
 bb.misc.connectedAt = new Date().toString()
 bb.misc.issuedCommands = 1
 bb.misc.channels = [
-	`799145942`,
 	`239373609`,
 	`739044027`,
 	`509583526`,

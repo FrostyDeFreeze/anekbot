@@ -111,6 +111,10 @@ client.on(`PART`, ({ channelName }) => {
 // 	return bb.client.privmsg(channel, `${bb.utils.randArr(pronouns)} на следующие 2 часа — ${chatter} :tf:`)
 // })
 
+cron.schedule(`0 0 * * *`, async () => {
+	bb.client.privmsg(`zhestykey`, `$$cookie YummyCummies`)
+})
+
 client.on(`PRIVMSG`, async msg => {
 	const ts = Date.now()
 

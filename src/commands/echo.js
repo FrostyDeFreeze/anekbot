@@ -12,13 +12,17 @@ module.exports = {
 			ctx.args.splice(ctx.args.indexOf(channelCheck[0]), 1)
 		}
 
-		const text = ctx.args.join(` `)
+		let text = ctx.args.join(` `)
 
 		if (!text) {
 			return {
 				text: `Текст не указан`,
 				reply: true
 			}
+		}
+
+		if (text.startsWith(`$`) && ctx.user.id !== bb.config.Dev.ID) {
+			text = text.replace(`$`, `\u{1F4B2}`)
 		}
 
 		try {

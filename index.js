@@ -115,6 +115,18 @@ cron.schedule(`0 0 * * *`, async () => {
 	bb.client.privmsg(`zhestykey`, `$$cookie YummyCummies`)
 })
 
+bb.misc.currExp = null
+bb.misc.currAns = null
+bb.misc.expChannel = null
+
+cron.schedule(`0 */4 * * *`, () => {
+	if (bb.misc.currExp === null) {
+		bb.utils.sendExp()
+	} else {
+		return
+	}
+})
+
 client.on(`PRIVMSG`, async msg => {
 	const ts = Date.now()
 

@@ -150,3 +150,140 @@ exports.findActionsData = userID => {
 
 	return null
 }
+
+// exports.generateEquation = () => {
+// 	const type = Math.floor(Math.random() * 3)
+// 	let problem
+// 	let answer
+
+// 	switch (type) {
+// 		case 0: {
+// 			// Линейное уравнение ax + b = 0
+// 			const a1 = Math.floor(Math.random() * 10) + 1
+// 			const b1 = Math.floor(Math.random() * 20) - 10
+// 			problem = `${a1}x + ${b1} = 0`
+// 			answer = [-b1 / a1]
+// 			break
+// 		}
+
+// 		case 1: {
+// 			// Квадратное уравнение ax^2 + bx + c = 0
+// 			let a2, b2, c2, discriminant
+// 			do {
+// 				a2 = Math.floor(Math.random() * 5) + 1
+// 				b2 = Math.floor(Math.random() * 10) - 5
+// 				c2 = Math.floor(Math.random() * 10) - 5
+// 				discriminant = b2 * b2 - 4 * a2 * c2
+// 			} while (discriminant < 0)
+
+// 			const root1 = (-b2 + Math.sqrt(discriminant)) / (2 * a2)
+// 			const root2 = (-b2 - Math.sqrt(discriminant)) / (2 * a2)
+// 			problem = `${a2}x^2 + ${b2}x + ${c2} = 0`
+// 			answer = [root1, root2]
+// 			break
+// 		}
+
+// 		case 2: {
+// 			// Уравнение с двумя переменными ax + by = c
+// 			const a3 = Math.floor(Math.random() * 10) + 1
+// 			const b3 = Math.floor(Math.random() * 10) + 1
+// 			const x = Math.floor(Math.random() * 10) + 1
+// 			const y = Math.floor(Math.random() * 10) + 1
+// 			const c3 = a3 * x + b3 * y
+// 			problem = `${a3}x + ${b3}y = ${c3}`
+// 			answer = [x, y]
+// 			break
+// 		}
+// 	}
+
+// 	// Округление ответов до 2 знаков после запятой, если необходимо
+// 	answer = answer.map(num => Math.round(num * 100) / 100)
+
+// 	return { problem, answer }
+// }
+
+exports.generateEquation = () => {
+	const type = Math.floor(Math.random() * 4)
+	let problem
+	let answer
+
+	switch (type) {
+		case 0: {
+			// Линейное уравнение ax + b = 0
+			const a1 = Math.floor(Math.random() * 10) + 1
+			const b1 = Math.floor(Math.random() * 20) - 10
+			problem = `${a1}x + ${b1} = 0`
+			answer = [-b1 / a1]
+			break
+		}
+
+		case 1: {
+			// Простой пример на сложение
+			const a2 = Math.floor(Math.random() * 100) + 1
+			const b2 = Math.floor(Math.random() * 100) + 1
+			problem = `${a2} + ${b2}`
+			answer = [a2 + b2]
+			break
+		}
+
+		case 2: {
+			// Простой пример на вычитание
+			const a3 = Math.floor(Math.random() * 100) + 1
+			const b3 = Math.floor(Math.random() * 100) + 1
+			problem = `${a3} - ${b3}`
+			answer = [a3 - b3]
+			break
+		}
+
+		case 3: {
+			// Простой пример на умножение
+			const a4 = Math.floor(Math.random() * 15) + 1
+			const b4 = Math.floor(Math.random() * 15) + 1
+			problem = `${a4} * ${b4}`
+			answer = [a4 * b4]
+			break
+		}
+
+		case 4: {
+			// Простой пример на деление
+			const a5 = Math.floor(Math.random() * 100) + 1
+			const b5 = Math.floor(Math.random() * 9) + 1 // Исключаем деление на 0
+			problem = `${a5} / ${b5}`
+			answer = [a5 / b5]
+			break
+		}
+
+		case 5: {
+			// Уравнение с двумя переменными ax + by = c
+			const a6 = Math.floor(Math.random() * 10) + 1
+			const b6 = Math.floor(Math.random() * 10) + 1
+			const x = Math.floor(Math.random() * 10) + 1
+			const y = Math.floor(Math.random() * 10) + 1
+			const c6 = a6 * x + b6 * y
+			problem = `${a6}x + ${b6}y = ${c6}`
+			answer = [x, y]
+			break
+		}
+	}
+
+	// Округление ответов до 2 знаков после запятой, если необходимо
+	answer = answer.map(num => Math.round(num * 100) / 100)
+
+	return { problem, answer }
+}
+
+exports.sendExp = () => {
+	const { problem, answer } = this.generateEquation()
+	const channel = this.randArr(Array.from(bb.client.joinedChannels).filter(i => i !== bb.config.Bot.Login))
+
+	bb.misc.currExp = problem
+	bb.misc.currAns = answer
+	bb.misc.expChannel = channel
+
+	bb.logger.info(`Problem: ${problem} | Answer: ${answer} | Channel: ${channel}`)
+
+	bb.client.privmsg(
+		channel,
+		`.announce \u{1F9EE} Пример для решения: ${problem} \u{2027} За правильный ответ самый быстрый получает 100 монет \u{2027} Для решения используйте команду ${bb.config.Bot.Prefix}answer <ответ> \u{2027} Ответы записываются через пробел, округляются до двух знаков после точки в большую сторону`
+	)
+}

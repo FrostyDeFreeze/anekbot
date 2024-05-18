@@ -120,11 +120,7 @@ bb.misc.currAns = null
 bb.misc.expChannel = null
 
 cron.schedule(`0 */4 * * *`, () => {
-	if (bb.misc.currExp === null) {
-		bb.utils.sendExp()
-	} else {
-		return
-	}
+	bb.utils.sendExp()
 })
 
 client.on(`PRIVMSG`, async msg => {

@@ -111,7 +111,7 @@ client.on(`PART`, ({ channelName }) => {
 // 	return bb.client.privmsg(channel, `${bb.utils.randArr(pronouns)} на следующие 2 часа — ${chatter} :tf:`)
 // })
 
-cron.schedule(`0 0 * * *`, async () => {
+cron.schedule(`0 3 * * *`, async () => {
 	bb.client.privmsg(`zhestykey`, `$$cookie YummyCummies`)
 })
 
@@ -228,12 +228,17 @@ client.on(`PRIVMSG`, async msg => {
 			rank: 0,
 			messages: 1,
 			firstSeen: new Date(),
+			lastSeen: new Date(),
 			lastGuess: 0,
 			lastPromocode: 0
 		}
 	} else {
 		if (coinsData[ctx.channel.id].users[ctx.user.id].login !== ctx.user.login) {
 			coinsData[ctx.channel.id].users[ctx.user.id].login = ctx.user.login
+		}
+
+		if (!coinsData[ctx.channel.id].users[ctx.user.id]?.lastSeen || coinsData[ctx.channel.id].users[ctx.user.id]?.lastSeen !== new Date()) {
+			coinsData[ctx.channel.id].users[ctx.user.id].lastSeen = new Date()
 		}
 
 		coinsData[ctx.channel.id].users[ctx.user.id].coins += 0.2

@@ -287,3 +287,46 @@ exports.sendExp = () => {
 		`.announce \u{1F9EE} Пример для решения: ${problem} \u{2027} За правильный ответ самый быстрый получает 100 монет \u{2027} Для решения используйте команду ${bb.config.Bot.Prefix}answer <ответ> \u{2027} Ответы записываются через пробел, округляются до двух знаков после точки в большую сторону`
 	)
 }
+
+exports.cleanText = input => {
+	// Remove HTML tags
+	let cleaned = input.replace(/<\/?[^>]+(>|$)/g, ``)
+
+	// Remove Markdown elements like bold, italic, headings, links, images, etc.
+	// Markdown patterns to remove:
+	// * **bold** or __bold__
+	// * *italic* or _italic_
+	// * # Headings
+	// * [link](url) and ![image](url)
+	// * `inline code` and ```code blocks```
+	// * > blockquotes
+	// * Lists (e.g., * item, - item, 1. item)
+	// * Horizontal rules (e.g., --- or ***)
+
+	// Remove bold, italic, and inline code
+	cleaned = cleaned.replace(/(\*\*|__)(.*?)\1/g, `$2`) // **bold** or __bold__
+	cleaned = cleaned.replace(/(\*|_)(.*?)\1/g, `$2`) // *italic* or _italic_
+	cleaned = cleaned.replace(/`(.*?)`/g, `$1`) // `inline code`
+
+	// Remove headings
+	cleaned = cleaned.replace(/^#{1,6}\s+/gm, ``)
+
+	// Remove links and images
+	cleaned = cleaned.replace(/!\[.*?\]\(.*?\)/g, ``) // ![image](url)
+	cleaned = cleaned.replace(/\[.*?\]\(.*?\)/g, ``) // [link](url)
+
+	// Remove blockquotes
+	cleaned = cleaned.replace(/^\s*>\s?/gm, ``)
+
+	// Remove lists
+	cleaned = cleaned.replace(/^\s*[*+-]\s+/gm, ``) // Unordered list
+	cleaned = cleaned.replace(/^\s*\d+\.\s+/gm, ``) // Ordered list
+
+	// Remove horizontal rules
+	cleaned = cleaned.replace(/^\s*(---|\*\*\*)\s*$/gm, ``)
+
+	// Remove code blocks
+	cleaned = cleaned.replace(/```[\s\S]*?```/g, ``)
+
+	return cleaned
+}

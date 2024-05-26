@@ -5,7 +5,7 @@ module.exports = {
 	access: [],
 	active: true,
 	aliases: [`ra`, `anime`],
-	cooldown: 3,
+	cooldown: 5,
 	requires: [],
 	async execute(client, ctx, utils) {
 		const page = ~~(Math.random() * 1000) + 1
@@ -23,9 +23,8 @@ module.exports = {
 			const res = await got.post(`https://graphql.anilist.co/`, { json: operation }).json()
 			const content = res.data.Page.media[0]
 
-			const title = `AYAYA [${res.data.Page.pageInfo.currentPage}] ${content.title.english || content.title.romaji} (${
-				content.startDate.year || `?`
-			}-${content.endDate.year || `?`})`
+			const title = `AYAYA [${res.data.Page.pageInfo.currentPage}] ${content.title.english || content.title.romaji} (${content.startDate.year || `?`
+				}-${content.endDate.year || `?`})`
 			let description = bb.utils.fit(bb.utils.cleanText(content.description), 260)
 			description = (await bb.utils.translate(description)).translation
 			const genres = `${content.genres.sort().join(`, `)}`

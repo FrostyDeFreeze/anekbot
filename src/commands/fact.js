@@ -5,7 +5,7 @@ module.exports = {
 	access: [],
 	active: true,
 	aliases: [`факт`],
-	cooldown: 86400,
+	cooldown: 43200,
 	requires: [],
 	async execute(client, ctx, utils) {
 		const res = await got(`https://uselessfacts.jsph.pl/api/v2/facts/random?language=en`).json()

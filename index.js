@@ -42,6 +42,8 @@ client.on(`ready`, async () => {
 
 	await bb.utils.joiner()
 	setInterval(bb.utils.joiner, 300_000)
+
+	client.privmsg(bb.config.Bot.Login, `nyam`)
 })
 
 client.on(`close`, async error => {
@@ -256,6 +258,10 @@ client.on(`PRIVMSG`, async msg => {
 			ctx.send(`.clear`)
 			await bb.utils.sleep(30)
 		}
+	}
+
+	if (ctx.command === `123` && ctx.channel.id === `239373609`) {
+		ctx.send(`Иди нахуй be`, true)
 	}
 
 	const command = bb.commands.get(ctx.command)

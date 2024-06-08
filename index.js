@@ -113,8 +113,15 @@ client.on(`PART`, ({ channelName }) => {
 // 	return bb.client.privmsg(channel, `${bb.utils.randArr(pronouns)} на следующие 2 часа — ${chatter} :tf:`)
 // })
 
-cron.schedule(`0 3 * * *`, async () => {
+cron.schedule(`0 3 * * *`, () => {
 	bb.client.privmsg(`zhestykey`, `$$cookie YummyCummies`)
+})
+
+cron.schedule(`0 0 * * *`, async () => {
+	bb.misc.channels.forEach(async i => {
+		bb.client.privmsg(i, `i_OLYA С днём рождения! 🌷 🥳 ura ura ura`)
+		await bb.utils.sleep(100)
+	})
 })
 
 bb.misc.currExp = null

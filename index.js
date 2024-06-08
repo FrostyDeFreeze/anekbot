@@ -118,7 +118,8 @@ cron.schedule(`0 3 * * *`, () => {
 })
 
 cron.schedule(`0 0 * * *`, async () => {
-	bb.misc.channels.forEach(async i => {
+	const channels = await bb.services.helix.getUsersByID(bb.misc.channels)
+	channels.forEach(async i => {
 		bb.client.privmsg(i, `i_OLYA С днём рождения! 🌷 🥳 ura ura ura`)
 		await bb.utils.sleep(100)
 	})

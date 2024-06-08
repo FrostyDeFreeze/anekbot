@@ -117,14 +117,6 @@ cron.schedule(`0 3 * * *`, () => {
 	bb.client.privmsg(`zhestykey`, `$$cookie YummyCummies`)
 })
 
-cron.schedule(`0 0 * * *`, async () => {
-	const channels = await bb.services.helix.getUsersByID(bb.misc.channels)
-	channels.forEach(async i => {
-		bb.client.privmsg(i, `i_OLYA С днём рождения! 🌷 🥳 ura ura ura`)
-		await bb.utils.sleep(100)
-	})
-})
-
 bb.misc.currExp = null
 bb.misc.currAns = null
 bb.misc.expChannel = null

@@ -100,6 +100,43 @@ module.exports = {
 		return result
 	},
 
+	findLastSeen: function (userLogin) {
+		const data = this.loadData()
+
+		let closestChan = null
+		let closestData = null
+		let closestDiff = Infinity
+		const currTime = new Date()
+
+		for (const channelID in data) {
+			const channel = data[channelID]
+			const users = channel.users
+
+			for (const userID in users) {
+				const user = users[userID]
+				if (user.login === userLogin.toLowerCase()) {
+					const lastSeen = new Date(user.lastSeen)
+					const timeDiff = Math.abs(currTime - lastSeen)
+
+					if (timeDiff < closestDiff) {
+						closestDiff = timeDiff
+						closestChan = channel.login
+						closestData = user
+					}
+				}
+			}
+		}
+
+		if (closestChan && closestData) {
+			return {
+				channel: closestChan,
+				info: closestData
+			}
+		} else {
+			return null
+		}
+	},
+
 	addCoins: function (userID, channelID, coins) {
 		const data = this.loadData()
 		data[channelID].users[userID].coins += coins

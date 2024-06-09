@@ -17,6 +17,15 @@ module.exports = {
 			}
 		}
 
+		if (user === bb.config.Bot.Login) {
+			return {
+				text: `Отличная попытка aga`,
+				reply: true,
+				emoji: true,
+				action: true
+			}
+		}
+
 		const search = bb.utils.coins.getUserByLogin(ctx.channel.login, user)
 
 		if (search === null) {

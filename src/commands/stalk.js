@@ -34,7 +34,7 @@ module.exports = {
 		const timeDiff = bb.utils.humanizer(Date.now() - new Date(lastSeen))
 
 		return {
-			text: `В последний раз ${userLogin} был(а) обнаружен(а) на канале ${channelLogin} ${timeDiff} назад`,
+			text: `В последний раз ${userLogin} был(а) обнаружен(а) на канале ${channelLogin} ${timeDiff} назад \u{1F92D}`,
 			reply: true,
 			emoji: true,
 			action: true

@@ -28,8 +28,18 @@ module.exports = {
 			}
 		}
 
-		const userLogin = bb.utils.unping(search.login)
 		const lastSeen = search.lastSeen
+
+		if (!lastSeen) {
+			return {
+				text: `Пользователь был здесь, однако я забыл записать его время PoroSad`,
+				reply: true,
+				emoji: true,
+				action: true
+			}
+		}
+
+		const userLogin = bb.utils.unping(search.login)
 		const timeDiff = bb.utils.humanizer(Date.now() - new Date(lastSeen))
 
 		return {

@@ -2,7 +2,7 @@ module.exports = {
 	name: `lastseen`,
 	access: [],
 	active: true,
-	aliases: [`ls`, `gde`],
+	aliases: [`ls`],
 	cooldown: 3,
 	requires: [],
 	async execute(client, ctx, utils) {

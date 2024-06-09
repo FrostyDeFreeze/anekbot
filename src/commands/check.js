@@ -1,8 +1,8 @@
 module.exports = {
-	name: `stalk`,
+	name: `check`,
 	access: [],
 	active: true,
-	aliases: [`check`],
+	aliases: [`gde`],
 	cooldown: 3,
 	requires: [],
 	async execute(client, ctx, utils) {

@@ -46,6 +46,25 @@ module.exports = {
 		return null
 	},
 
+	getUserByLogin: function (channelLogin, userLogin) {
+		const data = this.loadData()
+
+		for (const channel of Object.values(data)) {
+			if (channel.login === channelLogin) {
+				if (channel.users) {
+					for (const user of Object.values(channel.users)) {
+						if (user.login === userLogin) {
+							return user
+						}
+					}
+				}
+				break
+			}
+		}
+
+		return null
+	},
+
 	getUsers: function (channelID) {
 		const data = this.loadData()
 		const channelUsers = Object.keys(data[channelID]?.users || {})

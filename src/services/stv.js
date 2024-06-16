@@ -21,7 +21,7 @@ module.exports = {
 			.json()
 
 		if (request.errors) {
-			xd.logger.error(`[7TV] Ошибка при 7TV GQL запросе: ${request.errors[0].message}\n${JSON.stringify(request, null, 2)}`)
+			bb.logger.error(`[7TV] Ошибка при 7TV GQL запросе: ${request.errors[0].message}\n${JSON.stringify(request, null, 2)}`)
 		}
 
 		return request

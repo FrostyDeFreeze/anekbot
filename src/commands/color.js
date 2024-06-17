@@ -45,7 +45,7 @@ module.exports = {
 			const colorData = await got(`https://api.potat.app/twitch/colors?color=${encodeURIComponent(userColor)}`).json()
 			let colorRes = ``
 
-			if (colorData.status === 404 || colorData?.data[0].user_count === 1) {
+			if (colorData.statusCode === 404 || colorData?.data[0].user_count === 1) {
 				colorRes = ` \u{2027} Ты единственный пользователь с этим цветом!`
 			} else {
 				const userCount = colorData.data[0].user_count.toLocaleString(`en-EN`)
@@ -90,9 +90,8 @@ module.exports = {
 			const colorName = closestColor(userColor === `none` ? `#000000` : userColor)
 
 			return {
-				text: `Текущий цвет ${bb.utils.unping(user.data.user.login)}: ${
-					userColor === `none` ? `#000000` : userColor
-				} \u{2027} ${colorName}${colorRes}`,
+				text: `Текущий цвет ${bb.utils.unping(user.data.user.login)}: ${userColor === `none` ? `#000000` : userColor
+					} \u{2027} ${colorName}${colorRes}`,
 				reply: true,
 				emoji: true,
 				action: true

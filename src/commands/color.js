@@ -90,8 +90,9 @@ module.exports = {
 			const colorName = closestColor(userColor === `none` ? `#000000` : userColor)
 
 			return {
-				text: `Текущий цвет ${bb.utils.unping(user.data.user.login)}: ${userColor === `none` ? `#000000` : userColor
-					} \u{2027} ${colorName}${colorRes}`,
+				text: `Текущий цвет ${bb.utils.unping(user.data.user.login)}: ${
+					userColor === `none` ? `#000000` : userColor
+				} \u{2027} ${colorName}${colorRes}`,
 				reply: true,
 				emoji: true,
 				action: true

@@ -280,7 +280,7 @@ exports.sendExp = () => {
 	bb.misc.currAns = answer
 	bb.misc.expChannel = channel
 
-	bb.logger.info(`Problem: ${problem} | Answer: ${answer} | Channel: ${channel}`)
+	bb.logger.info(`[EXP] Problem: ${problem} | Answer: ${answer} | Channel: ${channel}`)
 
 	bb.client.privmsg(
 		channel,
@@ -329,4 +329,15 @@ exports.cleanText = input => {
 	cleaned = cleaned.replace(/```[\s\S]*?```/g, ``)
 
 	return cleaned
+}
+
+exports.addAndShuffle = (correctAnswer, incorrectAnswers) => {
+	incorrectAnswers.push(correctAnswer)
+
+	const shuffled = incorrectAnswers
+		.map(value => ({ value, sort: Math.random() }))
+		.sort((a, b) => a.sort - b.sort)
+		.map(({ value }) => value)
+
+	return shuffled
 }

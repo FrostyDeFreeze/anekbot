@@ -4,6 +4,7 @@ const { paste, upload } = require(`./src/utils/utils.js`)
 const fs = require(`fs`)
 const path = require(`path`)
 const cron = require(`node-cron`)
+const got = require(`got`)
 const coinsPath = path.join(__dirname, `./src/data/coins.json`)
 const promoPath = path.join(__dirname, `./src/data/promocodes.json`)
 
@@ -253,6 +254,87 @@ client.on(`PRIVMSG`, async msg => {
 
 	ctx.args = ctx.msg.text.slice(bb.config.Bot.Prefix.length).trim().split(/ +/)
 	ctx.command = ctx.args.shift().toLowerCase()
+
+	const quizData = bb.utils.coins.loadQuizData()
+
+	if (
+		ctx.command === `принять` &&
+		quizData[ctx.channel.id] &&
+		quizData[ctx.channel.id].opponent === ctx.user.login &&
+		!quizData[ctx.channel.id].accepted
+	) {
+		clearTimeout(bb.misc.quizTimer)
+		quizData[ctx.channel.id].accepted = true
+		bb.utils.coins.saveQuizData(quizData)
+
+		ctx.send(
+			`\u{1F9E9} @${quizData[ctx.channel.id].challenger}, @${ctx.user.login} принял(а) игру. Приготовьтесь. Для ответа на квиз используйте ${
+				bb.config.Bot.Prefix
+			}ответ <вариант ответа>. Победитель получит от 30 до 60 монет`
+		)
+
+		try {
+			const res = await got(`https://the-trivia-api.com/v2/questions?limit=1&difficulties=easy,medium&region=RU&types=text_choice`).json()
+			const question = await bb.utils.translate(res[0].question.text, `en`, `ru`)
+			const answers = await bb.utils.translate(res[0].incorrectAnswers.join(` \u{2027} `), `en`, `ru`)
+			const difficulty = await bb.utils.translate(res[0].difficulty, `en`, `ru`)
+			const correct = await bb.utils.translate(res[0].correctAnswer, `en`, `ru`)
+			const arr = bb.utils.addAndShuffle(correct.translation, answers.translation.split(` \u{2027} `))
+
+			const questionMessage = `\u{1F9E9} @${ctx.user.login}, @${quizData[ctx.channel.id].challenger} \u{2027} Вопрос: ${
+				question.translation
+			} \u{2027} Варианты: ${arr.join(` \u{2027} `)} \u{2027} Сложность: ${difficulty.translation}`
+			ctx.send(questionMessage)
+
+			quizData[ctx.channel.id].question = res[0]
+			quizData[ctx.channel.id].shuffledAnswers = arr
+			quizData[ctx.channel.id].correctAnswer = correct.translation
+			quizData[ctx.channel.id].startTime = Date.now()
+			bb.utils.coins.saveQuizData(quizData)
+
+			bb.logger.info(
+				`[QUIZ] Q: ${question.translation} \u{2027} O: ${arr.join(` \u{2027} `)} \u{2027} D: ${difficulty.translation} | Channel: ${
+					ctx.channel.login
+				} | Answer: ${correct.translation}`
+			)
+		} catch (e) {
+			bb.logger.error(`[QUIZ] ${e.message}`)
+			ctx.send(`\u{1F534} ${e.message}`)
+		}
+	}
+
+	if (
+		ctx.command === `ответ` &&
+		quizData[ctx.channel.id] &&
+		quizData[ctx.channel.id].accepted &&
+		(quizData[ctx.channel.id].challenger === ctx.user.login || quizData[ctx.channel.id].opponent === ctx.user.login)
+	) {
+		const answer = ctx.args.join(` `)
+
+		if (!answer) {
+			return ctx.send(`\u{1F9E9} @${ctx.user.login}, необходимо один из вариантов ответа`)
+		}
+
+		const rightAnswer = quizData[ctx.channel.id].correctAnswer
+		let reward = null
+
+		if (quizData[ctx.channel.id].question.difficulty === `easy`) {
+			reward = 30
+		}
+
+		if (quizData[ctx.channel.id].question.difficulty === `medium`) {
+			reward = 60
+		}
+
+		if (answer.toLowerCase() === rightAnswer.toLowerCase()) {
+			ctx.send(`\u{1F9E9} @${ctx.user.login} ответил(а) правильно и выиграл(а)! За победу начислил ${reward} монет`)
+			delete quizData[ctx.channel.id]
+			bb.utils.coins.addCoins(ctx.user.id, ctx.channel.id, reward)
+			bb.utils.coins.saveQuizData(quizData)
+		} else {
+			ctx.send(`\u{1F9E9} @${ctx.user.login} ответил(а) неправильно!`)
+		}
+	}
 
 	if (ctx.command === `cl` && ctx.channel.id === `405731639` && ctx.user.id === `405731639`) {
 		for (let i = 0; i < 200; i++) {

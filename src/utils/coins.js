@@ -2,6 +2,7 @@ const fs = require(`fs`)
 const path = require(`path`)
 const coinsPath = path.join(__dirname, `../data/coins.json`)
 const promoPath = path.join(__dirname, `../data/promocodes.json`)
+const quizPath = path.join(__dirname, `../data/quiz.json`)
 
 module.exports = {
 	ranks: {
@@ -28,12 +29,21 @@ module.exports = {
 		return data
 	},
 
+	loadQuizData: function () {
+		const data = fs.existsSync(quizPath) ? JSON.parse(fs.readFileSync(quizPath, `utf8`)) : {}
+		return data
+	},
+
 	saveData: function (data) {
 		fs.writeFileSync(coinsPath, JSON.stringify(data))
 	},
 
 	savePromoData: function (data) {
 		fs.writeFileSync(promoPath, JSON.stringify(data))
+	},
+
+	saveQuizData: function (data) {
+		fs.writeFileSync(quizPath, JSON.stringify(data))
 	},
 
 	getUser: function (userID, channelID) {

@@ -3,7 +3,7 @@ module.exports = {
 	access: [],
 	active: true,
 	aliases: [],
-	cooldown: 3,
+	cooldown: 300,
 	requires: [],
 	async execute(client, ctx, utils) {
 		const quizData = bb.utils.coins.loadQuizData()

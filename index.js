@@ -299,7 +299,8 @@ client.on(`PRIVMSG`, async msg => {
 			)
 		} catch (e) {
 			bb.logger.error(`[QUIZ] ${e.message}`)
-			ctx.send(`\u{1F534} ${e.message}`)
+			delete quizData[ctx.channel.id]
+			ctx.send(`\u{1F534} ${e.message.replace(/\n|\r/g, ` `)}`)
 		}
 	}
 

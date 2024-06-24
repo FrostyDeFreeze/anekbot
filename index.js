@@ -268,9 +268,8 @@ client.on(`PRIVMSG`, async msg => {
 		bb.utils.coins.saveQuizData(quizData)
 
 		ctx.send(
-			`\u{1F9E9} @${quizData[ctx.channel.id].challenger}, @${ctx.user.login} принял(а) игру. Приготовьтесь. Для ответа на квиз используйте ${
-				bb.config.Bot.Prefix
-			}ответ <вариант ответа>. Победитель получит от 30 до 60 монет`
+			`\u{1F9E9} @${quizData[ctx.channel.id].challenger}, @${ctx.user.login} принял(а) игру. Приготовьтесь. Для ответа на квиз используйте ${bb.config.Bot.Prefix
+			}ответ <номер варианта ответа>. Победитель получит от 30 до 60 монет`
 		)
 
 		try {
@@ -281,21 +280,22 @@ client.on(`PRIVMSG`, async msg => {
 			const correct = await bb.utils.translate(res[0].correctAnswer, `en`, `ru`)
 			const arr = bb.utils.addAndShuffle(correct.translation, answers.translation.split(` \u{2027} `))
 
-			const questionMessage = `\u{1F9E9} @${ctx.user.login}, @${quizData[ctx.channel.id].challenger} \u{2027} Вопрос: ${
-				question.translation
-			} \u{2027} Варианты: ${arr.join(` \u{2027} `)} \u{2027} Сложность: ${difficulty.translation}`
+			const numberedAnswers = arr.map((answer, index) => `${index + 1}. ${answer}`)
+
+			const questionMessage = `\u{1F9E9} @${ctx.user.login}, @${quizData[ctx.channel.id].challenger} \u{2027} Вопрос: ${question.translation
+				} \u{2027} Варианты: ${numberedAnswers.join(` \u{2027} `)} \u{2027} Сложность: ${difficulty.translation}`
 			ctx.send(questionMessage)
 
 			quizData[ctx.channel.id].question = res[0]
 			quizData[ctx.channel.id].shuffledAnswers = arr
 			quizData[ctx.channel.id].correctAnswer = correct.translation
+			quizData[ctx.channel.id].correctIndex = arr.indexOf(correct.translation) + 1
 			quizData[ctx.channel.id].startTime = Date.now()
 			bb.utils.coins.saveQuizData(quizData)
 
 			bb.logger.info(
-				`[QUIZ] Q: ${question.translation} \u{2027} O: ${arr.join(` \u{2027} `)} \u{2027} D: ${difficulty.translation} | Channel: ${
-					ctx.channel.login
-				} | Answer: ${correct.translation}`
+				`[QUIZ] Q: ${question.translation} \u{2027} O: ${numberedAnswers.join(` \u{2027} `)} \u{2027} D: ${difficulty.translation} | Channel: ${ctx.channel.login
+				} | Answer: ${correct.translation} | Index: ${arr.indexOf(correct.translation) + 1}`
 			)
 		} catch (e) {
 			bb.logger.error(`[QUIZ] ${e.message}`)
@@ -309,13 +309,13 @@ client.on(`PRIVMSG`, async msg => {
 		quizData[ctx.channel.id].accepted &&
 		(quizData[ctx.channel.id].challenger === ctx.user.login || quizData[ctx.channel.id].opponent === ctx.user.login)
 	) {
-		const answer = ctx.args.join(` `)
+		const answer = parseInt(ctx.args[0], 10)
 
-		if (!answer) {
-			return ctx.send(`\u{1F9E9} @${ctx.user.login}, необходимо один из вариантов ответа`)
+		if (!answer || isNaN(answer) || answer < 1 || answer > 4) {
+			return ctx.send(`\u{1F9E9} @${ctx.user.login}, необходимо выбрать один из номеров вариантов ответа (1, 2, 3 или 4)`)
 		}
 
-		const rightAnswer = quizData[ctx.channel.id].correctAnswer
+		const rightAnswerIndex = quizData[ctx.channel.id].correctIndex
 		let reward = null
 
 		if (quizData[ctx.channel.id].question.difficulty === `easy`) {
@@ -326,8 +326,8 @@ client.on(`PRIVMSG`, async msg => {
 			reward = 60
 		}
 
-		if (answer.toLowerCase() === rightAnswer.toLowerCase()) {
-			ctx.send(`\u{1F9E9} @${ctx.user.login} ответил(а) правильно и выиграл(а)! За победу начислил ${reward} монет`)
+		if (answer === rightAnswerIndex) {
+			ctx.send(`\u{1F9E9} @${ctx.user.login} ответил(а) правильно и выиграл(а)! \u{2027} За победу начислил ${reward} монет!`)
 			delete quizData[ctx.channel.id]
 			bb.utils.coins.addCoins(ctx.user.id, ctx.channel.id, reward)
 			bb.utils.coins.saveQuizData(quizData)

@@ -12,7 +12,7 @@ module.exports = {
 		const data = res.material_data
 
 		const title = `\u{1F37F} ${data.title} (${data.year})`
-		const description = bb.utils.fit(data.description, 330)
+		const description = bb.utils.fit(data.description, 310)
 		const genres = `Жанры: ${data.all_genres.join(`, `)}`
 		const countries = `Страна: ${data.countries.join(`, `)}`
 		const episodes = `Эпизоды: ${data.episodes_total || `не знаю`}`

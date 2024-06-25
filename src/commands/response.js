@@ -19,7 +19,7 @@ module.exports = {
 			}
 		}
 
-		if (quizData[ctx.channel.id].opponent !== ctx.user.login) {
+		if (quizData[ctx.channel.id].challenger !== ctx.user.login || quizData[ctx.channel.id].opponent !== ctx.user.login) {
 			return {
 				text: `Вызов был брошен не тебе aga`,
 				reply: true,

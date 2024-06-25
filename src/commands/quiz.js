@@ -7,6 +7,19 @@ module.exports = {
 	requires: [],
 	async execute(client, ctx, utils) {
 		const quizData = bb.utils.coins.loadQuizData()
+		const opponent = ctx.args[0] ? bb.utils.parseUser(ctx.args[0]) : null
+
+		if (opponent === `сброс`) {
+			delete quizData[ctx.channel.id]
+			bb.utils.coins.saveQuizData(quizData)
+
+			return {
+				text: `Квиз успешно отменён`,
+				reply: true,
+				emoji: true,
+				action: true
+			}
+		}
 
 		if (quizData[ctx.channel.id]) {
 			return {
@@ -16,8 +29,6 @@ module.exports = {
 				action: true
 			}
 		}
-
-		const opponent = ctx.args[0] ? bb.utils.parseUser(ctx.args[0]) : null
 
 		if (!opponent) {
 			return {
@@ -42,7 +53,7 @@ module.exports = {
 			opponent: opponent,
 			channel: ctx.channel.login,
 			accepted: false,
-			startTime: Date.now()
+			startTime: null
 		}
 
 		quizData[ctx.channel.id] = challenge
@@ -50,7 +61,7 @@ module.exports = {
 
 		ctx.send(`\u{1F9E9} @${opponent}, @${ctx.user.login} бросил(а) тебе вызов! Используй ${bb.config.Bot.Prefix}принять, чтобы принять`)
 
-		bb.misc.quizTimer = setTimeout(() => {
+		bb.misc.acceptTimer = setTimeout(() => {
 			const quiz = bb.utils.coins.loadQuizData()
 
 			if (!quiz[ctx.channel.id].accepted) {

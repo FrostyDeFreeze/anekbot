@@ -50,6 +50,10 @@ module.exports = {
 			reward = 60
 		}
 
+		if (quizData[ctx.channel.id].question.difficulty === `hard`) {
+			reward = 80
+		}
+
 		if (answer === rightAnswerIndex) {
 			ctx.send(`\u{1F9E9} @${ctx.user.login} ответил(а) правильно и выиграл(а)! \u{2027} За победу начислил ${reward} монет`)
 			clearTimeout(bb.misc.quizTimer)

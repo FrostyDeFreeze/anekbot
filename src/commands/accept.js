@@ -43,7 +43,7 @@ module.exports = {
 
 		ctx.send(
 			`\u{1F9E9} @${quizData[ctx.channel.id].challenger}, @${ctx.user.login} принял(а) игру. Приготовьтесь. Для ответа на квиз используйте ${bb.config.Bot.Prefix
-			}ответ <номер варианта ответа>. Победитель получит от 30 до 60 монет`
+			}ответ <номер варианта ответа>. Победитель получит от 30 до 80 монет`
 		)
 
 		bb.misc.quizTimer = setTimeout(() => {

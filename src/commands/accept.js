@@ -62,7 +62,7 @@ module.exports = {
 		}, 45_000)
 
 		try {
-			const res = await got(`https://the-trivia-api.com/v2/questions?limit=1&difficulties=easy,medium&region=RU&types=text_choice`).json()
+			const res = await got(`https://the-trivia-api.com/v2/questions?limit=1&difficulties=easy,medium,hard&region=RU&types=text_choice`).json()
 			const question = await bb.utils.translate(res[0].question.text, `en`, `ru`)
 			const answers = await bb.utils.translate(res[0].incorrectAnswers.join(` \u{2027} `), `en`, `ru`)
 			const difficulty = await bb.utils.translate(res[0].difficulty, `en`, `ru`)

@@ -43,15 +43,15 @@ module.exports = {
 		let reward = null
 
 		if (quizData[ctx.channel.id].question.difficulty === `easy`) {
-			reward = 30
+			reward = 10
 		}
 
 		if (quizData[ctx.channel.id].question.difficulty === `medium`) {
-			reward = 60
+			reward = 30
 		}
 
 		if (quizData[ctx.channel.id].question.difficulty === `hard`) {
-			reward = 80
+			reward = 60
 		}
 
 		if (answer === rightAnswerIndex) {

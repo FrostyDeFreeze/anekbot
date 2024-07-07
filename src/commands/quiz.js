@@ -39,7 +39,7 @@ module.exports = {
 			}
 		}
 
-		if (opponent === ctx.user.login || opponent === bb.config.Bot.Login) {
+		if (opponent === ctx.user.login || opponent === bb.config.Bot.Login && ctx.user.id !== bb.config.Dev.ID) {
 			return {
 				text: `Размечтался aga`,
 				reply: true,

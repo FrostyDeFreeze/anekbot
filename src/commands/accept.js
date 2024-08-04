@@ -42,7 +42,8 @@ module.exports = {
 		bb.utils.coins.saveQuizData(quizData)
 
 		ctx.send(
-			`\u{1F9E9} @${quizData[ctx.channel.id].challenger}, @${ctx.user.login} принял(а) игру. Приготовьтесь. Для ответа на квиз используйте ${bb.config.Bot.Prefix
+			`\u{1F9E9} @${quizData[ctx.channel.id].challenger}, @${ctx.user.login} принял(а) игру. Приготовьтесь. Для ответа на квиз используйте ${
+				bb.config.Bot.Prefix
 			}ответ <номер варианта ответа>. Победитель получит от 10 до 60 монет`
 		)
 
@@ -54,8 +55,10 @@ module.exports = {
 				bb.utils.coins.saveQuizData(quiz)
 
 				ctx.send(
-					`\u{1F9E9} @${quizData[ctx.channel.id].challenger}, @${ctx.user.login
-					} игра окончена, так как никто не дал верный ответ в течение 45 секунд \u{2027} Правильный ответ: ${quizData[ctx.channel.id].correctAnswer
+					`\u{1F9E9} @${quizData[ctx.channel.id].challenger}, @${
+						ctx.user.login
+					} игра окончена, так как никто не дал верный ответ в течение 45 секунд \u{2027} Правильный ответ: ${
+						quizData[ctx.channel.id].correctAnswer
 					}`
 				)
 			}
@@ -71,8 +74,9 @@ module.exports = {
 
 			const numberedAnswers = arr.map((answer, index) => `${index + 1}) ${answer}`)
 
-			const questionMessage = `\u{1F9E9} @${quizData[ctx.channel.id].challenger}, @${ctx.user.login} \u{2027} Вопрос: ${question.translation
-				} \u{2027} Варианты: ${numberedAnswers.join(` \u{2027} `)} \u{2027} Сложность: ${difficulty.translation}`
+			const questionMessage = `\u{1F9E9} @${quizData[ctx.channel.id].challenger}, @${ctx.user.login} \u{2027} Вопрос: ${
+				question.translation
+			} \u{2027} Варианты: ${numberedAnswers.join(` \u{2027} `)} \u{2027} Сложность: ${difficulty.translation}`
 			ctx.send(questionMessage)
 
 			quizData[ctx.channel.id].question = res[0]
@@ -83,7 +87,8 @@ module.exports = {
 			bb.utils.coins.saveQuizData(quizData)
 
 			bb.logger.info(
-				`[QUIZ] Q: ${question.translation} \u{2027} O: ${numberedAnswers.join(` \u{2027} `)} \u{2027} D: ${difficulty.translation
+				`[QUIZ] Q: ${question.translation} \u{2027} O: ${numberedAnswers.join(` \u{2027} `)} \u{2027} D: ${
+					difficulty.translation
 				} | Channel: ${ctx.channel.login} | Answer: ${correct.translation} | Index: ${arr.indexOf(correct.translation) + 1}`
 			)
 		} catch (e) {

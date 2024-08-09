@@ -44,8 +44,8 @@ exports.joiner = async () => {
 }
 
 exports.paste = async (text, raw) => {
-	const paste = await got.post(`https://p.dankfreeze.space/documents`, { body: text }).json()
-	return raw ? `https://p.dankfreeze.space/raw/${paste.key}` : `https://p.dankfreeze.space/${paste.key}`
+	const paste = await got.post(`https://p.cuvi.pw/documents`, { body: text }).json()
+	return raw ? `https://p.cuvi.pw/raw/${paste.key}` : `https://p.cuvi.pw/${paste.key}`
 }
 
 exports.ping = async () => {
@@ -100,15 +100,27 @@ exports.ucLen = str => {
 exports.unping = user => `${user[0]}\u{E0000}${user.slice(1)}`
 
 exports.upload = async (text, type) => {
-	const url = `https://i.dankfreeze.space/paste`
+	const url = `https://i.cuvi.pw/upload`
 	let content = text
 
 	if (type) {
 		content = JSON.stringify(text, null, 2)
 	}
 
-	const paste = await got.post(url, { json: { text: content.toString() } })
-	return paste.body
+	const paste = await got.post(url, {
+		throwHttpErrors: false,
+		responseType: `json`,
+		headers: {
+			Authorization: bb.config.Uploader.Authorization
+		},
+		body: content.toString()
+	})
+
+	if (paste.error) {
+		return paste.error
+	}
+
+	return paste.body.link.replace(/\/t\//, `/`)
 }
 
 exports.saveFMData = data => {

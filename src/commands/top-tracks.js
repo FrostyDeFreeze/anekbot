@@ -28,7 +28,7 @@ module.exports = {
 				return {
 					text: `Пользователь ${bb.utils.parseUser(
 						ctx.args[0]
-					)} не привязал свой LastFM аккаунт \u{2027} Гайд: https://i.dankfreeze.space/fm-guide.txt`,
+					)} не привязал свой LastFM аккаунт \u{2027} Гайд: https://i.cuvi.pw/t/fm-guide.txt`,
 					reply: true,
 					emoji: true,
 					action: true
@@ -42,7 +42,7 @@ module.exports = {
 
 		if (!user) {
 			return {
-				text: `Пользователь не привязал свой аккаунт last.fm \u{2027} Гайд: https://i.dankfreeze.space/fm-guide.txt`,
+				text: `Пользователь не привязал свой аккаунт last.fm \u{2027} Гайд: https://i.cuvi.pw/t/fm-guide.txt`,
 				reply: true,
 				emoji: true,
 				action: true

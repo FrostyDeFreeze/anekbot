@@ -4,7 +4,6 @@ const { paste, upload } = require(`./src/utils/utils.js`)
 const fs = require(`fs`)
 const path = require(`path`)
 const cron = require(`node-cron`)
-const got = require(`got`)
 const coinsPath = path.join(__dirname, `./src/data/coins.json`)
 const promoPath = path.join(__dirname, `./src/data/promocodes.json`)
 

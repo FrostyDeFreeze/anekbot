@@ -97,7 +97,7 @@ exports.ucLen = str => {
 	return len
 }
 
-exports.unping = user => `${user[0]}\u{E0000}${user.slice(1)}`
+exports.unping = user => user.split(``).join(`\u{E0000}`)
 
 exports.upload = async (text, type) => {
 	const url = `https://i.cuvi.pw/upload`

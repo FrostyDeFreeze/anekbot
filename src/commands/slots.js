@@ -64,7 +64,10 @@ module.exports = {
 			: `\u{3010} ${selectedChatters.join(` \u{2B25} `)} \u{3011}`
 
 		return {
-			text: resultText
+			text: resultText,
+			reply: true,
+			emoji: true,
+			action: true
 		}
 	}
 }

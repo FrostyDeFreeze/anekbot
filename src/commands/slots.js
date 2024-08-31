@@ -36,7 +36,7 @@ module.exports = {
 		const isWin = selectedChatters.every((val, _, arr) => val === arr[0])
 
 		const totalChatters = array.length
-		const winCash = 100
+		const winCash = 350
 		let winProbability
 		let winProbabilityPercent
 		let winText

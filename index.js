@@ -261,7 +261,7 @@ client.on(`PRIVMSG`, async msg => {
 		}
 	}
 
-	if (ctx.command === `123` && ctx.channel.id === `239373609`) {
+	if (ctx.command === `123` && ctx.channel.id === `239373609` && ctx.msg.text.startsWith(ctx.prefix)) {
 		ctx.send(`Иди нахуй be`, true)
 	}
 

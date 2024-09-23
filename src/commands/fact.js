@@ -1,4 +1,5 @@
 const got = require(`got`)
+const cheerio = require(`cheerio`)
 
 module.exports = {
 	name: `fact`,
@@ -8,15 +9,23 @@ module.exports = {
 	cooldown: 43200,
 	requires: [],
 	async execute(client, ctx, utils) {
-		const res = await got(`https://uselessfacts.jsph.pl/api/v2/facts/random?language=en`).json()
-		const fact = res.text
-		const translation = (await bb.utils.translate(fact)).translation
+		try {
+			const response = await got(`https://randstuff.ru/fact/`)
+			const $ = cheerio.load(response.body)
+			const fact = $(`#fact .text td`).text().trim()
 
-		return {
-			text: `Твой сегодняшний факт: ${translation}`,
-			reply: true,
-			emoji: true,
-			action: true
+			return {
+				text: `Твой сегодняшний факт: ${fact}`,
+				reply: true,
+				emoji: true,
+				action: true
+			}
+		} catch (e) {
+			bb.logger.error(`[${this.name.toUpperCase()}] ${e.message}`)
+			return {
+				text: `\u{1F534} ${e.message}`,
+				reply: true
+			}
 		}
 	}
 }

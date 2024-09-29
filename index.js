@@ -37,7 +37,9 @@ bb.misc.channels = [
 	`408647618`,
 	`104672207`
 ]
-bb.misc.admins = [`799145942`, `239373609`, `739044027`, `509583526`, `753723636`, `452164565`]
+bb.misc.admins = [`791563024`, `239373609`, `739044027`, `509583526`, `753723636`, `452164565`]
+
+bb.misc.toggleBot = true
 
 client.on(`ready`, async () => {
 	bb.logger.info(`Successfully connected to TMI!`)
@@ -255,15 +257,28 @@ client.on(`PRIVMSG`, async msg => {
 	ctx.args = ctx.msg.text.slice(bb.config.Bot.Prefix.length).trim().split(/ +/)
 	ctx.command = ctx.args.shift().toLowerCase()
 
-	if (ctx.command === `cl` && ctx.channel.id === `405731639` && ctx.user.id === `405731639`) {
-		for (let i = 0; i < 200; i++) {
-			ctx.send(`.clear`)
-			await bb.utils.sleep(30)
+	if (ctx.command === `123` && ctx.channel.id === `239373609` && ctx.msg.text.startsWith(ctx.prefix)) {
+		ctx.send(`Иди нахуй be`, true)
+	}
+
+	const statuses = {
+		stop: {
+			on: `\u{1F7E2} Бот активен для всех`,
+			off: `\u{1F534} Бот активен только для админов и модераторов`,
+			toggle: () => {
+				bb.misc.toggleBot = !bb.misc.toggleBot
+				return bb.misc.toggleBot ? statuses.stop.on : statuses.stop.off
+			}
 		}
 	}
 
-	if (ctx.command === `123` && ctx.channel.id === `239373609` && ctx.msg.text.startsWith(ctx.prefix)) {
-		ctx.send(`Иди нахуй be`, true)
+	if (statuses[ctx.command] && bb.misc.admins.includes(ctx.user.id)) {
+		const result = statuses[ctx.command].toggle()
+		return ctx.send(result, true)
+	}
+
+	if (!bb.misc.toggleBot && !ctx.user.perms.mod && !bb.misc.admins.includes(ctx.user.id)) {
+		return
 	}
 
 	const command = bb.commands.get(ctx.command)

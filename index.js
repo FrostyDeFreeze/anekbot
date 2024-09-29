@@ -262,7 +262,7 @@ client.on(`PRIVMSG`, async msg => {
 	}
 
 	const statuses = {
-		stop: {
+		s: {
 			on: `\u{1F7E2} Бот активен для всех`,
 			off: `\u{1F534} Бот активен только для админов и модераторов`,
 			toggle: () => {

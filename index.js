@@ -267,7 +267,7 @@ client.on(`PRIVMSG`, async msg => {
 			off: `\u{1F534} Бот активен только для админов и модераторов`,
 			toggle: () => {
 				bb.misc.toggleBot = !bb.misc.toggleBot
-				return bb.misc.toggleBot ? statuses.stop.on : statuses.stop.off
+				return bb.misc.toggleBot ? statuses.s.on : statuses.s.off
 			}
 		}
 	}

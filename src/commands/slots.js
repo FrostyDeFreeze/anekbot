@@ -33,13 +33,16 @@ module.exports = {
 			selectedChatters.push(randomChatter)
 		}
 
-		const isWin = selectedChatters.every((val, _, arr) => val === arr[0])
-
 		const totalChatters = array.length
-		const winCash = 350
+		const winCashForThree = 3_000
+		const winCashForTwo = 50
 		let winProbability
 		let winProbabilityPercent
 		let winText
+
+		const isThreeWin = selectedChatters.every((val, _, arr) => val === arr[0])
+		const isTwoWin =
+			selectedChatters.slice(0, 2).every((val, _, arr) => val === arr[0]) || selectedChatters.slice(1, 3).every((val, _, arr) => val === arr[0])
 
 		if (slotsCount === 1) {
 			winProbability = 1
@@ -49,9 +52,18 @@ module.exports = {
 			winProbabilityPercent = winProbability * 100
 		}
 
-		if (isWin) {
-			bb.utils.coins.addCoins(ctx.user.id, ctx.channel.id, winCash)
-			winText = ` \u{2027} За победу начислил тебе ${winCash} монет \u{2027} Твой текущий баланс: ${(userData.coins + winCash).toFixed(1)}`
+		if (isThreeWin) {
+			bb.utils.coins.addCoins(ctx.user.id, ctx.channel.id, winCashForThree)
+			winText = ` \u{2027} За победу начислил тебе ${winCashForThree} монет \u{2027} Твой текущий баланс: ${(
+				userData.coins + winCashForThree
+			).toFixed(1)}`
+		} else if (isTwoWin) {
+			bb.utils.coins.addCoins(ctx.user.id, ctx.channel.id, winCashForTwo)
+			winText = ` \u{2027} За 2 совпадения начислил тебе ${winCashForTwo} монет \u{2027} Твой текущий баланс: ${(
+				userData.coins + winCashForTwo
+			).toFixed(1)}`
+		} else {
+			winText = ``
 		}
 
 		const winProbabilityText = `(1 к ${Math.round(1 / winProbability)})`
@@ -59,7 +71,7 @@ module.exports = {
 			? `${winProbabilityPercent}%`
 			: `${winProbabilityPercent.toFixed(2)}%`
 
-		const resultText = isWin
+		const resultText = winText
 			? `\u{3010} ${selectedChatters.join(` \u{2B25} `)} \u{3011} \u{2027} ${winProbabilityPercentText} ${winProbabilityText}${winText}`
 			: `\u{3010} ${selectedChatters.join(` \u{2B25} `)} \u{3011}`
 

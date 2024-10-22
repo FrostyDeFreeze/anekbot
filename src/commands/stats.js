@@ -30,9 +30,8 @@ module.exports = {
 			}
 		}
 
-		const stvUser = await bb.services.stv.getUser(ctx.channel.id)
-		const defaultEmoteSet = stvUser.data.userByConnection.connections.find(i => i.platform === `TWITCH`).emote_set_id
-		const setEmotes = stvUser.data.userByConnection.emote_sets.find(i => i.id === defaultEmoteSet).emotes
+		const stvUser = await bb.services.stv.getUserREST(ctx.channel.id)
+		const setEmotes = stvUser.emote_set.emotes
 
 		const validEmoteIds = new Set(setEmotes.map(emote => emote.id))
 		const filteredEmotes = res.emotes.filter(emote => validEmoteIds.has(emote.id))

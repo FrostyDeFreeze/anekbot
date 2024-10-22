@@ -6,19 +6,18 @@ module.exports = {
 	cooldown: 3600,
 	requires: [],
 	async execute(client, ctx, utils) {
-		const stvChannel = await bb.services.stv.getUser(ctx.channel.id)
+		const stvChannel = await bb.services.stv.getUserREST(ctx.channel.id)
 
-		if (stvChannel.errors) {
+		if (!stvChannel) {
 			return {
-				text: `Ошибка получения ${ctx.channel.login}: ${stvChannel.errors[0].message}`,
+				text: `Ошибка получения ${ctx.channel.login}`,
 				reply: true,
 				emoji: true,
 				action: true
 			}
 		}
 
-		const currSet = stvChannel.data.userByConnection.connections.filter(i => i.platform === `TWITCH`)[0].emote_set_id
-		const emotes = stvChannel.data.userByConnection.emote_sets.find(i => i.id === currSet).emotes
+		const emotes = stvChannel.emote_set.emotes
 		const randEmote = bb.utils.randArr(emotes)
 
 		return {

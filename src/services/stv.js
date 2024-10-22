@@ -5,7 +5,8 @@ const gql = got.extend({
 	throwHttpErrors: false,
 	responseType: `json`,
 	headers: {
-		authorization: `Bearer ${bb.config.API.SevenTV}`
+		Cookie: bb.config.API.SevenTV,
+		'Content-Type': `application/json`
 	}
 })
 
@@ -268,7 +269,7 @@ module.exports = {
 		return info
 	},
 	getSubage: async function (stvID) {
-		const egVault = await got(`https://egvault.7tv.io/v1/subscriptions/${encodeURIComponent(stvID)}`).json()
+		const egVault = await got(`https://7tv.io/egvault/v1/subscriptions/${encodeURIComponent(stvID)}`).json()
 		return egVault
 	},
 	getEmote: async function (emoteID) {
@@ -282,5 +283,13 @@ module.exports = {
 
 		const info = await this.request(operation)
 		return info
+	},
+	getUserREST: async function (userID) {
+		try {
+			const user = await got(`https://7tv.io/v3/users/twitch/${userID}`).json()
+			return user
+		} catch (e) {
+			return null
+		}
 	}
 }

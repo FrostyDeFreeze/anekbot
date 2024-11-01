@@ -7,7 +7,7 @@ module.exports = {
 	requires: [],
 	async execute(client, ctx, utils) {
 		return {
-			text: `Список моих команд и другая полезная информация: https://i.cuvi.pw/t/boomboty.txt anek02Knife`,
+			text: `Список моих команд и другая полезная информация: https://i.cuvi.pw/t/boomboty.txt anek02Look`,
 			reply: true,
 			emoji: true,
 			action: true

@@ -4,7 +4,7 @@ module.exports = {
 	name: `crocodile`,
 	access: [],
 	active: true,
-	aliases: [`start`],
+	aliases: [`start`, `старт`],
 	cooldown: 300,
 	requires: [],
 	async execute(client, ctx, utils) {
@@ -26,6 +26,7 @@ module.exports = {
 			word: randWord,
 			describer: null,
 			players: [],
+			isFailedToWhisper: false,
 			startTime: 0
 		}
 
@@ -40,28 +41,36 @@ module.exports = {
 			const currData = bb.utils.croc.loadData()
 			const game = currData[ctx.channel.id]
 
-			if (game && game.players.length >= 3) {
+			if (game && game.players.length >= 1) {
 				game.describer = bb.utils.randArr(game.players)
 				game.startTime = Date.now()
 
-				// const prompt = `Ты выступаешь в роли чат бота и ведущего игры "Крокодил". Тебе необходимо очень кратко, понятно и простыми словами объяснить следующее слово: "${game.word}". Запрещено использовать само слово, а также однокоренные слова. Объясняй очень кратко, в пределах 100 символов.`
+				const prompt = `Ты выступаешь в роли чат бота и ведущего игры "Крокодил". Тебе необходимо очень кратко, понятно и простыми словами объяснить следующее слово: "${game.word}". Запрещено использовать само слово, а также однокоренные слова. Объясняй очень кратко, в пределах 100 символов.`
+				let text = `@${game.describer.login}, отправил тебе в личные сообщения Twitch слово, которое необходимо объяснить \u{2027} Запрещено использовать однокоренные слова и само слово при объяснении \u{2027} У игроков есть 1 минута на то, чтобы отгадать слово, удачи \u{1F601}`
 
-				// const request = await bb.services.ai.gpt(prompt, 50)
-				// const body = JSON.parse(request.body)
+				const whisper = await bb.services.helix.whisper(game.describer.id, `Слово для объяснения: ${game.word}`)
+				console.log(whisper.body)
 
-				// if (body.error) {
-				// 	return {
-				// 		text: `При запросе и попытке объяснения слова возникла ошибка. Простите меня, пожалуйста (${body.error.message}) \u{1F614}`
-				// 	}
-				// }
+				if (whisper.body.error) {
+					const request = await bb.services.ai.gpt(prompt, 50)
+					const body = JSON.parse(request.body)
 
-				// const response = body.choices[0]
+					if (body.error) {
+						return {
+							text: `При запросе и попытке объяснения слова возникла ошибка. Простите меня, пожалуйста (${body.error.message}) \u{2027} Слово: "${game.word}" \u{1F614}`
+						}
+					}
 
-				// ctx.send(`\u{1F916} Объясняю слово, слушайте внимательно: ${response.message.content.replace(/[\n\r]/g, ` `)}`)
-				await bb.services.helix.whisper(game.describer.id, `Слово для объяснения: ${game.word}`)
-				ctx.send(
-					`@${game.describer.login}, отправил тебе в личные сообщения Twitch слово, которое необходимо объяснить \u{2027} Запрещено использовать однокоренные слова и само слово при объяснении \u{2027} У игроков есть 1 минута на то, чтобы отгадать слово, удачи \u{1F601}`
-				)
+					const response = body.choices[0]
+					text = `\u{1F916} Объясняю слово, слушайте внимательно: ${response.message.content.replace(/[\n\r]/g, ` `)}`
+					game.isFailedToWhisper = true
+
+					ctx.send(
+						`Мне не удалось отправить личное сообщение пользователю ${game.describer.login} \u{2027} Попытаюсь слово объяснить сам \u{1F644}`
+					)
+				}
+
+				ctx.send(text)
 
 				bb.misc.guessTimeout = setTimeout(() => {
 					ctx.send(`Время на отгадывание вышло \u{2027} Никто не отгадал слово "${game.word}" \u{1F603}`)

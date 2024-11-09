@@ -36,18 +36,26 @@ module.exports = {
 			}
 		}
 
-		// if (data[ctx.channel.id].describer.id === ctx.user.id) {
-		// 	return {
-		// 		text: `Ты не можешь отгадать слово, которое объясняешь \u{1F926}`,
-		// 		reply: true,
-		// 		emoji: true,
-		// 		action: true
-		// 	}
-		// }
+		if (data[ctx.channel.id].describer.id === ctx.user.id) {
+			return {
+				text: `Ты не можешь отгадать слово, которое объясняешь \u{1F926}`,
+				reply: true,
+				emoji: true,
+				action: true
+			}
+		}
 
 		if (guess.toLowerCase() === data[ctx.channel.id].word.toLowerCase()) {
-			ctx.send(`Поздравляю! Ты отгадал(а) слово "${data[ctx.channel.id].word}" и получаешь 50 монет \u{1F913}`, true, true, true)
+			ctx.send(
+				`Поздравляю! Ты отгадал(а) слово "${data[ctx.channel.id].word}" и получаешь 50 монет \u{2027} Благодаря тебе ${
+					data[ctx.channel.id].describer.login
+				} также получает 50 монет за красноречивое объяснение \u{1F913}`,
+				true,
+				true,
+				true
+			)
 			bb.utils.coins.addCoins(ctx.user.id, ctx.channel.id, 50)
+			bb.utils.coins.addCoins(data[ctx.channel.id].describer.id, ctx.channel.id, 50)
 
 			clearTimeout(bb.misc.guessTimeout)
 			delete data[ctx.channel.id]

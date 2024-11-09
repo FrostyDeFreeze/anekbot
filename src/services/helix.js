@@ -21,5 +21,11 @@ module.exports = {
 		const { body } = await helix.get(`users?login=${logins.join(`&login=`)}`)
 		const arr = body.data.map(i => i.id)
 		return arr
+	},
+	whisper: async function (userID, message) {
+		return helix.post(`whispers?from_user_id=${bb.config.Bot.ID}&to_user_id=${userID}`, {
+			throwHttpErrors: true,
+			json: { message: message }
+		})
 	}
 }

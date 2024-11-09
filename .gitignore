@@ -3,6 +3,7 @@ node_modules
 pnpm-lock.yaml
 src/data/actions.json
 src/data/coins.json
+src/data/crocodile.json
 src/data/fm.json
 src/data/promocodes.json
 src/data/quiz.json

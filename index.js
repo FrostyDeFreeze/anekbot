@@ -272,7 +272,7 @@ client.on(`PRIVMSG`, async msg => {
 		}
 	}
 
-	if (statuses[ctx.command] && bb.misc.admins.includes(ctx.user.id)) {
+	if (statuses[ctx.command] && bb.misc.admins.includes(ctx.user.id) && ctx.msg.text.startsWith(ctx.prefix)) {
 		const result = statuses[ctx.command].toggle()
 		return ctx.send(result, true)
 	}

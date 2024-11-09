@@ -9,16 +9,6 @@ module.exports = {
 		const data = bb.utils.croc.loadData()
 		const guess = ctx.args[0]
 
-		let describerReward = true
-		let text = `Поздравляю! Ты отгадал(а) слово "${data[ctx.channel.id].word}" и получаешь 50 монет \u{2027} Благодаря тебе ${
-			data[ctx.channel.id].describer.login
-		} также получает 50 монет за красноречивое объяснение \u{1F913}`
-
-		if (data[ctx.channel.id].isFailedToWhisper) {
-			describerReward = false
-			text = `Поздравляю! Ты отгадал(а) слово "${data[ctx.channel.id].word}" и получаешь 50 монет \u{1F913}`
-		}
-
 		if (!guess) {
 			return {
 				text: `Необходимо написать предполагаемое слово`,
@@ -30,7 +20,7 @@ module.exports = {
 
 		if (!data[ctx.channel.id] || data[ctx.channel.id].startTime === 0) {
 			return {
-				text: `На данный момент нет активной игры \u{2027} Используйте ${ctx.prefix} start, чтобы начать новую игру`,
+				text: `На данный момент нет активной игры \u{2027} Используйте ${ctx.prefix}start, чтобы начать новую игру`,
 				reply: true,
 				emoji: true,
 				action: true
@@ -53,6 +43,16 @@ module.exports = {
 				emoji: true,
 				action: true
 			}
+		}
+
+		let describerReward = true
+		let text = `Поздравляю! Ты отгадал(а) слово "${data[ctx.channel.id].word}" и получаешь 50 монет \u{2027} Благодаря тебе ${
+			data[ctx.channel.id].describer.login
+		} также получает 50 монет за красноречивое объяснение \u{1F913}`
+
+		if (data[ctx.channel.id].isFailedToWhisper) {
+			describerReward = false
+			text = `Поздравляю! Ты отгадал(а) слово "${data[ctx.channel.id].word}" и получаешь 50 монет \u{1F913}`
 		}
 
 		if (guess.toLowerCase() === data[ctx.channel.id].word.toLowerCase()) {

@@ -58,7 +58,7 @@ module.exports = {
 		if (guess.toLowerCase() === data[ctx.channel.id].word.toLowerCase()) {
 			ctx.send(text, true, true, true)
 
-			bb.utils.coins.addCoins(ctx.user.id, ctx.channel.id, 50)
+			bb.utils.coins.addCoins(ctx.user.id, ctx.channel.id, 25)
 			describerReward ? bb.utils.coins.addCoins(data[ctx.channel.id].describer.id, ctx.channel.id, 50) : null
 
 			clearTimeout(bb.misc.guessTimeout)

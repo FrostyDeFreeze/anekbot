@@ -41,7 +41,7 @@ module.exports = {
 			const currData = bb.utils.croc.loadData()
 			const game = currData[ctx.channel.id]
 
-			if (game && game.players.length >= 1) {
+			if (game && game.players.length >= 3) {
 				game.describer = bb.utils.randArr(game.players)
 				game.startTime = Date.now()
 

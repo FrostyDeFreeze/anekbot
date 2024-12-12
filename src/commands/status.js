@@ -7,8 +7,9 @@ module.exports = {
 	requires: [],
 	async execute(client, ctx, utils) {
 		const available = bb.utils.coins.getChannelsForUser(ctx.user.id)
+		const filtered = available.filter(channel => bb.client.joinedChannels.has(channel.channelLogin))
 
-		if (!available.length) {
+		if (!filtered.length) {
 			return {
 				text: `Каналов с доступными догадкой или промокодом нет`,
 				reply: true,
@@ -17,7 +18,7 @@ module.exports = {
 			}
 		}
 
-		const grouped = available.reduce((result, channel) => {
+		const grouped = filtered.reduce((result, channel) => {
 			const type = channel.type === `guess` ? `Догадка` : `Промокод`
 			result[type] = result[type] || []
 			result[type].push(bb.utils.unping(channel.channelLogin))

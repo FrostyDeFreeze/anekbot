@@ -65,7 +65,7 @@ module.exports = {
 		}, 45_000)
 
 		try {
-			const res = await got(`https://opentdb.com/api.php?amount=1`).json()
+			const res = await got(`https://opentdb.com/api.php?amount=1&type=multiple`).json()
 			const question = await bb.utils.translate(res.results[0].question, `en`, `ru`)
 			const answers = await bb.utils.translate(res.results[0].incorrect_answers.join(` \u{2027} `), `en`, `ru`)
 			const difficulty = await bb.utils.translate(res.results[0].difficulty, `en`, `ru`)

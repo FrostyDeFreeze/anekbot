@@ -65,11 +65,11 @@ module.exports = {
 		}, 45_000)
 
 		try {
-			const res = await got(`https://the-trivia-api.com/v2/questions?limit=1&difficulties=easy,medium,hard&region=RU&types=text_choice`).json()
-			const question = await bb.utils.translate(res[0].question.text, `en`, `ru`)
-			const answers = await bb.utils.translate(res[0].incorrectAnswers.join(` \u{2027} `), `en`, `ru`)
-			const difficulty = await bb.utils.translate(res[0].difficulty, `en`, `ru`)
-			const correct = await bb.utils.translate(res[0].correctAnswer, `en`, `ru`)
+			const res = await got(`https://opentdb.com/api.php?amount=1`).json()
+			const question = await bb.utils.translate(res.results[0].question, `en`, `ru`)
+			const answers = await bb.utils.translate(res.results[0].incorrect_answers.join(` \u{2027} `), `en`, `ru`)
+			const difficulty = await bb.utils.translate(res.results[0].difficulty, `en`, `ru`)
+			const correct = await bb.utils.translate(res.results[0].correct_answer, `en`, `ru`)
 			const arr = bb.utils.addAndShuffle(correct.translation, answers.translation.split(` \u{2027} `))
 
 			const numberedAnswers = arr.map((answer, index) => `${index + 1}) ${answer}`)
@@ -79,7 +79,7 @@ module.exports = {
 			} \u{2027} Варианты: ${numberedAnswers.join(` \u{2027} `)} \u{2027} Сложность: ${difficulty.translation}`
 			ctx.send(questionMessage)
 
-			quizData[ctx.channel.id].question = res[0]
+			quizData[ctx.channel.id].question = res.results[0]
 			quizData[ctx.channel.id].shuffledAnswers = arr
 			quizData[ctx.channel.id].correctAnswer = correct.translation
 			quizData[ctx.channel.id].correctIndex = arr.indexOf(correct.translation) + 1

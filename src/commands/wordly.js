@@ -20,7 +20,7 @@ module.exports = {
 			}
 		}
 
-		const hasCooldown = data[userID].lastPlayed && currTime - data[userID].lastPlayed < 86_400_000
+		const hasCooldown = data[userID].lastPlayed && currTime - data[userID].lastPlayed < 300_000
 
 		if (ctx.args[0] && ctx.args[0].toLowerCase() === `swap`) {
 			if (!data[userID].word || hasCooldown) {
@@ -40,7 +40,7 @@ module.exports = {
 			bb.utils.wordly.saveData(data)
 
 			return {
-				text: `Я загадал новое слово из ${randWord.length} букв \u{2027} Попробуй угадать с помощью команды: ${ctx.prefix}wordly <слово>`,
+				text: `Я загадал новое слово из ${randWord.length} букв \u{2027} Попробуй угадать с помощью команды ${ctx.prefix}wordly <слово> \u{2027} Для смены слова используй ${ctx.prefix}wordly swap`,
 				reply: true,
 				emoji: true,
 				action: true
@@ -49,10 +49,10 @@ module.exports = {
 
 		if (!ctx.args[0]) {
 			if (hasCooldown) {
-				const timeLeft = 86_400_000 - (currTime - data[userID].lastPlayed)
+				const timeLeft = 300_000 - (currTime - data[userID].lastPlayed)
 
 				return {
-					text: `Ты уже играл сегодня! \u{2027} Попробуй снова через ${utils.humanizer(timeLeft)}`,
+					text: `Ты уже играл! \u{2027} Попробуй снова через ${utils.humanizer(timeLeft)}`,
 					reply: true,
 					emoji: true,
 					action: true
@@ -69,7 +69,7 @@ module.exports = {
 			}
 
 			return {
-				text: `Я загадал слово из ${data[userID].word.length} букв \u{2027} Попробуй угадать с помощью команды: ${ctx.prefix}wordly <слово>`,
+				text: `Я загадал слово из ${data[userID].word.length} букв \u{2027} Попробуй угадать с помощью команды ${ctx.prefix}wordly <слово> \u{2027} Для смены слова используй ${ctx.prefix}wordly swap`,
 				reply: true,
 				emoji: true,
 				action: true
@@ -87,7 +87,7 @@ module.exports = {
 			if (hasCooldown) {
 				const timeLeft = 86_400_000 - (currTime - data[userID].lastPlayed)
 				return {
-					text: `Ты уже играл сегодня! \u{2027} Попробуй снова через ${utils.humanizer(timeLeft)}`,
+					text: `Ты уже играл! \u{2027} Попробуй снова через ${utils.humanizer(timeLeft)}`,
 					reply: true,
 					emoji: true,
 					action: true
@@ -146,7 +146,7 @@ module.exports = {
 			}
 
 			if (guessedWord === targetWord) {
-				utils.coins.addCoins(userID, ctx.channel.id, 100)
+				utils.coins.addCoins(userID, ctx.channel.id, 30)
 
 				data[userID].lastPlayed = currTime
 				data[userID].word = null
@@ -154,7 +154,7 @@ module.exports = {
 				bb.utils.wordly.saveData(data)
 
 				return {
-					text: `Поздравляю \u{1F973} Ты угадал слово и получил 100 монет! \u{2027} Следующая попытка будет доступна через 24 часа`,
+					text: `Поздравляю \u{1F973} Ты угадал слово и получил 30 монет! \u{2027} Следующая попытка будет доступна через 5 минут`,
 					reply: true,
 					emoji: true,
 					action: true

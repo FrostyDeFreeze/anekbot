@@ -35,7 +35,8 @@ bb.misc.channels = [
 	`452164565`,
 	`596589808`,
 	`408647618`,
-	`104672207`
+	`104672207`,
+	`197298208`
 ]
 bb.misc.admins = [`791563024`, `239373609`, `739044027`, `509583526`, `753723636`, `452164565`]
 
@@ -118,7 +119,7 @@ client.on(`PART`, ({ channelName }) => {
 // })
 
 cron.schedule(`0 3 * * *`, () => {
-	bb.client.privmsg(`zhestykey`, `$$cookie YummyCummies`)
+	bb.client.privmsg(`frostydefreeze`, `$$cookie YummyCummies`)
 })
 
 bb.misc.currExp = null

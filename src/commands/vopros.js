@@ -3,9 +3,13 @@ module.exports = {
 	access: [],
 	active: true,
 	aliases: [`вопрос`, `в`],
-	cooldown: 120,
+	cooldown: 0,
 	requires: [],
 	async execute(client, ctx, utils) {
+		if (ctx.channel.id !== `931338266`) {
+			return
+		}
+
 		const questions = [
 			`Если бы ты мог прыгнуть в бассейн с чем угодно, чем бы он был наполнен?`,
 			`Какое лучшее название для сети Wi-Fi ты видел?`,

@@ -96,6 +96,16 @@ module.exports = {
 
 			const guessedWord = ctx.args[0].toLowerCase()
 			const targetWord = data[userID].word
+			const isWord = words.find(i => i.toLowerCase() === guessedWord)
+
+			if (!isWord) {
+				return {
+					text: `Это не похоже на существующее слово!`,
+					reply: true,
+					emoji: true,
+					action: true
+				}
+			}
 
 			if (guessedWord.length !== targetWord.length) {
 				return {

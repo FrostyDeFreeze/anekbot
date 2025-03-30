@@ -16,11 +16,22 @@ module.exports = {
 			data[userID] = {
 				word: null,
 				lastPlayed: null,
-				hints: []
+				hints: [],
+				timesPlayed: 0
 			}
 		}
 
-		const hasCooldown = data[userID].lastPlayed && currTime - data[userID].lastPlayed < 300_000
+		let currentCooldown
+		if (data[userID]?.timesPlayed < 3) {
+			currentCooldown = 300_000
+		} else if (data[userID]?.timesPlayed === 3) {
+			currentCooldown = 3_600_000
+		} else {
+			data[userID].timesPlayed = 0
+			currentCooldown = 300_000
+		}
+
+		const hasCooldown = data[userID].lastPlayed && currTime - data[userID].lastPlayed < currentCooldown
 
 		if (ctx.args[0] && ctx.args[0].toLowerCase() === `swap`) {
 			if (!data[userID].word || hasCooldown) {
@@ -49,8 +60,7 @@ module.exports = {
 
 		if (!ctx.args[0]) {
 			if (hasCooldown) {
-				const timeLeft = 300_000 - (currTime - data[userID].lastPlayed)
-
+				const timeLeft = currentCooldown - (currTime - data[userID].lastPlayed)
 				return {
 					text: `Ты уже играл! \u{2027} Попробуй снова через ${utils.humanizer(timeLeft)}`,
 					reply: true,
@@ -85,7 +95,7 @@ module.exports = {
 			}
 
 			if (hasCooldown) {
-				const timeLeft = 86_400_000 - (currTime - data[userID].lastPlayed)
+				const timeLeft = currentCooldown - (currTime - data[userID].lastPlayed)
 				return {
 					text: `Ты уже играл! \u{2027} Попробуй снова через ${utils.humanizer(timeLeft)}`,
 					reply: true,
@@ -159,12 +169,22 @@ module.exports = {
 				utils.coins.addCoins(userID, ctx.channel.id, 30)
 
 				data[userID].lastPlayed = currTime
+				data[userID].timesPlayed += 1
 				data[userID].word = null
 				data[userID].hints = []
 				bb.utils.wordly.saveData(data)
 
+				let cooldownMessage
+				if (data[userID].timesPlayed < 3) {
+					cooldownMessage = `5 минут`
+				} else if (data[userID].timesPlayed === 3) {
+					cooldownMessage = `1 час`
+				} else {
+					cooldownMessage = `5 минут`
+				}
+
 				return {
-					text: `Поздравляю \u{1F973} Ты угадал слово и получил 30 монет! \u{2027} Следующая попытка будет доступна через 5 минут`,
+					text: `Поздравляю \u{1F973} Ты угадал слово и получил 30 монет! \u{2027} Следующая попытка будет доступна через ${cooldownMessage}`,
 					reply: true,
 					emoji: true,
 					action: true

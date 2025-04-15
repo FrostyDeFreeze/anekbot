@@ -262,7 +262,7 @@ client.on(`PRIVMSG`, async msg => {
 		ctx.send(`Иди нахуй be`, true)
 	}
 
-	if (ctx.msg.text.toLowerCase().startsWith(`небумботи`)) {
+	if (ctx.msg.text.toLowerCase().startsWith(`небумботи`) || ctx.msg.text.toLowerCase().startsWith(`бумботи`)) {
 		const query = ctx.args.join(` `)
 
 		if (!query) {

@@ -5,7 +5,7 @@ const gql = got.extend({
 	throwHttpErrors: false,
 	responseType: `json`,
 	headers: {
-		Cookie: bb.config.API.SevenTV,
+		Authorization: bb.config.API.SevenTV,
 		'Content-Type': `application/json`
 	}
 })

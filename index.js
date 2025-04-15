@@ -119,7 +119,7 @@ client.on(`PART`, ({ channelName }) => {
 // })
 
 cron.schedule(`0 3 * * *`, () => {
-	bb.client.privmsg(`frostydefreeze`, `$$cookie YummyCummies`)
+	bb.client.privmsg(`frostydefreeze`, `$$cookie yummy`)
 })
 
 bb.misc.currExp = null
@@ -260,6 +260,24 @@ client.on(`PRIVMSG`, async msg => {
 
 	if (ctx.command === `123` && ctx.channel.id === `239373609` && ctx.msg.text.startsWith(ctx.prefix)) {
 		ctx.send(`Иди нахуй be`, true)
+	}
+
+	if (ctx.msg.text.toLowerCase().startsWith(`небумботи`)) {
+		const query = ctx.args.join(` `)
+
+		if (!query) {
+			return
+		}
+
+		const ai = await bb.services.ai.gpt(query, 70)
+		const body = JSON.parse(ai.body)
+
+		if (body.error) {
+			return
+		}
+
+		const response = body.choices[0].message.content.replace(/[\n\r]/g, ` `)
+		ctx.send(response, true, false, true)
 	}
 
 	const statuses = {

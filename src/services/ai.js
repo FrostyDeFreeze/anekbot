@@ -10,7 +10,7 @@ const gpt = async (prompt, tokens, temp, content) => {
 		},
 		throwHttpErrors: false,
 		json: {
-			model: `gpt-4o-mini`,
+			model: `gpt-4.1-nano`,
 			messages: [
 				{
 					role: `system`,
